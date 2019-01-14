@@ -1,0 +1,8 @@
+import authorization in to table transaction file recs and its status
+
+schedule status exported from HHAX, HHAX service will get records 0 and process then return status 1
+
+coi o schedule report response
+record of county's status first is 6 in HHAX, then a service 8 is returned
+
+0,4,6,7,8,10 status code of HHAX
