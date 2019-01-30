@@ -10,6 +10,10 @@ export default class Tier3Table extends Component {
         data={data}
         columns={columns}
         defaultPageSize={defaultPageSize}
+        filterable
+        style={{
+          height: "400px" // This will force the table body to overflow and scroll, since there is not enough room
+        }}
         className={`-striped -highlight table ${className}`}
       />
     );

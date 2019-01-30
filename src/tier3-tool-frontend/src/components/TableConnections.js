@@ -29,6 +29,10 @@ export default class TableConnections extends Component {
         data={typeName === 'Warehouse' ? dataWarehouse : dataHHAX}
         columns={getColumns(typeName)}
         defaultPageSize={5}
+        filterable
+        style={{
+          height: "400px" // This will force the table body to overflow and scroll, since there is not enough room
+        }}
         className="-striped -highlight table"
       />
     );
