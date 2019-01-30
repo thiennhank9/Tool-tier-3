@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
+import { compose } from 'recompose';
+import 'react-table/react-table.css';
 
-import Login from './components/login/Login';
+import AppRouter from '../routes/AppRouter';
+import '../styles/index.scss';
+import actions from './AppActions';
 
-export default class App extends Component {
+class App extends Component {
   render() {
-    return <Login />;
+    const globalStore = this.props.globalStore;
+    return <AppRouter globalStore={globalStore} />;
   }
 }
+
+export default compose(actions)(App);

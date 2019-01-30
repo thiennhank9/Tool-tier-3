@@ -1,28 +1,33 @@
 use master
-create database ToolTier3
-create table Accounts 
+
+create database ToolTier3Db
+
+use ToolTier3Db
+
+create table Users
 (
-	Id int primary key,
-	Username nvarchar(50),
+	Id int primary key IDENTITY(0, 1),
+	Username nvarchar(50) UNIQUE,
 	Password nvarchar(50),
 	IsAdmin bit,
-	CanAccessWarehouse bit,
+	CanAccessDW bit,
 	CanAccessHHAX bit
 )
+
 create table Connections
 (
-	Id int primary key,
-	ConnectionType int,
+	Id int primary key IDENTITY(0, 1),
+	ConnectionName nvarchar(50) UNIQUE,
+	ConnectionType nvarchar(50),
 	ServerName nvarchar(50),
 	DatabaseName nvarchar(50),
-	Username nvarchar(50),
-	Password nvarchar(50)
+	DatabaseUsername nvarchar(50),
+	DatabasePassword nvarchar(50)
 )
-create table PairConnections
-(
-	ID int primary key,
-	PairConnectionType int,
-	PairConnectionName nvarchar(50),
-	Connection1Id int foreign key references Connections(Id),
-	Connection2Id int foreign key references Connections(Id),
-) 
+
+-- Inserts
+
+insert into Users values ('kmsadmin', 'kmsadmin', 1, 1, 1)
+insert into Users values ('kmsuser1', 'kmsuser1', 0, 1, 1)
+insert into Users values ('kmsuser2', 'kmsuser2', 0, 1, 0)
+insert into Users values ('kmsuser3', 'kmsuser3', 0, 0, 1)

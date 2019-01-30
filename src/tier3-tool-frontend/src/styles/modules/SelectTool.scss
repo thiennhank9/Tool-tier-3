@@ -1,0 +1,57 @@
+.container-screen {
+  width: 100vw;
+  height: 100vh;
+}
+
+.container-select-tool {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 600px;
+}
+
+.container-buttons-tools {
+  display: flex;
+  padding: 20px;
+  width: 580px;
+  margin-top: 30px;
+  border: 2px solid red;
+  padding: 50px 10px 50px 10px;
+  border-radius: 25px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button-select-tool {
+  width: 230px;
+  height: 80px;
+  background-color: #337ab7;
+  border-radius: 25px;
+}
+
+.button-connect {
+  margin-top: 50px;
+  width: 150px;
+  height: 50px;
+  border-radius: 25px;
+}
+
+.container-buttons-manages {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  width: 600px;
+  height: 100px;
+}
+
+.button-manage {
+  width: 200px;
+  height: 60px;
+}
+
+.required {
+  color: red
+}

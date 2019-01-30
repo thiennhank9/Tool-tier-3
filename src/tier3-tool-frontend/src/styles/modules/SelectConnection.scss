@@ -1,0 +1,34 @@
+.container-select-connection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 600px;
+}
+
+.button-connect {
+  margin-top: 50px;
+  width: 150px;
+  height: 50px;
+  border-radius: 25px;
+}
+
+.container-buttons-manages {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  width: 600px;
+  height: 100px;
+}
+
+.button-manage {
+  width: 200px;
+  height: 60px;
+}
+
+.required {
+  color: red;
+}
