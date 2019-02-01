@@ -1,69 +1,34 @@
-import React, { Component } from "react";
-import { Button, Navbar, NavDropdown } from "react-bootstrap";
-import { compose } from "recompose";
-import actions from "./HeaderNavbarActions";
-import { paths } from "src/data/RoutesData";
+import React, { Component } from 'react';
+import { Button, Navbar, NavDropdown, Nav, Form, FormControl } from 'react-bootstrap';
+import { compose } from 'recompose';
+import actions from './HeaderNavbarActions';
+import { paths } from 'src/data/RoutesData';
 
 class HeaderNavbar extends Component {
   render() {
-    const {
-      TOOLS,
-      TOOL_1,
-      TOOL_2,
-      MANAGES,
-      CONNECTIONS,
-      USERS,
-      LOGOUT
-    } = this.props.globalStore.locales;
-
+    const { TOOLS, TOOL_1, TOOL_2, MANAGES, CONNECTIONS, USERS, LOGOUT } = this.props.globalStore.locales;
+    
     return (
-      <div className="container-nav-bar">
-        <div className="container-nav-right">
-          <NavDropdown className="nav-label" title={TOOLS}>
-            <div className="nav-drop-down-container">
-              <div>
-                <NavDropdown.Item
-                  className="nav-dropdown-item nav-drop-down-container"
-                  href="/tool-1"
-                >
-                  {TOOL_1}
-                </NavDropdown.Item>
-              </div>
-              <div>
-                <NavDropdown.Item
-                  className="nav-dropdown-item nav-drop-down-container"
-                  href="/tool-2"
-                >
-                  {TOOL_2}
-                </NavDropdown.Item>
-              </div>
-            </div>
-          </NavDropdown>
-          <NavDropdown className="nav-label" title={MANAGES}>
-            <div className="nav-drop-down-container">
-              <div>
-                <NavDropdown.Item
-                  className="nav-dropdown-item nav-drop-down-container"
-                  href="/manage-users"
-                >
-                  {USERS}
-                </NavDropdown.Item>
-              </div>
-              <div>
-                <NavDropdown.Item
-                  className="nav-dropdown-item nav-drop-down-container"
-                  href="/manage-connections"
-                >
-                  {CONNECTIONS}
-                </NavDropdown.Item>
-              </div>
-            </div>
-          </NavDropdown>
-        </div>
-        <div class="container-nav-left">
-          <Button onClick={this.props.onClickLogout}> {LOGOUT}</Button>
-        </div>
-      </div>
+      <Navbar bg="light" expand="lg">
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            <NavDropdown title={TOOLS} id="basic-nav-dropdown">
+              <NavDropdown.Item href={paths.TOOL_1}>{TOOL_1}</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href={paths.TOOL_2}>{TOOL_2}</NavDropdown.Item>
+            </NavDropdown>
+            <NavDropdown title={MANAGES} id="basic-nav-dropdown">
+              <NavDropdown.Item href={paths.MANAGE_USERS}>{USERS}</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href={paths.MANAGE_CONNECTIONS}>{CONNECTIONS}</NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+          <Form inline>
+            <Button variant="outline-success" onClick={this.props.onClickLogout}>{LOGOUT}</Button>
+          </Form>
+        </Navbar.Collapse>
+      </Navbar>
     );
   }
 }

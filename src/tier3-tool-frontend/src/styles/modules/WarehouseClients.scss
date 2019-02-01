@@ -1,0 +1,17 @@
+@import '../variables/Variables.scss';
+
+.container-form {
+  padding: $default-padding-form;
+}
+
+.container-row-form {
+  max-width: $max-width-container-row-form;
+}
+
+.container-control-form {
+  max-width: $max-width-container-control-form;
+}
+
+.container-blank-col {
+  max-width: $max-width-blank-col-form;
+}

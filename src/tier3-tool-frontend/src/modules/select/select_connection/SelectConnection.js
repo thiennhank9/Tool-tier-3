@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { compose } from 'recompose';
 import { Form, Button, Badge, Container, Row, Col } from 'react-bootstrap';
-
+import { isNil } from 'lodash';
 import TableConnections from 'src/components/TableConnections';
 import actions from './SelectConnectionActions';
 
 class SelectConnection extends Component {
   render() {
-    const { typeName, global } = this.props;
-    const { CHOOSE_WAREHOUSE, CHOOSE_HHAX, CONNECT, MANAGE_CONNECTIONS, MANAGE_ACCOUNTS } = global.locales;
+    const typeName = !isNil(this.props.location.state.typeName)
+      ? this.props.location.state.typeName // determine is pushed from tool's screen or from select-tool
+      : this.props.typeName;
+    const { CHOOSE_WAREHOUSE, CHOOSE_HHAX, CONNECT, MANAGE_CONNECTIONS, MANAGE_ACCOUNTS } = this.props.globalStore.locales;
     return (
       <div className="container-select-connection">
         <center className="margin-top">

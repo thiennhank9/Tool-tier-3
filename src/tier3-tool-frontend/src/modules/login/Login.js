@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Card } from 'react-bootstrap';
 import { compose } from 'recompose';
 import actions from './LoginActions';
 
@@ -17,31 +17,44 @@ class Login extends Component {
     } = this.props.globalStore.locales;
 
     return (
-      <div className="container-login">
-        <center className="header-form">
-          <h2>{LOGIN_FORM}</h2>
-        </center>
-        <Form className="container-form">
-          <Form.Group>
-            <Form.Label className="large-label">{USERNAME}</Form.Label>
-            <Form.Control className="large-control" type="text" placeholder={USERNAME_PLACEHOLDER} />
-            {/* <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text> */}
-          </Form.Group>
+      <div className="container-screen-login">
+        <h1 className="text-center">{TOOL_TIER3}</h1>
+        <Card className="container-card-login">
+          <Card.Header className="card text-center">
+            <h2>{LOGIN_FORM}</h2>
+          </Card.Header>
+          <Card.Body>
+            <Form className="container-form">
+              <Form.Group>
+                <Form.Label size="lg" className="large-label">
+                  {USERNAME}
+                </Form.Label>
+                <Form.Control size="lg" className="large-control" type="text" placeholder={USERNAME_PLACEHOLDER} />
+                {/* <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text> */}
+              </Form.Group>
 
-          <Form.Group>
-            <Form.Label className="large-label">{PASSWORD}</Form.Label>
-            <Form.Control className="large-control" type="password" placeholder={PASSWORD_PLACEHOLDER} />
-          </Form.Group>
-          <Form.Group>
-            <Form.Check>
-              <Form.Check.Input type="checkbox" />
-              <Form.Check.Label className="label-checkbox">{REMEMBER_ME}</Form.Check.Label>
-            </Form.Check>
-          </Form.Group>
-          <Button variant="primary" type="submit" className="btn-block large-control" onClick={this.props.onClickLogin}>
-            {LOGIN}
-          </Button>
-        </Form>
+              <Form.Group>
+                <Form.Label size="lg" className="large-label">
+                  {PASSWORD}
+                </Form.Label>
+                <Form.Control size="lg" className="large-control" type="password" placeholder={PASSWORD_PLACEHOLDER} />
+              </Form.Group>
+              <Form.Group>
+                <div className="mb-3">
+                  <Form.Check custom type="checkbox" label={REMEMBER_ME} id="1" />
+                </div>
+              </Form.Group>
+              <Button
+                variant="primary"
+                type="submit"
+                className="btn-block large-control"
+                onClick={this.props.onClickLogin}
+              >
+                {LOGIN}
+              </Button>
+            </Form>
+          </Card.Body>
+        </Card>
       </div>
     );
   }

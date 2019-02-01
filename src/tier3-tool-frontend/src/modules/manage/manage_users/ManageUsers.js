@@ -3,7 +3,7 @@ import { Form, Button, Badge, Container, Row, Col } from 'react-bootstrap';
 import { compose } from 'recompose';
 
 import actions from './ManageUsersActions';
-import Tier3Table from 'src/components/Tier3Table';
+import Tier3Table from 'src/components/Tier3.Table';
 import getColumns from 'src/data/TableManageUsersConfig';
 
 const data = [
