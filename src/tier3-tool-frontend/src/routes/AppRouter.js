@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
-import routesData, { paths } from '../data/RoutesData';
-import HeaderNavbar from 'src/containers/HeaderNavbar';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
+import routesData, { paths } from "../data/RoutesData";
+import HeaderNavbar from "src/containers/HeaderNavbar";
 
 function RouteWithNavbar(route) {
   return (
@@ -15,9 +15,11 @@ function RouteWithNavbar(route) {
   );
 }
 
-export default class AppRouter extends Component {
+export class AppRouter extends Component {
   render() {
-    const isLogin = this.props.globalStore.isLogin;
+    const {
+      globalStore: { isLogin }
+    } = this.props;
 
     return (
       <Router>
@@ -26,7 +28,14 @@ export default class AppRouter extends Component {
             exact
             path="/"
             render={props =>
-              !isLogin ? <Redirect to={{ pathname: paths.LOGIN, state: { from: props.location } }} /> : null
+              !isLogin ? (
+                <Redirect
+                  to={{
+                    pathname: paths.LOGIN,
+                    state: { from: props.location }
+                  }}
+                />
+              ) : null
             }
           />
           {routesData.map((route, i) => (
@@ -34,7 +43,9 @@ export default class AppRouter extends Component {
               path={route.path}
               render={props => (
                 <div>
-                  {route.withNav ? <HeaderNavbar {...props} {...this.props} /> : null}
+                  {route.withNav ? (
+                    <HeaderNavbar {...props} {...this.props} />
+                  ) : null}
                   <route.component {...props} {...this.props} />
                 </div>
               )}
@@ -45,3 +56,5 @@ export default class AppRouter extends Component {
     );
   }
 }
+
+export default AppRouter;

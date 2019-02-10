@@ -1,12 +1,12 @@
-import InputLabel from 'app/bases/InputLabel';
+import InputLabel from 'src/components/Tier3Input';
 import React, { Component } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Modal } from 'react-bootstrap';
 import { compose } from 'recompose';
 import actions from './PopupConnectionActions';
 
 class PopupConnection extends Component {
   renderFormDatabase() {
-    const { SERVER_NAME, DATABASE_NAME, LOGIN_DB, PASSWORD_DB, CONNECTED } = this.props.global.locales;
+    const { SERVER_NAME, DATABASE_NAME, LOGIN_DB, PASSWORD_DB, CONNECTED } = this.props.globalStore.locales;
     return (
       <Form>
         <InputLabel label={SERVER_NAME} className="margin-top" />
@@ -22,7 +22,7 @@ class PopupConnection extends Component {
   }
 
   render() {
-    const { typeName, global } = this.props;
+    const { typeName, globalStore } = this.props;
     const {
       POPUP_WAREHOUSE,
       POPUP_HHAX,
@@ -32,7 +32,7 @@ class PopupConnection extends Component {
       TEST_CONNECTION,
       OK,
       CANCEL
-    } = global.locales;
+    } = globalStore.locales;
     const popupName = typeName === 'Warehouse' ? POPUP_WAREHOUSE : POPUP_HHAX;
 
     return (

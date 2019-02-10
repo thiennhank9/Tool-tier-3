@@ -2,7 +2,9 @@ use master
 
 create database ToolTier3Db
 
+go
 use ToolTier3Db
+go
 
 create table Users
 (

@@ -16,7 +16,7 @@ class HeaderNavbar extends Component {
             <NavDropdown title={TOOLS} id="basic-nav-dropdown">
               <NavDropdown.Item href={paths.TOOL_1}>{TOOL_1}</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href={paths.TOOL_2}>{TOOL_2}</NavDropdown.Item>
+              <NavDropdown.Item href={paths.TOOL_2} onClick={() => console.log('asd')}>{TOOL_2}</NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title={MANAGES} id="basic-nav-dropdown">
               <NavDropdown.Item href={paths.MANAGE_USERS}>{USERS}</NavDropdown.Item>

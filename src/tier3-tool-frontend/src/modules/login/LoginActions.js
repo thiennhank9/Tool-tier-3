@@ -1,5 +1,5 @@
-import { compose, withProps, withHandlers } from 'recompose';
-import { paths } from 'src/data/RoutesData';
+import { compose, withProps, withHandlers } from "recompose";
+import { paths } from "src/data/RoutesData";
 
 export default compose(
   withProps({
