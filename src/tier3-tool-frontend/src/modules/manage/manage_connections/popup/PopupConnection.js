@@ -3,12 +3,21 @@ import React, { Component } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { compose } from 'recompose';
 import actions from './PopupConnectionActions';
+import TOOL_TYPES from 'src/constants/ToolTypes';
 
 class PopupConnection extends Component {
   renderFormDatabase() {
-    const { SERVER_NAME, DATABASE_NAME, LOGIN_DB, PASSWORD_DB, CONNECTED } = this.props.globalStore.locales;
+    const {
+      SERVER_NAME,
+      DATABASE_NAME,
+      LOGIN_DB,
+      PASSWORD_DB,
+      CONNECTED,
+      CONNECTION_NAME
+    } = this.props.globalStore.locales;
     return (
       <Form>
+        <InputLabel label={CONNECTION_NAME} />
         <InputLabel label={SERVER_NAME} className="margin-top" />
         <InputLabel label={DATABASE_NAME} className="margin-top" />
         <InputLabel label={LOGIN_DB} className="margin-top" />
@@ -26,48 +35,46 @@ class PopupConnection extends Component {
     const {
       POPUP_WAREHOUSE,
       POPUP_HHAX,
-      ADMIN_DATABASE,
       WAREHOUSE_DATABASE,
       CONNECTION_NAME,
       TEST_CONNECTION,
       OK,
-      CANCEL
+      CANCEL,
+      SERVER_NAME,
+      DATABASE_NAME,
+      LOGIN_DB,
+      PASSWORD_DB,
+      CONNECTED
     } = globalStore.locales;
-    const popupName = typeName === 'Warehouse' ? POPUP_WAREHOUSE : POPUP_HHAX;
+    const popupName = typeName === TOOL_TYPES.WAREHOUSE ? POPUP_WAREHOUSE : POPUP_HHAX;
 
     return (
       <div className="container-popup-connection">
         <center>
           <h5>{popupName}</h5>
         </center>
-        <div>
-          <InputLabel label={CONNECTION_NAME} className="container-connection-name margin-top" />
-        </div>
-        <div className="container-form-databases">
+        <Form>
+          <InputLabel label={CONNECTION_NAME} />
+          <InputLabel label={SERVER_NAME} className="margin-top" />
+          <InputLabel label={DATABASE_NAME} className="margin-top" />
+          <InputLabel label={LOGIN_DB} className="margin-top" />
+          <InputLabel isPassword label={PASSWORD_DB} className="margin-top" />
           <div>
-            <center>
-              <h1>{ADMIN_DATABASE}</h1>
-            </center>
-            {this.renderFormDatabase()}
+            {CONNECTED}
+            <span class="icon-ok" />
           </div>
-          <div>
-            <center className="margin-top">
-              <h1>{WAREHOUSE_DATABASE}</h1>
-            </center>
-            {this.renderFormDatabase()}
+          <Button className="margin-top" variant="success" type="submit">
+            {TEST_CONNECTION}
+          </Button>
+          <div className="container-form-databases width-buttons-footer">
+            <Button className="margin-top" variant="success" type="submit">
+              {OK}
+            </Button>
+            <Button className="margin-top" variant="success" type="submit">
+              {CANCEL}
+            </Button>
           </div>
-        </div>
-        <Button className="margin-top" variant="success" type="submit">
-          {TEST_CONNECTION}
-        </Button>
-        <div className="container-form-databases width-buttons-footer">
-          <Button className="margin-top" variant="success" type="submit">
-            {OK}
-          </Button>
-          <Button className="margin-top" variant="success" type="submit">
-            {CANCEL}
-          </Button>
-        </div>
+        </Form>
       </div>
     );
   }

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Tabs, Tab, Badge, Button, Form } from 'react-bootstrap';
+import { Tabs, Tab, Button, Form } from 'react-bootstrap';
 
 import TabKeys from 'src/data/TabsWarehouseKeys';
 import { compose } from 'recompose';
 import actions from './ToolWarehouseActions';
 import WarehouseClients from './clients/WarehouseClients';
 import WarehouseAuthorizations from './authorizations/WarehouseAuthorizations';
+import { get } from 'lodash';
 
 class ToolWarehouse extends Component {
   constructor(props, context) {
@@ -15,21 +16,16 @@ class ToolWarehouse extends Component {
     };
   }
   render() {
-    const {
-      AUTHORIZATIONS,
-      CLIENTS,
-      CHANGE_CONNECTION,
-      CONNECTED,
-      CLICK_CHANGE_CONNECTION
-    } = this.props.globalStore.locales;
+    const { AUTHORIZATIONS, CLIENTS, CONNECTED, CLICK_CHANGE_CONNECTION } = this.props.globalStore.locales;
 
+    const connectionName = get(this.props, 'location.state.selectedConnection.connectionName', 'BLANK');
     return (
       <div style={{ padding: 10 }}>
         <div>
           <span>
             {CONNECTED}:
             <Button style={{ marginLeft: 10 }} ariant="outline-success" onClick={this.props.onClickChangeConnection}>
-              Connection name 1
+              {connectionName}
             </Button>
             <span href="" style={{ marginLeft: 10 }}>
               ({CLICK_CHANGE_CONNECTION})

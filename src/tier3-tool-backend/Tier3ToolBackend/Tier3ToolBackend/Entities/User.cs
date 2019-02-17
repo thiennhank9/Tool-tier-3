@@ -12,12 +12,14 @@ namespace Tier3ToolBackend.Entities
 
         }
 
-        public User(int Id, string Username, string Password, bool? isAdmin = false, string Token = "")
+        public User(int Id, string Username, string Password, bool? isAdmin, bool? CanAccessDW, bool? CanAccessHHAX, string Token = "")
         {
             this.Id = Id;
             this.Username = Username;
             this.Password = Password;
             this.Role = (isAdmin ?? false) ? Roles.Admin : Roles.Normal;
+            this.CanAccessDW = CanAccessDW;
+            this.CanAccessHHAX = CanAccessHHAX;
             this.Token = Token;
         }
 
@@ -26,5 +28,7 @@ namespace Tier3ToolBackend.Entities
         public string Password { get; set; }
         public string Role { get; set; }
         public string Token { get; set; }
+        public bool? CanAccessDW { get; set; }
+        public bool? CanAccessHHAX { get; set; }
     }
 }

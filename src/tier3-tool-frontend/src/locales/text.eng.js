@@ -45,6 +45,7 @@ export default {
   ACCOUNT: 'Account',
   ACCESS_TOOL_1: 'Access 1st tool',
   ACCESS_TOOL_2: 'Access 2nd tool',
+  NO_PERMISSIONS: 'No Permissions',
   POPUP_ACCOUNT: 'Add/Edit account',
   CAN_USE: 'Can use',
   TOOL_1: '1st Tool',

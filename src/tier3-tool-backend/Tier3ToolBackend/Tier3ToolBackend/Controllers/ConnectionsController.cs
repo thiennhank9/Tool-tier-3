@@ -18,19 +18,32 @@ namespace Tier3ToolBackend.Controllers
     public class ConnectionsController : ControllerBase
     {
         private readonly ToolTier3DbContext _context;
-        //private IUserService _userService;
 
         public ConnectionsController(ToolTier3DbContext context, IUserService userService)
         {
             _context = context;
-            //_userService = userService;
         }
 
         // GET: api/Connections
+        [AllowAnonymous]
         [HttpGet]
         public IEnumerable<Connections> GetConnections()
         {
             return _context.Connections;
+        }
+
+        [AllowAnonymous]
+        [HttpGet("warehouses")]
+        public IEnumerable<Connections> GetConnectionsWarehouse()
+        {
+            return _context.Connections.Where(connection => connection.ConnectionType == ConnectionTypes.Warehouse);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("hhax")]
+        public IEnumerable<Connections> GetConnectionsHHAX()
+        {
+            return _context.Connections.Where(connection => connection.ConnectionType == ConnectionTypes.HHAX);
         }
 
         // GET: api/Connections/5

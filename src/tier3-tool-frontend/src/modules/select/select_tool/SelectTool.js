@@ -2,10 +2,17 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { compose } from 'recompose';
 import actions from './SelectToolActions';
+import ROLES from 'src/constants/Roles.js';
+import FooterManages from 'src/containers/FooterManages';
 
 class SelectTool extends Component {
   render() {
-    const { CHOOSE_TOOL, TOOL_WAREHOUSE, TOOL_HHAX, MANAGE_CONNECTIONS, MANAGE_USERS } = this.props.globalStore.locales;
+    const {
+      canAccessDW,
+      canAccessHHAX,
+      role,
+      locales: { CHOOSE_TOOL, TOOL_WAREHOUSE, TOOL_HHAX }
+    } = this.props.globalStore;
 
     return (
       <div>
@@ -14,28 +21,26 @@ class SelectTool extends Component {
             <h1>{CHOOSE_TOOL}</h1>
           </center>
           <div className="container-buttons-tools">
-            <Button className="button-select-tool" variant="primary" type="submit" onClick={this.props.onClickTool1}>
+            <Button
+              className="button-select-tool"
+              variant={canAccessDW ? 'primary' : 'light'}
+              type="submit"
+              onClick={this.props.onClickTool1}
+              disabled={!canAccessDW}
+            >
               {TOOL_WAREHOUSE}
             </Button>
-            <Button className="button-select-tool" variant="primary" type="submit" onClick={this.props.onClickTool2}>
+            <Button
+              className="button-select-tool"
+              variant={canAccessHHAX ? 'primary' : 'light'}
+              type="submit"
+              onClick={this.props.onClickTool2}
+              disabled={!canAccessHHAX}
+            >
               {TOOL_HHAX}
             </Button>
           </div>
-          <div className="container-buttons-manages">
-            <Button className="button-manage" variant="warning" type="submit" onClick={this.props.onClickManageUsers}>
-              <span className="required"> * </span>
-              {MANAGE_USERS}
-            </Button>
-            <Button
-              className="button-manage"
-              variant="warning"
-              type="submit"
-              onClick={this.props.onClickManageConnections}
-            >
-              <span className="required"> * </span>
-              {MANAGE_CONNECTIONS}
-            </Button>
-          </div>
+          {role === ROLES.ADMIN && <FooterManages {...this.props} />}
         </div>
       </div>
     );

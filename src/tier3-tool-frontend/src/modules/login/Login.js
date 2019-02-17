@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { Button, Form, Card } from 'react-bootstrap';
+import { Button, Form, Card, Alert } from 'react-bootstrap';
 import { compose } from 'recompose';
 import actions from './LoginActions';
+import { isEmpty } from 'lodash';
+import { observer } from 'mobx-react';
 
+@observer
 class Login extends Component {
   render() {
     const {
@@ -16,6 +19,8 @@ class Login extends Component {
       REMEMBER_ME
     } = this.props.globalStore.locales;
 
+    const { errorMessage, username, password } = this.props.userStore;
+
     return (
       <div className="container-screen-login">
         <h1 className="text-center">{TOOL_TIER3}</h1>
@@ -24,36 +29,57 @@ class Login extends Component {
             <h2>{LOGIN_FORM}</h2>
           </Card.Header>
           <Card.Body>
-            <Form className="container-form">
+            <Form className="container-form" autoComplete="on">
               <Form.Group>
                 <Form.Label size="lg" className="large-label">
                   {USERNAME}
                 </Form.Label>
-                <Form.Control size="lg" className="large-control" type="text" placeholder={USERNAME_PLACEHOLDER} />
-                {/* <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text> */}
+                <Form.Control
+                  size="lg"
+                  className="large-control"
+                  type="text"
+                  value={username}
+                  autoComplete="on"
+                  placeholder={USERNAME_PLACEHOLDER}
+                  onChange={this.props.handleChangeUsername}
+                />
               </Form.Group>
 
               <Form.Group>
                 <Form.Label size="lg" className="large-label">
                   {PASSWORD}
                 </Form.Label>
-                <Form.Control size="lg" className="large-control" type="password" placeholder={PASSWORD_PLACEHOLDER} />
+                <Form.Control
+                  size="lg"
+                  className="large-control"
+                  type="password"
+                  value={password}
+                  autoComplete="on"
+                  placeholder={PASSWORD_PLACEHOLDER}
+                  onChange={this.props.handleChangePassword}
+                />
               </Form.Group>
               <Form.Group>
                 <div className="mb-3">
-                  <Form.Check custom type="checkbox" label={REMEMBER_ME} id="1" />
+                  <Form.Check
+                    custom
+                    type="checkbox"
+                    label={REMEMBER_ME}
+                    id="1"
+                    onChange={this.props.handleToggleRemember}
+                  />
                 </div>
               </Form.Group>
-              <Button
-                variant="primary"
-                type="submit"
-                className="btn-block large-control"
-                onClick={this.props.onClickLogin}
-              >
+              <Button variant="primary" className="btn-block large-control" onClick={this.props.handleLogin}>
                 {LOGIN}
               </Button>
             </Form>
           </Card.Body>
+          {!isEmpty(errorMessage) && (
+            <Alert variant="danger" className="text-center">
+              {errorMessage}
+            </Alert>
+          )}
         </Card>
       </div>
     );

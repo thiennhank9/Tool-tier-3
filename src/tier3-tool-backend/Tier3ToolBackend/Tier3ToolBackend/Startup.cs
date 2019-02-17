@@ -65,6 +65,7 @@ namespace Tier3ToolBackend
 
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,9 +80,21 @@ namespace Tier3ToolBackend
                 app.UseHsts();
             }
 
+            //app.UseCors(options =>
+            //    options.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader()
+            // );
+
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
+
             app.UseAuthentication();
             // app.UseHttpsRedirection();
             app.UseMvc();
+
+
         }
     }
 }

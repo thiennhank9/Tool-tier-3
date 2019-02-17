@@ -35,7 +35,7 @@ namespace Tier3ToolBackend.Services
         {
             foreach (Users setUser in context.Users)
             {
-                users.Add(new User(setUser.Id, setUser.Username, setUser.Password, setUser.IsAdmin));
+                users.Add(new User(setUser.Id, setUser.Username, setUser.Password, setUser.IsAdmin, setUser.CanAccessDw, setUser.CanAccessHhax));
             }
             Console.WriteLine(users);
         }

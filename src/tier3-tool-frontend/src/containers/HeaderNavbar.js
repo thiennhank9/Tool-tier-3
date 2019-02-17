@@ -3,29 +3,43 @@ import { Button, Navbar, NavDropdown, Nav, Form, FormControl } from 'react-boots
 import { compose } from 'recompose';
 import actions from './HeaderNavbarActions';
 import { paths } from 'src/data/RoutesData';
+import ROLES from 'src/constants/Roles.js';
 
 class HeaderNavbar extends Component {
   render() {
-    const { TOOLS, TOOL_1, TOOL_2, MANAGES, CONNECTIONS, USERS, LOGOUT } = this.props.globalStore.locales;
-    
+    const {
+      canAccessDW,
+      canAccessHHAX,
+      role,
+      locales: { TOOLS, TOOL_1, TOOL_2, MANAGES, CONNECTIONS, USERS, LOGOUT, NO_PERMISSIONS }
+    } = this.props.globalStore;
+
     return (
       <Navbar bg="light" expand="lg">
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <NavDropdown title={TOOLS} id="basic-nav-dropdown">
-              <NavDropdown.Item href={paths.TOOL_1}>{TOOL_1}</NavDropdown.Item>
+              <NavDropdown.Item disabled={!canAccessDW} onClick={this.props.onClickTool1}>
+                {`${TOOL_1} ${!canAccessDW ? `(${NO_PERMISSIONS})` : ''}`}
+              </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href={paths.TOOL_2} onClick={() => console.log('asd')}>{TOOL_2}</NavDropdown.Item>
+              <NavDropdown.Item disabled={!canAccessHHAX} onClick={this.props.onClickTool2}>
+                {`${TOOL_2} ${!canAccessHHAX ? `(${NO_PERMISSIONS})` : ''}`}
+              </NavDropdown.Item>
             </NavDropdown>
-            <NavDropdown title={MANAGES} id="basic-nav-dropdown">
-              <NavDropdown.Item href={paths.MANAGE_USERS}>{USERS}</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href={paths.MANAGE_CONNECTIONS}>{CONNECTIONS}</NavDropdown.Item>
-            </NavDropdown>
+            {role === ROLES.ADMIN && (
+              <NavDropdown title={MANAGES} id="basic-nav-dropdown">
+                <NavDropdown.Item onClick={this.props.onClickManageUsers}>{USERS}</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={this.props.onClickManageConnections}>{CONNECTIONS}</NavDropdown.Item>
+              </NavDropdown>
+            )}
           </Nav>
           <Form inline>
-            <Button variant="outline-success" onClick={this.props.onClickLogout}>{LOGOUT}</Button>
+            <Button variant="outline-success" onClick={this.props.onClickLogout}>
+              {LOGOUT}
+            </Button>
           </Form>
         </Navbar.Collapse>
       </Navbar>

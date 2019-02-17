@@ -1,20 +1,13 @@
 import React, { Component } from 'react';
-import { compose } from 'recompose';
-import { Button } from 'react-bootstrap';
-import { isNil, forEach, isEmpty } from 'lodash';
-import actions from './SelectConnectionActions';
 import TOOL_TYPES from 'src/constants/ToolTypes.js';
-import { observer } from 'mobx-react';
 import ReactTable from 'react-table';
 import getColumns from 'src/data/ColumnTableConnections';
 import connectionRequest from 'src/requests/ConnectionsRequest';
 import Connection from 'src/models/Connection';
+import { forEach, isEmpty } from 'lodash';
 import { paths } from 'src/data/RoutesData';
-import FooterManages from 'src/containers/FooterManages';
-import ROLES from 'src/constants/Roles.js';
 
-@observer
-class SelectConnection extends Component {
+export default class TableConnections extends Component {
   constructor(props, context) {
     super(props, context);
     this.typeConnection = TOOL_TYPES.WAREHOUSE;
@@ -26,14 +19,6 @@ class SelectConnection extends Component {
 
     this.onRowClick = this.onRowClick.bind(this);
     this.handleClickConnect = this.handleClickConnect.bind(this);
-  }
-
-  handleClickConnect() {
-    this.props.history.push(paths.TOOL_1);
-    this.props.history.push({
-      pathname: paths.TOOL_1,
-      state: { selectedConnection: this.state.selectedRowInfo }
-    });
   }
 
   onRowClick(state, rowInfo, column, instance) {
@@ -60,42 +45,19 @@ class SelectConnection extends Component {
   }
 
   render() {
-    const typeName = !isNil(this.props.location.state.typeName)
-      ? this.props.location.state.typeName
-      : this.props.typeName;
-    this.typeConnection = typeName;
-    const {
-      locales: { CHOOSE_WAREHOUSE, CHOOSE_HHAX, CONNECT },
-      role
-    } = this.props.globalStore;
-
+    const typeName = this.props.typeName;
     return (
-      <div className="container-select-connection">
-        <center className="margin-top">
-          <h1>{typeName === TOOL_TYPES.WAREHOUSE ? CHOOSE_WAREHOUSE : CHOOSE_HHAX}</h1>
-        </center>
-        <ReactTable
-          data={this.state.data}
-          columns={getColumns(typeName)}
-          defaultPageSize={5}
-          getTrProps={this.onRowClick}
-          filterable
-          style={{
-            height: '400px' // This will force the table body to overflow and scroll, since there is not enough room
-          }}
-          className="-highlight table"
-        />
-        <Button
-          className="button-connect"
-          variant="success"
-          type="submit"
-          onClick={this.handleClickConnect}
-          disabled={isEmpty(this.state.data)}
-        >
-          {CONNECT}
-        </Button>
-        {role === ROLES.ADMIN && <FooterManages {...this.props} />}
-      </div>
+      <ReactTable
+        data={this.state.data}
+        columns={getColumns(typeName)}
+        defaultPageSize={5}
+        getTrProps={this.onRowClick}
+        filterable
+        style={{
+          height: '400px' // This will force the table body to overflow and scroll, since there is not enough room
+        }}
+        className="-highlight table"
+      />
     );
   }
 
@@ -117,5 +79,3 @@ class SelectConnection extends Component {
     });
   }
 }
-
-export default compose(actions)(SelectConnection);
