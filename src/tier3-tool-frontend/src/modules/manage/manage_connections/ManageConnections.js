@@ -51,6 +51,9 @@ class ManageConnections extends Component {
             selectedRowInfoWarehouse: rowInfo.original
           });
         },
+        onDoubleClick: e => {
+          this.onClickEditWarehouse();
+        },
         style: {
           background: rowInfo.index === this.state.selectedIndexWarehouse ? '#00afec' : 'white',
           color: rowInfo.index === this.state.selectedIndexWarehouse ? 'white' : 'black'
@@ -67,6 +70,9 @@ class ManageConnections extends Component {
             selectedIndexHHAX: rowInfo.index,
             selectedRowInfoHHAX: rowInfo.original
           });
+        },
+        onDoubleClick: e => {
+          this.onClickEditHHAX();
         },
         style: {
           background: rowInfo.index === this.state.selectedIndexHHAX ? '#00afec' : 'white',

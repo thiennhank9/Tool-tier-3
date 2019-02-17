@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Tier3ToolBackend.Entities;
+using Tier3ToolBackend.Helpers;
 using Tier3ToolBackend.Models;
 using Tier3ToolBackend.Services;
 
@@ -36,14 +37,14 @@ namespace Tier3ToolBackend.Controllers
         [HttpGet("warehouses")]
         public IEnumerable<Connections> GetConnectionsWarehouse()
         {
-            return _context.Connections.Where(connection => connection.ConnectionType == ConnectionTypes.Warehouse);
+            return _context.Connections.Where(connection => connection.ConnectionType == AppConstants.WAREHOUSE);
         }
 
         [AllowAnonymous]
         [HttpGet("hhax")]
         public IEnumerable<Connections> GetConnectionsHHAX()
         {
-            return _context.Connections.Where(connection => connection.ConnectionType == ConnectionTypes.HHAX);
+            return _context.Connections.Where(connection => connection.ConnectionType == AppConstants.HHAX);
         }
 
         // GET: api/Connections/5
@@ -66,7 +67,7 @@ namespace Tier3ToolBackend.Controllers
         }
 
         // PUT: api/Connections/5
-        [Authorize(Roles = Roles.Admin)]
+        [Authorize(Roles = AppConstants.ROLE_ADMIN)]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutConnections([FromRoute] int id, [FromBody] Connections connections)
         {
@@ -102,7 +103,7 @@ namespace Tier3ToolBackend.Controllers
         }
 
         // POST: api/Connections
-        [Authorize(Roles = Roles.Admin)]
+        [Authorize(Roles = AppConstants.ROLE_ADMIN)]
         [HttpPost]
         public async Task<IActionResult> PostConnections([FromBody] Connections connections)
         {
@@ -118,7 +119,7 @@ namespace Tier3ToolBackend.Controllers
         }
 
         // DELETE: api/Connections/5
-        [Authorize(Roles = Roles.Admin)]
+        [Authorize(Roles = AppConstants.ROLE_ADMIN)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteConnections([FromRoute] int id)
         {

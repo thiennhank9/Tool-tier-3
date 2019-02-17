@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Tier3ToolBackend.Entities;
+using Tier3ToolBackend.Helpers;
 using Tier3ToolBackend.Models;
 using Tier3ToolBackend.Services;
 
@@ -38,12 +39,12 @@ namespace Tier3ToolBackend.Controllers
             return Ok(user);
         }
 
-        [Authorize(Roles = Roles.Admin)]
+        [Authorize(Roles = AppConstants.ROLE_ADMIN)]
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public IEnumerable<Users> GetAll()
         {
-            var users = _userService.GetUsers(_context);
-            return Ok(users);
+            //var users = _userService.GetUsers(_context);
+            return _userService.GetUsers(_context);
         }
 
         // GET: api/Users

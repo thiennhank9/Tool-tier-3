@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
 import routesData, { paths } from '../data/RoutesData';
 import HeaderNavbar from 'src/containers/HeaderNavbar';
-import { observer, Provider } from 'mobx-react';
+import { Provider } from 'mobx-react';
 import { merge } from 'lodash';
 
 export class AppRouter extends Component {

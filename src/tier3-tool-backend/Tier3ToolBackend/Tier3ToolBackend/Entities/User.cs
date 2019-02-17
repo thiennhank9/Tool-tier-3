@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tier3ToolBackend.Helpers;
+using Tier3ToolBackend.Models;
 
 namespace Tier3ToolBackend.Entities
 {
@@ -12,15 +14,14 @@ namespace Tier3ToolBackend.Entities
 
         }
 
-        public User(int Id, string Username, string Password, bool? isAdmin, bool? CanAccessDW, bool? CanAccessHHAX, string Token = "")
+        public User(Users user)
         {
-            this.Id = Id;
-            this.Username = Username;
-            this.Password = Password;
-            this.Role = (isAdmin ?? false) ? Roles.Admin : Roles.Normal;
-            this.CanAccessDW = CanAccessDW;
-            this.CanAccessHHAX = CanAccessHHAX;
-            this.Token = Token;
+            Id = user.Id;
+            Username = user.Username;
+            Password = user.Password;
+            Role = (user.IsAdmin ?? false) ? AppConstants.ROLE_ADMIN : AppConstants.ROLE_NORMAL;
+            CanAccessDW = user.CanAccessDw;
+            CanAccessHHAX = user.CanAccessHhax;
         }
 
         public int Id { get; set; }

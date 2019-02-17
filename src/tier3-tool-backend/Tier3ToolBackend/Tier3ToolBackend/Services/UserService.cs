@@ -8,8 +8,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Tier3ToolBackend.Entities;
 using Tier3ToolBackend.Helpers;
+using Tier3ToolBackend.Entities;
 using Tier3ToolBackend.Models;
 
 namespace Tier3ToolBackend.Services
@@ -18,37 +18,26 @@ namespace Tier3ToolBackend.Services
     {
         User Authenticate(string username, string password, ToolTier3DbContext context);
         IEnumerable<Users> GetUsers(ToolTier3DbContext context);
-        User GetById(int id);
     }
 
     public class UserService : IUserService
     {
         private AppSettings _appSettings;
-        private List<User> users = new List<User> ();
 
         public UserService(IOptions<AppSettings> appSettings)
         {
             _appSettings = appSettings.Value;
         }
 
-        public void GetUsersFromDbSet(ToolTier3DbContext context)
-        {
-            foreach (Users setUser in context.Users)
-            {
-                users.Add(new User(setUser.Id, setUser.Username, setUser.Password, setUser.IsAdmin, setUser.CanAccessDw, setUser.CanAccessHhax));
-            }
-            Console.WriteLine(users);
-        }
-
         public User Authenticate(string username, string password, ToolTier3DbContext context)
         {
-            GetUsersFromDbSet(context);
-            var user = users.SingleOrDefault(x => x.Username == username && x.Password == password);
+            var entUser = context.Users.SingleOrDefault(x => x.Username == username && x.Password == password);
 
             // return null if user not found
-            if (user == null)
+            if (entUser == null)
                 return null;
-
+            
+            var user = new User(entUser);
 
             // authentication successful so generate jwt token
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -72,13 +61,6 @@ namespace Tier3ToolBackend.Services
         public IEnumerable<Users> GetUsers(ToolTier3DbContext context)
         {
             return context.Users;
-        }
-
-        public User GetById(int id)
-        {
-            var user = users.FirstOrDefault(x => x.Id == id);
-
-            return user;
         }
     }
 }
