@@ -31,12 +31,11 @@ class Login extends Component {
           <Card.Body>
             <Form className="container-form" autoComplete="on">
               <Form.Group>
-                <Form.Label size="lg" className="large-label">
+                <Form.Label size="md">
                   {USERNAME}
                 </Form.Label>
                 <Form.Control
-                  size="lg"
-                  className="large-control"
+                  size="md"
                   type="text"
                   value={username}
                   autoComplete="on"
@@ -46,12 +45,11 @@ class Login extends Component {
               </Form.Group>
 
               <Form.Group>
-                <Form.Label size="lg" className="large-label">
+                <Form.Label size="md">
                   {PASSWORD}
                 </Form.Label>
                 <Form.Control
-                  size="lg"
-                  className="large-control"
+                  size="md"
                   type="password"
                   value={password}
                   autoComplete="on"

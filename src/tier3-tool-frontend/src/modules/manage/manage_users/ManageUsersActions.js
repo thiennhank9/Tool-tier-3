@@ -1,4 +1,4 @@
-import { compose, withProps, withHandlers } from 'recompose';
+import { compose, withProps } from 'recompose';
 
 export default compose(
   withProps({

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Navbar, NavDropdown, Nav, Form, FormControl } from 'react-bootstrap';
+import { Button, Navbar, NavDropdown, Nav, Form } from 'react-bootstrap';
 import { compose } from 'recompose';
 import actions from './HeaderNavbarActions';
-import { paths } from 'src/data/RoutesData';
 import ROLES from 'src/constants/Roles.js';
 
 class HeaderNavbar extends Component {
@@ -15,11 +14,11 @@ class HeaderNavbar extends Component {
     } = this.props.globalStore;
 
     return (
-      <Navbar bg="light" expand="lg">
+      <Navbar bg="light" expand="sm" size="sm" style={{padding:0}}>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <NavDropdown title={TOOLS} id="basic-nav-dropdown">
+            <NavDropdown size='sm' title={TOOLS} id="basic-nav-dropdown">
               <NavDropdown.Item disabled={!canAccessDW} onClick={this.props.onClickTool1}>
                 {`${TOOL_1} ${!canAccessDW ? `(${NO_PERMISSIONS})` : ''}`}
               </NavDropdown.Item>
@@ -29,7 +28,7 @@ class HeaderNavbar extends Component {
               </NavDropdown.Item>
             </NavDropdown>
             {role === ROLES.ADMIN && (
-              <NavDropdown title={MANAGES} id="basic-nav-dropdown">
+              <NavDropdown size='sm' title={MANAGES} id="basic-nav-dropdown">
                 <NavDropdown.Item onClick={this.props.onClickManageUsers}>{USERS}</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={this.props.onClickManageConnections}>{CONNECTIONS}</NavDropdown.Item>
@@ -37,7 +36,7 @@ class HeaderNavbar extends Component {
             )}
           </Nav>
           <Form inline>
-            <Button variant="outline-success" onClick={this.props.onClickLogout}>
+            <Button size='sm' variant="outline-success" onClick={this.props.onClickLogout}>
               {LOGOUT}
             </Button>
           </Form>

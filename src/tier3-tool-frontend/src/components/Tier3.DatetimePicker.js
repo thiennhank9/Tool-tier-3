@@ -4,32 +4,22 @@ import 'react-datepicker/dist/react-datepicker.css';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
 class DatetimePicker extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      startDate: new Date()
-    };
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(date) {
-    this.setState({
-      startDate: date
-    });
-  }
-
   render() {
+    const { selected, onChange } = this.props;
+
     return (
-      <DatePicker
-        peekNextMonth
-        fixedHeight
-        showMonthDropdown
-        showYearDropdown
-        dropdownMode="select"
-        selected={this.state.startDate}
-        onChange={this.handleChange}
-        className="form-control extend-width-datepicker"
-      />
+      <div className="customDatePickerWidth">
+        <DatePicker
+          peekNextMonth
+          fixedHeight
+          showMonthDropdown
+          showYearDropdown
+          dropdownMode="select"
+          selected={selected}
+          onChange={onChange}
+          className="form-control"
+        />
+      </div>
     );
   }
 }

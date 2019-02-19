@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tabs, Tab, Badge, Button, Form } from 'react-bootstrap';
+// import { Tabs, Tab, Badge, Button, Form } from 'react-bootstrap';
 
 import { compose } from 'recompose';
 import actions from './WarehouseAuthorizationsActions';

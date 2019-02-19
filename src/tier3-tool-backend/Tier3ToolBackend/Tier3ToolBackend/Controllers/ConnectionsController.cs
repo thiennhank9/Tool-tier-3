@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -140,9 +141,65 @@ namespace Tier3ToolBackend.Controllers
             return Ok(connections);
         }
 
+        // PUT: api/Connections/5
+        //[Authorize(Roles = AppConstants.ROLE_ADMIN)]
+        [AllowAnonymous]
+        [HttpPost("add-warehouse")]
+        public async Task<IActionResult> AddConnectionsWarehouse([FromBody] Connections connections)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (_context.Connections.Any(e => e.ConnectionName == connections.ConnectionName))
+                return BadRequest(new { message = "Duplicated connection name, please provide a different name!" });
+
+            _context.Connections.Add(connections);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetConnections", new { id = connections.Id }, connections);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("test-connection")]
+        public IActionResult TestConnection([FromBody] Connections connections)
+        {
+            var connection = $"Server={connections.ServerName};Database={connections.DatabaseName};User Id={connections.DatabaseUsername};Password={connections.DatabasePassword};";
+
+            if (CheckConnection(connection))
+            {
+                return Ok(connections);
+            }
+            else
+            {
+                return BadRequest(new { message = "Connection is INVALID" });
+            }
+        }
+
         private bool ConnectionsExists(int id)
         {
             return _context.Connections.Any(e => e.Id == id);
+        }
+
+        public bool CheckConnection(string connectionString)
+        {
+            SqlConnection conn = null;
+
+            try
+            {
+                conn = new SqlConnection(connectionString);
+                conn.Open();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return true;
         }
     }
 }

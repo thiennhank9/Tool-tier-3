@@ -1,8 +1,10 @@
-.container-input-datetime{
-    // background-color: white;
-    // text-align: center
+.extend-width-datepicker {
+//   width: 270px;
+width: 100%
 }
 
-.extend-width-datepicker{
-    width: 236px
+.customDatePickerWidth, 
+.customDatePickerWidth > div.react-datepicker-wrapper, 
+.customDatePickerWidth > div > div.react-datepicker__input-container {
+   width: 100%;
 }

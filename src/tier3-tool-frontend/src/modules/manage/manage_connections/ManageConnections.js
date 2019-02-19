@@ -6,6 +6,7 @@ import actions from './ManageConnectionsActions';
 import ReactTable from 'react-table';
 import getColumns from 'src/data/ColumnTableConnections';
 import TOOL_TYPES from 'src/constants/ToolTypes';
+import POPUP_TYPES from 'src/constants/PopupTypes';
 import connectionRequest from 'src/requests/ConnectionsRequest';
 import Connection from 'src/models/Connection';
 import { forEach } from 'lodash';
@@ -24,12 +25,15 @@ class ManageConnections extends Component {
       selectedRowInfoHHAX: {},
 
       show: false,
-      typeName: TOOL_TYPES.WAREHOUSE
+      connectionType: TOOL_TYPES.WAREHOUSE,
+      popupType: POPUP_TYPES.ADD
     };
 
     this.onRowClickWarehouse = this.onRowClickWarehouse.bind(this);
     this.onRowClickHHAX = this.onRowClickHHAX.bind(this);
+    this.onClickAddWarehouse = this.onClickAddWarehouse.bind(this);
     this.onClickEditWarehouse = this.onClickEditWarehouse.bind(this);
+    this.onClickAddHHAX = this.onClickAddHHAX.bind(this);
     this.onClickEditHHAX = this.onClickEditHHAX.bind(this);
     this.handleClose = this.handleClose.bind(this);
   }
@@ -82,18 +86,36 @@ class ManageConnections extends Component {
     } else return {};
   }
 
-  onClickEditWarehouse(){
+  onClickEditWarehouse() {
     this.setState({
-      typeName: TOOL_TYPES.WAREHOUSE,
-      show: true
-    })
+      connectionType: TOOL_TYPES.WAREHOUSE,
+      show: true,
+      popupType: POPUP_TYPES.EDIT
+    });
   }
 
-  onClickEditHHAX(){
+  onClickEditHHAX() {
     this.setState({
-      typeName: TOOL_TYPES.HHAX,
-      show: true
-    })
+      connectionType: TOOL_TYPES.HHAX,
+      show: true,
+      popupType: POPUP_TYPES.EDIT
+    });
+  }
+
+  onClickAddWarehouse() {
+    this.setState({
+      connectionType: TOOL_TYPES.WAREHOUSE,
+      show: true,
+      popupType: POPUP_TYPES.ADD
+    });
+  }
+
+  onClickAddHHAX() {
+    this.setState({
+      connectionType: TOOL_TYPES.HHAX,
+      show: true,
+      popupType: POPUP_TYPES.ADD
+    });
   }
 
   renderButtonsFooter(typeConnection) {
@@ -102,10 +124,20 @@ class ManageConnections extends Component {
 
     return (
       <div className="container-buttons-footer">
-        <Button className="button-footer" variant="success" type="submit">
+        <Button
+          className="button-footer"
+          variant="success"
+          type="submit"
+          onClick={typeConnection === TOOL_TYPES.WAREHOUSE ? this.onClickAddWarehouse : this.onClickAddHHAX}
+        >
           {ADD}
         </Button>
-        <Button className="button-footer" variant="success" type="submit" onClick={typeConnection === TOOL_TYPES.WAREHOUSE ? this.onClickEditWarehouse : this.onClickEditHHAX}>
+        <Button
+          className="button-footer"
+          variant="success"
+          type="submit"
+          onClick={typeConnection === TOOL_TYPES.WAREHOUSE ? this.onClickEditWarehouse : this.onClickEditHHAX}
+        >
           {EDIT}
         </Button>
         <Button className="button-footer" variant="success" type="submit">
@@ -116,20 +148,28 @@ class ManageConnections extends Component {
   }
 
   renderPopup() {
+    const { ADD, EDIT, CONNECTIONS } = this.props.globalStore.locales;
     return (
       <Modal
         show={this.state.show}
         onHide={this.handleClose}
         {...this.props}
-        size="lg"
+        size="md"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">Add/Edit Connections</Modal.Title>
+          <Modal.Title id="contained-modal-title-vcenter">{`${
+            this.state.popupType === POPUP_TYPES.ADD ? ADD : EDIT
+          } ${CONNECTIONS}`}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <PopupConnections {...this.props} typeName={this.state.typeName} />
+          <PopupConnections
+            {...this.props}
+            connectionType={this.state.connectionType}
+            popupType={this.state.popupType}
+            handleCancel={this.handleClose}
+          />
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.handleClose}>Close</Button>

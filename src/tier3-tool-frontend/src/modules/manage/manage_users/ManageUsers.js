@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button, Badge, Container, Row, Col } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { compose } from 'recompose';
 
 import actions from './ManageUsersActions';
@@ -39,7 +39,7 @@ class ManageUsers extends Component {
   }
 
   render() {
-    const { TITLE_MANAGE_USERS, ACCOUNT, ACCESS_TOOL_1, ACCESS_TOOL_2 } = this.props.globalStore.locales;
+    const { TITLE_MANAGE_USERS } = this.props.globalStore.locales;
     return (
       <div className="container-manage-users">
         <center>
