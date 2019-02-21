@@ -29,7 +29,7 @@ class SelectConnection extends Component {
   }
 
   handleClickConnect() {
-    this.props.history.push(paths.TOOL_1);
+    // this.props.history.push(paths.TOOL_1);
     this.props.history.push({
       pathname: paths.TOOL_1,
       state: { selectedConnection: this.state.selectedRowInfo }

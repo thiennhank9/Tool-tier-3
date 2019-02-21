@@ -1,4 +1,5 @@
 export default {
+  // LOGIN
   TOOL_TIER3: 'Tool Tier3',
   LOGIN_FORM: 'Login form',
   USERNAME: 'Username',
@@ -7,6 +8,7 @@ export default {
   REMEMBER_ME: 'Remember Me',
   PASSWORD_PLACEHOLDER: 'Enter your password',
   SAVE_PASSWORD: 'Save passwords',
+  // SELECT TOOLS
   TOOLS: 'Tools',
   MANAGES: 'Manages',
   LOGIN: 'Login',
@@ -16,6 +18,7 @@ export default {
   TOOL_WAREHOUSE: '1st tool: Query Warehouse',
   TOOL_HHAX: '2nd tool: Query HHAX Integration',
   CONNECT: 'Connect',
+  // MANAGE ACCOUNTS
   MANAGE_ACCOUNTS: 'Manage Accounts',
   CHOOSE_WAREHOUSE: 'Choose warehouse database',
   CHOOSE_HHAX: 'Choose HHAX Integration',
@@ -76,12 +79,15 @@ export default {
   ROW_MODIFIED: 'Row Modified',
   IS_PROCESSED: 'Is Processed',
   // Table warehouse authorization
+  AGENCY_ID: 'Agency ID',
   EVENT_CODE: 'Event Code',
   AUTH_REF_NO: 'Auth Ref No',
   FORMAT: 'Format',
   MAX: 'Max',
   BEGIN: 'Begin',
   END: 'End',
+  AUTH_BEGIN: 'Auth Begin',
+  AUTH_END: 'Auth End',
   AUTH_SHARED: 'Auth Shared',
   AUTH_VOIDED: 'Auth Voided',
   // Table HHAX Patients
@@ -95,5 +101,5 @@ export default {
   //Table HHAX Authorizations
   AUTH_ID: 'Auth ID',
   SERVICE: 'Service',
-  BILLING_SERVICE_CODE: 'Billing Service Code',
+  BILLING_SERVICE_CODE: 'Billing Service Code'
 };

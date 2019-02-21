@@ -19,6 +19,8 @@ class ToolWarehouse extends Component {
     const { AUTHORIZATIONS, CLIENTS, CONNECTED, CLICK_CHANGE_CONNECTION } = this.props.globalStore.locales;
 
     const connectionName = get(this.props, 'location.state.selectedConnection.connectionName', 'BLANK');
+    const selectedConnection = get(this.props, 'location.state.selectedConnection', {});
+
     return (
       <div style={{ padding: 10 }}>
         <div>
@@ -36,10 +38,10 @@ class ToolWarehouse extends Component {
         <div style={{ padding: 10 }}>
           <Tabs id="controlled-tab-example" activeKey={this.state.key} onSelect={key => this.setState({ key })}>
             <Tab eventKey={TabKeys.KEY_CLIENTS} title={CLIENTS}>
-              <WarehouseClients globalStore={this.props.globalStore} />
+              <WarehouseClients globalStore={this.props.globalStore} connection={selectedConnection} />
             </Tab>
             <Tab eventKey={TabKeys.KEY_AUTHORIZATIONS} title={AUTHORIZATIONS}>
-              <WarehouseAuthorizations globalStore={this.props.globalStore} />
+              <WarehouseAuthorizations globalStore={this.props.globalStore} connection={selectedConnection} />
             </Tab>
           </Tabs>
         </div>

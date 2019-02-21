@@ -1,11 +1,8 @@
-import { compose, withProps, withHandlers } from 'recompose';
+import { compose, withProps } from 'recompose';
+import WarehouseClientStore from 'src/stores/WarehouseClientStore';
 
 export default compose(
-    withProps({
-      user: {}
-    }),
-    withHandlers({
-      onClickChangeConnection: props => event => {
-      }
-    })
-  );
+  withProps({
+    warehouseClientStore: new WarehouseClientStore()
+  })
+);

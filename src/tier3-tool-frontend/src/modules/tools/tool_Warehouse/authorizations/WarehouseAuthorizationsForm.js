@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { Button, Form, Row } from 'react-bootstrap';
 import { compose } from 'recompose';
-import actions from './WarehouseClientsFormActions';
+import actions from './WarehouseAuthorizationsFormActions';
 import { observer } from 'mobx-react';
 import SearchForm from 'src/containers/SearchForm';
-import getWarehouseClientFormData from 'src/data/WarehouseClientFormData';
+import getWarehouseAuthorizationsFormData from 'src/data/WarehouseAuthorizationsFormData';
 
 const SIZE_FORM = 'md';
 
 @observer
-class WarehouseClientsForm extends Component {
+class WarehouseAuthorizationsForm extends Component {
   renderFormRows() {
-    const getMapForm = getWarehouseClientFormData.bind(this);
+    const getMapForm = getWarehouseAuthorizationsFormData.bind(this);
 
     return <SearchForm mapForm={getMapForm()} size={SIZE_FORM} />;
   }
@@ -45,8 +45,8 @@ class WarehouseClientsForm extends Component {
   componentDidMount() {
     const { connection } = this.props;
 
-    this.props.warehouseClientStore.requestGetJurisdicions(connection);
+    this.props.warehouseAuthorizationsStore.requestGetJurisdicions(connection);
   }
 }
 
-export default compose(actions)(WarehouseClientsForm);
+export default compose(actions)(WarehouseAuthorizationsForm);

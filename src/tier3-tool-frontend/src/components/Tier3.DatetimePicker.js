@@ -3,9 +3,16 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
+import { observer } from 'mobx-react';
+
+@observer
 class DatetimePicker extends Component {
   render() {
-    const { selected, onChange } = this.props;
+    let { selected, onChange } = this.props;
+
+    if (typeof selected === 'string') {
+      selected = new Date(selected);
+    }
 
     return (
       <div className="customDatePickerWidth">

@@ -23,19 +23,6 @@ namespace Tier3ToolBackend.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("get-admissions")]
-        public async Task<IActionResult> GetAdmissions([FromBody] Connections connections)
-        {
-            var admissions = await _service.GetAdmissionTypes(connections);
-            if (admissions != null)
-            {
-                return Ok(admissions);
-            }
-            return BadRequest(new { message = "Error get admissions!" });
-
-        }
-
-        [AllowAnonymous]
         [HttpPost("get-jurisdictions")]
         public IActionResult GetJurisdiction([FromBody] Connections connections)
         {
@@ -67,68 +54,37 @@ namespace Tier3ToolBackend.Controllers
 
             Connections connections = data["connection"].ToObject<Connections>();
             ClientSearch clientSearch = data["clientSearch"].ToObject<ClientSearch>();
-            Console.WriteLine(clientSearch.ToString());
-            string connectionString = $"Server={connections.ServerName};Database={connections.DatabaseName};User Id={connections.DatabaseUsername};Password={connections.DatabasePassword};";
-            string queryString = "select * from dbo.Admissions_Types";
 
-            //using (SqlConnection connection = new SqlConnection(connectionString))
-            //{
-            //    SqlCommand command = new SqlCommand(queryString, connection);
-            //    try
-            //    {
-            //        connection.Open();
-            //        SqlDataReader reader = command.ExecuteReader();
-            //        while (reader.Read())
-            //        {
-            //            Console.WriteLine("\t{0}\t{1}\t{2}\t{3}",
-            //                reader[0], reader[1], reader[2], reader[3]);
-            //        }
-            //        reader.Close();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Console.WriteLine(ex.Message);
-            //    }
-            //    finally
-            //    {
-            //        connection.Close();
-            //    }
-            //}
+            var clientResults = _service.GetSearchClients(connections, clientSearch);
 
-            return Ok(clientSearch);
+            if (clientResults != null)
+            {
+                return Ok(clientResults);
+            }
+
+            return BadRequest(new { message = "Error get results!"});
         }
 
-        // GET: api/Warehouses
         [AllowAnonymous]
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpPost("search-authorizations")]
+        public IActionResult GetSearchAuthorizations([FromBody] JObject data)
         {
-            return new string[] { "value1", "value2" };
-        }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        // GET: api/Warehouses/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+            Connections connections = data["connection"].ToObject<Connections>();
+            AuthorizationSearch authorizationSearch = data["authorizationSearch"].ToObject<AuthorizationSearch>();
 
-        // POST: api/Warehouses
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+            var authorizationResults = _service.GetAuthorizationResults(connections, authorizationSearch);
 
-        // PUT: api/Warehouses/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+            if (authorizationResults != null)
+            {
+                return Ok(authorizationResults);
+            }
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return BadRequest(new { message = "Error get results!" });
         }
     }
 }
