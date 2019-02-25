@@ -5,7 +5,7 @@ const tokenStorage = localStorage.getItem('token');
 const isUsingToken = !isNil(tokenStorage) && !isEmpty(tokenStorage);
 
 export default axios.create({
-    baseURL: 'https://localhost:44314/api',
+  baseURL: '/api',
   timeout: 30000,
   headers: !isUsingToken
     ? {
