@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
-using Tier3ToolBackend.ContextsSearch;
 using Tier3ToolBackend.Entities;
 using Tier3ToolBackend.Models;
 using Tier3ToolBackend.Query;
@@ -43,12 +42,12 @@ namespace Tier3ToolBackend.Services
             }
         }
 
-        public List<ClientResult> GetSearchClients(Connections connections, ClientSearch clientSearch)
+        public List<ClientResult> GetSearchClients(Connections connections, ClientSearch clientSearch, Paging paging)
         {
             QueryWarehouseClient _query = new QueryWarehouseClient();
 
             string connectionString = $"Server={connections.ServerName};Database={connections.DatabaseName};User Id={connections.DatabaseUsername};Password={connections.DatabasePassword};";
-            string queryString = _query.CrateQueryStringClient(clientSearch);
+            string queryString = _query.CrateQueryStringClient(clientSearch, paging);
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -84,12 +83,45 @@ namespace Tier3ToolBackend.Services
             }
         }
 
-        public List<AuthorizationResult> GetAuthorizationResults(Connections connections, AuthorizationSearch authorizationSearch)
+        public int GetTotalRowsClients(Connections connections, ClientSearch clientSearch)
+        {
+            QueryWarehouseClient _query = new QueryWarehouseClient();
+            int totalRows = 0;
+            string connectionString = $"Server={connections.ServerName};Database={connections.DatabaseName};User Id={connections.DatabaseUsername};Password={connections.DatabasePassword};";
+            string queryString = _query.CrateQueryStringCountRowsClients(clientSearch);
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command = _query.EmbedParameters(command, clientSearch);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        totalRows = Convert.ToInt32(reader[0]);
+                    }
+                    reader.Close();
+
+                    return totalRows;
+                }
+                catch (Exception ex)
+                {
+                    connection.Close();
+                    Console.WriteLine(ex.ToString());
+                    return 0;
+                }
+            }
+        }
+
+        public List<AuthorizationResult> GetAuthorizationResults(Connections connections, AuthorizationSearch authorizationSearch, Paging paging)
         {
             QueryWarehouseAuthorizations _query = new QueryWarehouseAuthorizations();
 
             string connectionString = $"Server={connections.ServerName};Database={connections.DatabaseName};User Id={connections.DatabaseUsername};Password={connections.DatabasePassword};";
-            string queryString = _query.CrateQueryStringAuthorization(authorizationSearch);
+            string queryString = _query.CrateQueryStringAuthorization(authorizationSearch, paging);
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -117,6 +149,40 @@ namespace Tier3ToolBackend.Services
                     connection.Close();
                     Console.WriteLine(ex.ToString());
                     return null;
+                }
+            }
+        }
+
+        public int GetTotalRowsAuthorizations(Connections connections, AuthorizationSearch authorizationSearch)
+        {
+            QueryWarehouseAuthorizations _query = new QueryWarehouseAuthorizations();
+            int totalRows = 0;
+            string connectionString = $"Server={connections.ServerName};Database={connections.DatabaseName};User Id={connections.DatabaseUsername};Password={connections.DatabasePassword};";
+            string queryString = _query.CrateQueryStringCountRowsAuthorization(authorizationSearch);
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+
+                command = _query.EmbedParameters(command, authorizationSearch);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        totalRows = Convert.ToInt32(reader[0]);
+                    }
+                    reader.Close();
+
+                    return totalRows;
+                }
+                catch (Exception ex)
+                {
+                    connection.Close();
+                    Console.WriteLine(ex.ToString());
+                    return 0;
                 }
             }
         }

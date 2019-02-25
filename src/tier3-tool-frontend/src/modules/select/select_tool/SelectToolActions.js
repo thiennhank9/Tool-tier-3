@@ -1,11 +1,8 @@
-import { compose, withProps, withHandlers } from 'recompose';
+import { compose, withHandlers } from 'recompose';
 import { paths } from 'src/data/RoutesData';
 import TOOL_TYPES from 'src/constants/ToolTypes.js';
 
 export default compose(
-  withProps({
-    user: {}
-  }),
   withHandlers({
     onClickTool1: props => event => {
       props.history.push({

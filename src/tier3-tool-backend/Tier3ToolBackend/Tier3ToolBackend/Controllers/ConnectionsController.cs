@@ -1,13 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Tier3ToolBackend.Entities;
 using Tier3ToolBackend.Helpers;
 using Tier3ToolBackend.Models;
 using Tier3ToolBackend.Services;
@@ -68,18 +66,26 @@ namespace Tier3ToolBackend.Controllers
         }
 
         // PUT: api/Connections/5
-        [Authorize(Roles = AppConstants.ROLE_ADMIN)]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutConnections([FromRoute] int id, [FromBody] Connections connections)
+        //[Authorize(Roles = AppConstants.ROLE_ADMIN)]
+        [AllowAnonymous]
+        [HttpPut("edit-connection")]
+        public async Task<IActionResult> PutConnections([FromBody] Connections connections)
         {
+            int id = connections.Id;
+
+            if (!_context.Connections.Any(e => e.Id == id))
+            {
+                BadRequest(new { message = "Can't find the connection to update" });
+            }
+
+            if (_context.Connections.Any(e => e.ConnectionName == connections.ConnectionName && e.Id != connections.Id))
+            {
+                return BadRequest(new { message = "The connection name is already existed!" });
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
-
-            if (id != connections.Id)
-            {
-                return BadRequest();
             }
 
             _context.Entry(connections).State = EntityState.Modified;
@@ -120,25 +126,26 @@ namespace Tier3ToolBackend.Controllers
         }
 
         // DELETE: api/Connections/5
-        [Authorize(Roles = AppConstants.ROLE_ADMIN)]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteConnections([FromRoute] int id)
+        //[Authorize(Roles = AppConstants.ROLE_ADMIN)]
+        [AllowAnonymous]
+        [HttpPost("delete-connection")]
+        public async Task<IActionResult> DeleteConnections([FromBody] Connections connections)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var connections = await _context.Connections.FindAsync(id);
-            if (connections == null)
+            var connectionToDelete = await _context.Connections.FindAsync(connections.Id);
+            if (connectionToDelete == null)
             {
                 return NotFound();
             }
 
-            _context.Connections.Remove(connections);
+            _context.Connections.Remove(connectionToDelete);
             await _context.SaveChangesAsync();
 
-            return Ok(connections);
+            return Ok(new { message = "Deleted successfully!" });
         }
 
         // PUT: api/Connections/5
@@ -158,7 +165,25 @@ namespace Tier3ToolBackend.Controllers
             _context.Connections.Add(connections);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetConnections", new { id = connections.Id }, connections);
+            return Ok(new { message = "Added connection successfully!" });
+        }
+
+        [AllowAnonymous]
+        [HttpPost("add-hhax")]
+        public async Task<IActionResult> AddConnectionsHHAX([FromBody] Connections connections)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (_context.Connections.Any(e => e.ConnectionName == connections.ConnectionName))
+                return BadRequest(new { message = "Duplicated connection name, please provide a different name!" });
+
+            _context.Connections.Add(connections);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Added connection successfully!" });
         }
 
         [AllowAnonymous]

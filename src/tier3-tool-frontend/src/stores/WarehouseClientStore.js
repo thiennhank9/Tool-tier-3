@@ -1,7 +1,10 @@
 import { observable, action } from 'mobx';
 import warehouseRequest from 'src/requests/WarehouseRequest';
+import PAGE_DEFAULTS from 'src/constants/PageDefaults';
 
 export default class WarehouseClientStore {
+  @observable isClickedSearch = false;
+
   // Client Search
   @observable jurisdictions = [];
 
@@ -17,6 +20,34 @@ export default class WarehouseClientStore {
   // Client Results in table
   @observable isLoading = false;
   @observable clientResults = [];
+
+  // Paging
+  @observable pageTotal = 1;
+  @observable pageSize = PAGE_DEFAULTS.PAGE_SIZE;
+  @observable page = 0;
+
+  @action
+  resetAll() {
+    this.isClickedSearch = false;
+    this.jurisdictions = [];
+    this.jurisdiction = '';
+    this.firstName = '';
+    this.lastName = '';
+    this.memberID = '';
+    this.admissionType = '';
+    this.updatedFrom = new Date();
+    this.updatedTo = new Date();
+    this.ftpFileName = '';
+
+    // Client Results in table
+    this.isLoading = false;
+    this.clientResults = [];
+
+    // Paging
+    this.pageTotal = 1;
+    this.pageSize = PAGE_DEFAULTS.PAGE_SIZE;
+    this.page = 0;
+  }
 
   @action
   setIsLoading(isLoading = true) {
@@ -75,19 +106,35 @@ export default class WarehouseClientStore {
   }
 
   @action
-  requestGetClientResults(objConnection) {
-    this.setIsLoading();
+  setPageSize(pageSize) {
+    this.pageSize = pageSize;
+  }
 
+  @action
+  setPage(page) {
+    this.page = page;
+  }
+
+  @action
+  requestGetClientResults(objConnection, paging) {
+    this.setIsLoading();
+    this.isClickedSearch = true;
     this.clientResults = [];
+    const objPaging = {
+      pageSize: paging.pageSize,
+      pageNumber: paging.page + 1
+    };
 
     warehouseRequest
-      .searchWarehouseClients(objConnection, this)
+      .searchWarehouseClients(objConnection, this, objPaging)
       .then(response => {
-        this.setClientResults(response.data);
+        this.setClientResults(response.data.clientResults);
+        this.pageTotal = Math.ceil(response.data.totalRows / paging.pageSize);
         this.setIsLoading(false);
       })
       .catch(err => {
         console.log(err);
+        this.pageTotal = 1;
         this.setIsLoading(false);
       });
   }

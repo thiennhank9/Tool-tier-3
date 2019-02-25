@@ -1,7 +1,9 @@
 import { observable, action } from 'mobx';
 import warehouseRequest from 'src/requests/WarehouseRequest';
+import PAGE_DEFAULTS from 'src/constants/PageDefaults';
 
 export default class WarehouseClientStore {
+  @observable isClickedSearch = false;
   // Authorization Search
   @observable jurisdictions = [];
 
@@ -23,13 +25,48 @@ export default class WarehouseClientStore {
   @observable isLoading = false;
   @observable authorizationResults = [];
 
+  // Paging
+  @observable pageTotal = 1;
+  @observable pageSize = PAGE_DEFAULTS.PAGE_SIZE;
+  @observable page = 0;
+
+  @action
+  resetAll(){
+    this.isClickedSearch = false;
+    // Authorization Search
+    this.jurisdictions = [];
+    
+    this.jurisdiction = '';
+    this.agencyID = '';
+    this.firstName = '';
+    this.lastName = '';
+    this.memberID = '';
+    this.admissionType = '';
+    this.service = '';
+    this.authRefNo = '';
+    this.ftpFileName = '';
+    this.authBegin = new Date();
+    this.updatedFrom = new Date();
+    this.authEnd = new Date();
+    this.updatedTo = new Date();
+    
+    // Authorization Results in table
+    this.isLoading = false;
+    this.authorizationResults = [];
+    
+    // Paging
+    this.pageTotal = 1;
+    this.pageSize = PAGE_DEFAULTS.PAGE_SIZE;
+    this.page = 0;
+  }
+
   @action
   setJurisdiction(jurisdiction) {
     this.jurisdiction = jurisdiction;
   }
 
   @action
-  setAgencyID(agencyID){
+  setAgencyID(agencyID) {
     this.agencyID = agencyID;
   }
 
@@ -127,19 +164,36 @@ export default class WarehouseClientStore {
   }
 
   @action
-  requestGetAuthorizationResults(objConnection) {
+  setPageSize(pageSize) {
+    this.pageSize = pageSize;
+  }
+
+  @action
+  setPage(page) {
+    this.page = page;
+  }
+
+  @action
+  requestGetAuthorizationResults(objConnection, paging) {
+    this.isClickedSearch = true;
     this.setIsLoading();
 
     this.clientResults = [];
+    const objPaging = {
+      pageSize: paging.pageSize,
+      pageNumber: paging.page + 1
+    };
 
     warehouseRequest
-      .searchWarehouseAuthorizations(objConnection, this)
+      .searchWarehouseAuthorizations(objConnection, this, objPaging)
       .then(response => {
-        this.setAuthorizationResults(response.data);
+        this.setAuthorizationResults(response.data.authorizationResults);
+        this.pageTotal = Math.ceil(response.data.totalRows / paging.pageSize);
         this.setIsLoading(false);
       })
       .catch(err => {
         console.log(err);
+        this.pageTotal = 1;
         this.setIsLoading(false);
       });
   }

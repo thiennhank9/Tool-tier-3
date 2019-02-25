@@ -7,6 +7,18 @@ import { observer } from 'mobx-react';
 
 @observer
 class Login extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      checked: false
+    };
+  }
+
+  componentDidMount() {
+    this.props.userStore.recoverRememberedLogin();
+  }
+
   render() {
     const {
       TOOL_TIER3,
@@ -31,9 +43,7 @@ class Login extends Component {
           <Card.Body>
             <Form className="container-form" autoComplete="on">
               <Form.Group>
-                <Form.Label size="md">
-                  {USERNAME}
-                </Form.Label>
+                <Form.Label size="md">{USERNAME}</Form.Label>
                 <Form.Control
                   size="md"
                   type="text"
@@ -45,9 +55,7 @@ class Login extends Component {
               </Form.Group>
 
               <Form.Group>
-                <Form.Label size="md">
-                  {PASSWORD}
-                </Form.Label>
+                <Form.Label size="md">{PASSWORD}</Form.Label>
                 <Form.Control
                   size="md"
                   type="password"
@@ -63,7 +71,8 @@ class Login extends Component {
                     custom
                     type="checkbox"
                     label={REMEMBER_ME}
-                    id="1"
+                    id="99"
+                    checked={this.props.userStore.isRemembered}
                     onChange={this.props.handleToggleRemember}
                   />
                 </div>
@@ -74,9 +83,11 @@ class Login extends Component {
             </Form>
           </Card.Body>
           {!isEmpty(errorMessage) && (
-            <Alert variant="danger" className="text-center">
-              {errorMessage}
-            </Alert>
+            <div className="container-error-message">
+              <Alert variant="danger">
+                <center>{errorMessage}</center>
+              </Alert>
+            </div>
           )}
         </Card>
       </div>

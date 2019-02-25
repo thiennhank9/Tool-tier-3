@@ -4,32 +4,25 @@
 }
 
 .container-select-tool {
-  display: flex;
+  // display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-left: auto;
   margin-right: auto;
-  width: 600px;
+  max-width: 900px;
 }
 
 .container-buttons-tools {
-  display: flex;
-  padding: 20px;
-  width: 580px;
-  margin-top: 30px;
-  border: 2px solid red;
-  padding: 50px 10px 50px 10px;
-  border-radius: 25px;
-  justify-content: space-between;
-  align-items: center;
+  max-width: 900px;
+  // border: 2px solid red;
+  padding: 10px;
+  // border-radius: 25px;
 }
 
 .button-select-tool {
-  width: 230px;
-  height: 80px;
-  // background-color: #337ab7;
-  border-radius: 25px;
+  min-width: 250px;
+  min-height: 80px;
 }
 
 .button-connect {

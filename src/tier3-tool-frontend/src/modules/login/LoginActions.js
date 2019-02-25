@@ -14,21 +14,31 @@ export default compose(
       props.userStore.setPassword(event.target.value);
     },
     handleToggleRemember: props => event => {
-      props.userStore.toggleIsRemembered(event.target.value);
+      props.userStore.toggleIsRemembered();
     },
     handleLogin: props => event => {
-      props.userStore.callAuthenticate().then(() => {
-        if (props.userStore.status === 200) {
-          props.globalStore.getResultsFromUserStore(props.userStore);
-          props.globalStore.setLogin();
-          localStorage.setItem('globalStorage', JSON.stringify(props.globalStore));
-          props.history.push(paths.SELECT_TOOL);
-          // props.history.push({
-          //   pathname: paths.SELECT_TOOL,
-          //   state: { globalStore: props.globalStore }
-          // });
-        }
-      });
+      props.userStore
+        .callAuthenticate()
+        .then(() => {
+          if (props.userStore.status === 200) {
+            props.globalStore.getResultsFromUserStore(props.userStore);
+
+            props.globalStore.setLogin();
+            localStorage.setItem('isRemembered', JSON.stringify(props.userStore.isRemembered));
+
+            if (props.userStore.isRemembered) {
+              localStorage.setItem('username', props.userStore.username);
+              localStorage.setItem('password', props.userStore.password);
+            } else {
+              localStorage.setItem('username', '');
+              localStorage.setItem('password', '');
+            }
+
+            props.globalStore.setToLocalStorage();
+            props.history.push(paths.SELECT_TOOL);
+          }
+        })
+        .catch(error => console.log(error));
     }
   })
 );

@@ -33,7 +33,13 @@ export default compose(
       props.warehouseClientStore.clearClientSearch();
     },
     handleClickSearch: props => connection => {
-      props.warehouseClientStore.requestGetClientResults(connection);
+      const paging = {
+        pageSize: props.warehouseClientStore.pageSize,
+        page: 0
+      }
+
+      props.warehouseClientStore.setPage(0);
+      props.warehouseClientStore.requestGetClientResults(connection, paging);
     }
   })
 );

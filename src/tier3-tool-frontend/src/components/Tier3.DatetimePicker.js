@@ -15,7 +15,7 @@ class DatetimePicker extends Component {
     }
 
     return (
-      <div className="customDatePickerWidth">
+      <span className="customDatePickerWidth">
         <DatePicker
           peekNextMonth
           fixedHeight
@@ -26,7 +26,12 @@ class DatetimePicker extends Component {
           onChange={onChange}
           className="form-control"
         />
-      </div>
+        <span>
+          <img src={require('src/imgs/reset.png')} style={{width: 30, height: 30, marginLeft: 10, marginBottom: 5}} alt='icon-reset' 
+          onClick={() => onChange(null)}
+          ></img>
+        </span>
+      </span>
     );
   }
 }

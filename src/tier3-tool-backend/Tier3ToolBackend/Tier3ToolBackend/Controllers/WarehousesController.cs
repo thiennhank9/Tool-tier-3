@@ -43,6 +43,7 @@ namespace Tier3ToolBackend.Controllers
             }
         }
 
+        //[Authorize(Policy = "PolicyCanAccessDW")]
         [AllowAnonymous]
         [HttpPost("search-clients")]
         public IActionResult GetSearchClients([FromBody] JObject data)
@@ -54,12 +55,14 @@ namespace Tier3ToolBackend.Controllers
 
             Connections connections = data["connection"].ToObject<Connections>();
             ClientSearch clientSearch = data["clientSearch"].ToObject<ClientSearch>();
+            Paging paging = data["paging"].ToObject<Paging>();
 
-            var clientResults = _service.GetSearchClients(connections, clientSearch);
+            var clientResults = _service.GetSearchClients(connections, clientSearch, paging);
+            int totalRows = _service.GetTotalRowsClients(connections, clientSearch);
 
             if (clientResults != null)
             {
-                return Ok(clientResults);
+                return Ok(new { clientResults, totalRows });
             }
 
             return BadRequest(new { message = "Error get results!"});
@@ -76,12 +79,14 @@ namespace Tier3ToolBackend.Controllers
 
             Connections connections = data["connection"].ToObject<Connections>();
             AuthorizationSearch authorizationSearch = data["authorizationSearch"].ToObject<AuthorizationSearch>();
+            Paging paging = data["paging"].ToObject<Paging>();
 
-            var authorizationResults = _service.GetAuthorizationResults(connections, authorizationSearch);
+            var authorizationResults = _service.GetAuthorizationResults(connections, authorizationSearch, paging);
+            int totalRows = _service.GetTotalRowsAuthorizations(connections, authorizationSearch);
 
             if (authorizationResults != null)
             {
-                return Ok(authorizationResults);
+                return Ok(new { authorizationResults, totalRows });
             }
 
             return BadRequest(new { message = "Error get results!" });

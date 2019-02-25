@@ -7,14 +7,14 @@ using Tier3ToolBackend.Models;
 
 namespace Tier3ToolBackend.Entities
 {
-    public class User
+    public class UserToken
     {
-        public User()
+        public UserToken()
         {
 
         }
 
-        public User(Users user)
+        public UserToken(Users user)
         {
             Id = user.Id;
             Username = user.Username;

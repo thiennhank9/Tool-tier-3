@@ -48,7 +48,12 @@ export default compose(
       props.warehouseAuthorizationsStore.clearAuthorizationSearch();
     },
     handleClickSearch: props => connection => {
-      props.warehouseAuthorizationsStore.requestGetAuthorizationResults(connection);
+      const paging = {
+        pageSize: props.warehouseAuthorizationsStore.pageSize,
+        page: 0
+      }
+      props.warehouseAuthorizationsStore.setPage(0);
+      props.warehouseAuthorizationsStore.requestGetAuthorizationResults(connection, paging);
     }
   })
 );

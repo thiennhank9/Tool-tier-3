@@ -6,4 +6,10 @@ import { observer } from 'mobx-react';
 import SearchForm from 'src/containers/SearchForm';
 
 @observer
-class WarehouseAuthorizationsForm extends Component {
+class SearchFormButtons extends Component {
+  render() {
+    return null;
+  }
+}
+
+export default SearchFormButtons;

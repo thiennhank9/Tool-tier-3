@@ -1,12 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Tier3ToolBackend.Entities;
 using Tier3ToolBackend.Helpers;
 using Tier3ToolBackend.Models;
 using Tier3ToolBackend.Services;
@@ -47,12 +44,13 @@ namespace Tier3ToolBackend.Controllers
             return _userService.GetUsers(_context);
         }
 
-        // GET: api/Users
-        //[HttpGet]
-        //public IEnumerable<Users> GetUsers()
-        //{
-        //    return _context.Users;
-        //}
+        //GET: api/Users
+        [AllowAnonymous]
+        [HttpGet("get-users")]
+        public IEnumerable<Users> GetUsers()
+        {
+            return _context.Users;
+        }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
@@ -74,17 +72,23 @@ namespace Tier3ToolBackend.Controllers
         }
 
         // PUT: api/Users/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUsers([FromRoute] int id, [FromBody] Users users)
+        [AllowAnonymous]
+        [HttpPut("edit")]
+        public async Task<IActionResult> PutUsers([FromBody] Users users)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != users.Id)
+            if (!_context.Users.Any(e => e.Id == users.Id))
             {
-                return BadRequest();
+                return BadRequest(new { message = "Can't find the user to update" });
+            }
+
+            if (_context.Users.Any(e => e.Username == users.Username && e.Id != users.Id))
+            {
+                return BadRequest(new { message = "The username is already existed!" });
             }
 
             _context.Entry(users).State = EntityState.Modified;
@@ -95,7 +99,7 @@ namespace Tier3ToolBackend.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UsersExists(id))
+                if (!UsersExists(users.Id))
                 {
                     return NotFound();
                 }
@@ -105,11 +109,12 @@ namespace Tier3ToolBackend.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(new { message = "Updated successfully!" });
         }
 
         // POST: api/Users
-        [HttpPost]
+        //[AllowAnonymous]
+        [HttpPost("add")]
         public async Task<IActionResult> PostUsers([FromBody] Users users)
         {
             if (!ModelState.IsValid)
@@ -117,31 +122,37 @@ namespace Tier3ToolBackend.Controllers
                 return BadRequest(ModelState);
             }
 
+            if (_context.Users.Any(e => e.Username == users.Username))
+            {
+                return BadRequest(new { message = "The username is already existed!" });
+            }
+
             _context.Users.Add(users);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUsers", new { id = users.Id }, users);
+            return Ok(new { message = "Added user successfully!" });
         }
 
         // DELETE: api/Users/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUsers([FromRoute] int id)
+        [AllowAnonymous]
+        [HttpPost("delete")]
+        public async Task<IActionResult> DeleteUsers([FromBody] Users users)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var users = await _context.Users.FindAsync(id);
-            if (users == null)
+            var deleteUser = await _context.Users.FindAsync(users.Id);
+            if (deleteUser == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(users);
+            _context.Users.Remove(deleteUser);
             await _context.SaveChangesAsync();
 
-            return Ok(users);
+            return Ok(new { message = "Deleted user successfully" });
         }
 
         private bool UsersExists(int id)

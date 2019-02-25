@@ -1,7 +1,8 @@
 import { compose, withProps } from 'recompose';
+import ManageUsersStore from 'src/stores/ManageUsersStore';
 
 export default compose(
   withProps({
-    user: {}
+    manageUsersStore: new ManageUsersStore()
   })
 );

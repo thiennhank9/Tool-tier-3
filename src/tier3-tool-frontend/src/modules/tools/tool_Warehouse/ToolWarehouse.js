@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tabs, Tab, Button, Form } from 'react-bootstrap';
+import { Tabs, Tab, Button, Form, Alert } from 'react-bootstrap';
 
 import TabKeys from 'src/data/TabsWarehouseKeys';
 import { compose } from 'recompose';
@@ -15,8 +15,15 @@ class ToolWarehouse extends Component {
       key: TabKeys.KEY_CLIENT
     };
   }
+
   render() {
-    const { AUTHORIZATIONS, CLIENTS, CONNECTED, CLICK_CHANGE_CONNECTION } = this.props.globalStore.locales;
+    const {
+      AUTHORIZATIONS,
+      CLIENTS,
+      CONNECTED,
+      CLICK_CHANGE_CONNECTION,
+      SELECT_CONNECTIONS
+    } = this.props.globalStore.locales;
 
     const connectionName = get(this.props, 'location.state.selectedConnection.connectionName', 'BLANK');
     const selectedConnection = get(this.props, 'location.state.selectedConnection', {});
@@ -24,16 +31,15 @@ class ToolWarehouse extends Component {
     return (
       <div style={{ padding: 10 }}>
         <div>
-          <span>
-            {CONNECTED}:
-            <Button style={{ marginLeft: 10 }} ariant="outline-success" onClick={this.props.onClickChangeConnection}>
+          <Form inline>
+            <span>{CONNECTED}:</span>
+            <b style={{ margin: 10 }} variant="danger">
               {connectionName}
+            </b>
+            <Button variant="primary" style={{ marginLeft: 10 }} onClick={this.props.onClickChangeConnection}>
+              {SELECT_CONNECTIONS}
             </Button>
-            <span href="" style={{ marginLeft: 10 }}>
-              ({CLICK_CHANGE_CONNECTION})
-            </span>
-          </span>
-          <Form inline />
+          </Form>
         </div>
         <div style={{ padding: 10 }}>
           <Tabs id="controlled-tab-example" activeKey={this.state.key} onSelect={key => this.setState({ key })}>

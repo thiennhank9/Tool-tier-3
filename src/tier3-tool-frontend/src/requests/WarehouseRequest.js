@@ -1,12 +1,21 @@
 import appRequest from './AppRequest';
-import { isNil, merge } from 'lodash';
+import { isNil } from 'lodash';
 
 export default {
   getJurisdiction(connection) {
     return appRequest.post('/Warehouses/get-jurisdictions', { ...connection });
   },
-  searchWarehouseClients(connection, dataSearch) {
-    let { updatedFrom, updatedTo } = dataSearch;
+  searchWarehouseClients(connection, dataSearch, paging) {
+    let {
+      jurisdiction,
+      firstName,
+      lastName,
+      memberID,
+      admissionType,
+      updatedFrom,
+      updatedTo,
+      ftpFileName
+    } = dataSearch;
 
     if (typeof updatedFrom === 'string') {
       updatedFrom = new Date(updatedFrom);
@@ -15,14 +24,34 @@ export default {
       updatedTo = new Date(updatedTo);
     }
 
-    const clientSearch = merge(dataSearch, {
+    const clientSearch = {
+      jurisdiction,
+      firstName,
+      lastName,
+      memberID,
+      admissionType,
       updatedFrom: !isNil(updatedFrom) ? updatedFrom.toJSON() : null,
-      updatedTo: !isNil(updatedTo) ? updatedTo.toJSON() : null
-    });
-    return appRequest.post('/Warehouses/search-clients', { connection: connection, clientSearch: clientSearch });
+      updatedTo: !isNil(updatedTo) ? updatedTo.toJSON() : null,
+      ftpFileName
+    };
+    return appRequest.post('/Warehouses/search-clients', { connection, clientSearch, paging });
   },
-  searchWarehouseAuthorizations(connection, dataSearch) {
-    let { updatedFrom, updatedTo, authBegin, authEnd } = dataSearch;
+  searchWarehouseAuthorizations(connection, dataSearch, paging) {
+    let {
+      jurisdiction,
+      firstName,
+      lastName,
+      memberID,
+      admissionType,
+      agencyID,
+      service,
+      authRerNo,
+      ftpFileName,
+      updatedFrom,
+      updatedTo,
+      authBegin,
+      authEnd
+    } = dataSearch;
 
     if (typeof updatedFrom === 'string') {
       updatedFrom = new Date(updatedFrom);
@@ -38,16 +67,26 @@ export default {
       authEnd = new Date(authEnd);
     }
 
-    const authorizationSearch = merge(dataSearch, {
+    const authorizationSearch = {
+      jurisdiction,
+      firstName,
+      lastName,
+      memberID,
+      admissionType,
+      agencyID,
+      service,
+      authRerNo,
+      ftpFileName,
       updatedFrom: !isNil(updatedFrom) ? updatedFrom.toJSON() : null,
       updatedTo: !isNil(updatedTo) ? updatedTo.toJSON() : null,
       authBegin: !isNil(authBegin) ? authBegin.toJSON() : null,
       authEnd: !isNil(authEnd) ? authEnd.toJSON() : null
-    });
+    };
 
     return appRequest.post('/Warehouses/search-authorizations', {
       connection: connection,
-      authorizationSearch: authorizationSearch
+      authorizationSearch: authorizationSearch,
+      paging: paging
     });
   }
 };

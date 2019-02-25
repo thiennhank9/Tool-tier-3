@@ -5,11 +5,12 @@
   margin-right: auto;
   justify-content: center;
   align-items: center;
+  width: 400px;
 }
 
 .container-form-databases {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .container-connection-name {
@@ -20,9 +21,16 @@
 
 .width-buttons-footer {
   width: 400px;
+  margin-top: 10px
 }
 
 .button-connection {
   width: 100px;
   height: 35px;
+}
+
+.container-test-connection{
+  display: flex;
+  justify-content: space-around;
+  align-items: center
 }

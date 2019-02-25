@@ -3,14 +3,14 @@ import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
 import routesData, { paths } from '../data/RoutesData';
 import HeaderNavbar from 'src/containers/HeaderNavbar';
 import { Provider } from 'mobx-react';
-import { merge } from 'lodash';
+import { isNil } from 'lodash';
 
 export class AppRouter extends Component {
   render() {
     const {
       globalStore: { isLogin }
     } = this.props;
-    const globalStore = JSON.parse(localStorage.getItem('globalStorage'));
+    this.props.globalStore.getFromLocalStorage();
 
     return (
       <Router>
@@ -34,14 +34,23 @@ export class AppRouter extends Component {
             <Route
               key={route.path}
               path={route.path}
-              render={props => (
-                <Provider globalStore={merge(this.props.globalStore, globalStore)}>
-                  <div>
-                    {route.withNav ? <HeaderNavbar {...props} {...this.props} /> : null}
-                    <route.component {...props} {...this.props} />
-                  </div>
-                </Provider>
-              )}
+              render={props =>
+                !isNil(localStorage.getItem('token')) || route.isPublic ? (
+                  <Provider globalStore={this.props.globalStore}>
+                    <div>
+                      {route.withNav ? <HeaderNavbar {...props} {...this.props} /> : null}
+                      <route.component {...props} {...this.props} />
+                    </div>
+                  </Provider>
+                ) : (
+                  <Redirect
+                    to={{
+                      pathname: paths.LOGIN,
+                      state: { from: props.location }
+                    }}
+                  />
+                )
+              }
             />
           ))}
         </div>

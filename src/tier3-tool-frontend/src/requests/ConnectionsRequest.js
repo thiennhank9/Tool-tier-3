@@ -25,7 +25,25 @@ export default {
 
     return appRequest.post(`/Connections/${urlAdd}`, { ...connectionAdd });
   },
-  testConnection(connection, type){
+  editConnection(connection, type) {
+    const { connectionName, serverName, databaseName, login, password, id } = connection;
+    const connectionEdit = {
+      id,
+      connectionName,
+      connectionType: type,
+      serverName,
+      databaseName,
+      databaseUsername: login,
+      databasePassword: password
+    };
+
+    return appRequest.put('/Connections/edit-connection', connectionEdit);
+  },
+  removeConnection(connection, type){
+    return appRequest.post('/Connections/delete-connection', connection);
+  },
+
+  testConnection(connection, type) {
     const { connectionName, serverName, databaseName, login, password } = connection;
     const connectionTest = {
       connectionName,

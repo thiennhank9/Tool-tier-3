@@ -24,6 +24,10 @@ class WarehouseAuthorizations extends Component {
       </div>
     );
   }
+
+  componentWillUnmount() {
+    this.props.warehouseAuthorizationsStore.resetAll();
+  }
 }
 
 export default compose(actions)(WarehouseAuthorizations);

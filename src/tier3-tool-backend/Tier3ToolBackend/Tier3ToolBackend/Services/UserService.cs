@@ -16,7 +16,7 @@ namespace Tier3ToolBackend.Services
 {
     public interface IUserService
     {
-        User Authenticate(string username, string password, ToolTier3DbContext context);
+        UserToken Authenticate(string username, string password, ToolTier3DbContext context);
         IEnumerable<Users> GetUsers(ToolTier3DbContext context);
     }
 
@@ -29,7 +29,7 @@ namespace Tier3ToolBackend.Services
             _appSettings = appSettings.Value;
         }
 
-        public User Authenticate(string username, string password, ToolTier3DbContext context)
+        public UserToken Authenticate(string username, string password, ToolTier3DbContext context)
         {
             var entUser = context.Users.SingleOrDefault(x => x.Username == username && x.Password == password);
 
@@ -37,9 +37,8 @@ namespace Tier3ToolBackend.Services
             if (entUser == null)
                 return null;
             
-            var user = new User(entUser);
+            var user = new UserToken(entUser);
 
-            // authentication successful so generate jwt token
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -47,7 +46,9 @@ namespace Tier3ToolBackend.Services
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Name, user.Username),
-                    new Claim(ClaimTypes.Role, user.Role)
+                    new Claim(ClaimTypes.Role, user.Role),
+                    new Claim("CanAccessDW", (user.CanAccessDW ?? false) ? "Can" : "Not" ),
+                    new Claim("CanAccessHHAX", (user.CanAccessHHAX ?? false) ? "Can" : "Not" )
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(15),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

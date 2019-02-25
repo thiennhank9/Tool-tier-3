@@ -3,6 +3,7 @@ export default function getWarehouseAuthorizationsTableData(locales) {
     FULL_NAME,
     ADMISSION_TYPE,
     CLIENT_OTHER_ID,
+    SERVICE,
     EVENT_CODE,
     AUTH_REF_NO,
     FORMAT,
@@ -26,6 +27,7 @@ export default function getWarehouseAuthorizationsTableData(locales) {
       Header: CLIENT_OTHER_ID,
       accessor: 'clientOtherID'
     },
+    { Header: SERVICE, accessor: 'authServiceID' },
     { Header: EVENT_CODE, accessor: 'eventCode' },
     { Header: AUTH_REF_NO, accessor: 'authRefNo' },
     { Header: FORMAT, accessor: 'format' },

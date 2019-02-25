@@ -28,6 +28,7 @@ export default class Connection {
       databaseUsername,
       databasePassword
     } = connection;
+    
     this.id = id;
     this.connectionName = connectionName;
     this.connectionType = connectionType;

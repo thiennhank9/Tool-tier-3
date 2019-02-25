@@ -19,7 +19,8 @@ export const paths = {
 export default [
   {
     path: paths.LOGIN,
-    component: Login
+    component: Login,
+    isPublic: true
   },
   {
     path: paths.SELECT_TOOL,

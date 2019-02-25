@@ -11,6 +11,7 @@ namespace Tier3ToolBackend.Entities
         public string FullName { get; set; }
         public string AdmissionType { get; set; }
         public string ClientOtherID { get; set; }
+        public string AuthServiceID { get; set; }
         public string EventCode { get; set; }
         public string AuthRefNo { get; set; }
         public string Format { get; set; }
@@ -23,11 +24,12 @@ namespace Tier3ToolBackend.Entities
         public DateTime RowModified { get; set; }
         public bool IsProcessed { get; set; }
 
-        public void SetValues(string firstName, string middleName, string lastName, string admission, string clientOtherID, string eventCode, string authRefNo, string authFormat, string authMax, DateTime authBegin, DateTime authEnd, string diag10Code, bool authShared, bool authVoided, DateTime rowupdated, bool isProcessed)
+        public void SetValues(string firstName, string middleName, string lastName, string admission, string clientOtherID, string authServiceID, string eventCode, string authRefNo, string authFormat, string authMax, DateTime authBegin, DateTime authEnd, string diag10Code, bool authShared, bool authVoided, DateTime rowupdated, bool isProcessed)
         {
             FullName = $"{firstName} {middleName},{lastName}";
             AdmissionType = admission;
             ClientOtherID = clientOtherID;
+            AuthServiceID = authServiceID;
             EventCode = eventCode;
             AuthRefNo = authRefNo;
             Format = authFormat;
@@ -59,9 +61,10 @@ namespace Tier3ToolBackend.Entities
             var authShared = Convert.ToBoolean(reader["authShared"]);
             var authVoided = Convert.ToBoolean(reader["authVoided"]);
             var rowupdated = Convert.ToDateTime(reader["rowupdated"].ToString());
+            var authServiceID = reader["authServiceID"].ToString();
             var isProcessed = Convert.ToBoolean(reader["IsProcessed"]);
 
-            SetValues(firstName, middleName, lastName, admission, clientOtherID, eventCode, authRefNo, authFormat, authMax, authBegin, authEnd, diag10Code, authShared, authVoided, rowupdated, isProcessed);
+            SetValues(firstName, middleName, lastName, admission, clientOtherID, authServiceID, eventCode, authRefNo, authFormat, authMax, authBegin, authEnd, diag10Code, authShared, authVoided, rowupdated, isProcessed);
         }
     }
 }

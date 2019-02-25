@@ -8,6 +8,11 @@ import actions from './WarehouseClientsActions';
 
 @observer
 class WarehouseClients extends Component {
+  // constructor(props) {
+  //   super(props)
+  //   props.warehouseClientStore.resetAll();
+  // }
+
   render() {
     return (
       <div>
@@ -23,6 +28,10 @@ class WarehouseClients extends Component {
         />
       </div>
     );
+  }
+
+  componentWillUnmount() {
+    this.props.warehouseClientStore.resetAll();
   }
 }
 

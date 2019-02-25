@@ -29,7 +29,6 @@ class SelectConnection extends Component {
   }
 
   handleClickConnect() {
-    // this.props.history.push(paths.TOOL_1);
     this.props.history.push({
       pathname: paths.TOOL_1,
       state: { selectedConnection: this.state.selectedRowInfo }
@@ -40,16 +39,20 @@ class SelectConnection extends Component {
     if (rowInfo && rowInfo.row) {
       return {
         onClick: e => {
-          this.setState({
-            selectedIndex: rowInfo.index,
-            selectedRowInfo: rowInfo.original
-          });
+          if (rowInfo.index < this.state.data.length && !isEmpty(rowInfo.original)) {
+            this.setState({
+              selectedIndex: rowInfo.index,
+              selectedRowInfo: rowInfo.original
+            });
+          }
         },
         onDoubleClick: e => {
-          this.props.history.push({
-            pathname: paths.TOOL_1,
-            state: { selectedConnection: this.state.selectedRowInfo }
-          });
+          if (rowInfo.index < this.state.data.length && !isEmpty(rowInfo.original)) {
+            this.props.history.push({
+              pathname: paths.TOOL_1,
+              state: { selectedConnection: this.state.selectedRowInfo }
+            });
+          }
         },
         style: {
           background: rowInfo.index === this.state.selectedIndex ? '#00afec' : 'white',
@@ -100,8 +103,13 @@ class SelectConnection extends Component {
   }
 
   componentDidMount() {
+    const typeName = !isNil(this.props.location.state.typeName)
+      ? this.props.location.state.typeName
+      : this.props.typeName;
+    const typeConnection = typeName;
+
     const request =
-      this.typeConnection === TOOL_TYPES.WAREHOUSE
+      typeConnection === TOOL_TYPES.WAREHOUSE
         ? connectionRequest.getConnectionsWarehouse()
         : connectionRequest.getConnectionsHHAX();
 
@@ -112,7 +120,7 @@ class SelectConnection extends Component {
       });
       this.setState({
         data: results,
-        selectedRowInfo: isEmpty(this.state.data) ? {} : results[0]
+        selectedRowInfo: isEmpty(results) ? {} : results[0]
       });
     });
   }

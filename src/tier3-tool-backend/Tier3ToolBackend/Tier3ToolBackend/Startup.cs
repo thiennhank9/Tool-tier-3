@@ -64,6 +64,14 @@ namespace Tier3ToolBackend
                 };
             });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("PolicyCanAccessDW",
+                    policy => policy.RequireClaim("CanAccessDW", "Can"));
+                options.AddPolicy("PolicyCanAccessHHAX",
+                    policy => policy.RequireClaim("CanAccessHHAX", "Can"));
+            });
+
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
             services.AddCors();

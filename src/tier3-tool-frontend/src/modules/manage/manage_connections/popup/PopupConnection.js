@@ -5,19 +5,21 @@ import actions from './PopupConnectionActions';
 import TOOL_TYPES from 'src/constants/ToolTypes';
 import POPUP_TYPES from 'src/constants/PopupTypes';
 import connectionsRequest from 'src/requests/ConnectionsRequest';
-import { isEmpty } from 'lodash';
+import { isEmpty, isNil } from 'lodash';
 
 class PopupConnection extends Component {
   constructor(props, context) {
     super(props, context);
 
     this.state = {
+      id: 0,
       connectionName: '',
       serverName: '',
       databaseName: '',
       login: '',
       password: '',
-      errorMessage: ''
+      errorMessage: '',
+      connectionStatus: 'Not Connected'
     };
 
     this.handleConnectionName = this.handleConnectionName.bind(this);
@@ -26,7 +28,45 @@ class PopupConnection extends Component {
     this.handleLogin = this.handleLogin.bind(this);
     this.handlePassword = this.handlePassword.bind(this);
     this.handleClickOk = this.handleClickOk.bind(this);
+    this.validateConnectionFields = this.validateConnectionFields.bind(this);
     this.handleClickTestConnection = this.handleClickTestConnection.bind(this);
+    this.getSelectedConnection = this.getSelectedConnection.bind(this);
+  }
+
+  validateConnectionFields() {
+    const { connectionName, serverName, databaseName, login, password } = this.state;
+    if (
+      isEmpty(connectionName) ||
+      isEmpty(serverName) ||
+      isEmpty(databaseName) ||
+      isEmpty(login) ||
+      isEmpty(password)
+    ) {
+      return false;
+    }
+    return true;
+  }
+
+  getSelectedConnection() {
+    if (!isNil(this.props.selectedConnection)) {
+      const {
+        id,
+        connectionName,
+        serverName,
+        databaseName,
+        databaseUsername,
+        databasePassword
+      } = this.props.selectedConnection;
+
+      this.setState({
+        id: id,
+        connectionName: connectionName,
+        serverName: serverName,
+        databaseName: databaseName,
+        login: databaseUsername,
+        password: databasePassword
+      });
+    }
   }
 
   handleConnectionName(e) {
@@ -61,34 +101,82 @@ class PopupConnection extends Component {
 
   handleClickOk(e) {
     const { connectionType } = this.props;
-    return connectionsRequest
-      .addConnection(this.state, connectionType)
-      .then(response => console.log(response))
-      .catch(error => {
-        const {
-          response: {
-            data: { message }
-          }
-        } = error;
 
-        this.setState({ errorMessage: message });
+    if (!this.validateConnectionFields) {
+      this.setState({
+        errorMessage: 'Please enter full fields!'
       });
+      return;
+    }
+
+    if (this.props.popupType === POPUP_TYPES.ADD) {
+      if (this.state.connectionStatus === 'OK - Connected') {
+        return connectionsRequest
+          .addConnection(this.state, connectionType)
+          .then(response => this.props.handleCloseWithRefresh())
+          .catch(error => {
+            const {
+              response: {
+                data: { message }
+              }
+            } = error;
+
+            this.setState({ errorMessage: message });
+          });
+      } else {
+        this.setState({
+          errorMessage: 'Please test connection!'
+        });
+      }
+    }
+    
+    if (this.props.popupType === POPUP_TYPES.EDIT) {
+      if (this.state.connectionStatus === 'OK - Connected') {
+        return connectionsRequest
+          .editConnection(this.state, connectionType)
+          .then(response => this.props.handleCloseWithRefresh())
+          .catch(error => {
+            const {
+              response: {
+                data: { message }
+              }
+            } = error;
+
+            this.setState({ errorMessage: message });
+          });
+      } else {
+        this.setState({
+          errorMessage: 'Please test connection!'
+        });
+      }
+    }
   }
 
   handleClickTestConnection() {
+    if (!this.validateConnectionFields()) {
+      this.setState({
+        errorMessage: 'Please enter full fields!'
+      });
+      return true;
+    }
+
     const { connectionType } = this.props;
+
+    this.setState({
+      connectionStatus: 'Validating connection'
+    });
+
     return connectionsRequest
       .testConnection(this.state, connectionType)
-      .then(response => console.log(response))
+      .then(response =>
+        this.setState({
+          connectionStatus: 'OK - Connected'
+        })
+      )
       .catch(error => {
-        console.log(error);
-        // const {
-        //   response: {
-        //     data: { message }
-        //   }
-        // } = error;
-
-        // this.setState({ errorMessage: message });
+        this.setState({
+          connectionStatus: 'ERROR - Not Connected'
+        });
       });
   }
 
@@ -125,7 +213,7 @@ class PopupConnection extends Component {
 
   render() {
     const { connectionType, globalStore, popupType } = this.props;
-    const { TEST_CONNECTION, OK, CANCEL, CONNECTED, ADD, EDIT, WAREHOUSE, HHAX } = globalStore.locales;
+    const { TEST_CONNECTION, OK, CANCEL, ADD, EDIT, WAREHOUSE, HHAX } = globalStore.locales;
     const popupName = `${popupType === POPUP_TYPES.ADD ? ADD : EDIT} ${
       connectionType === TOOL_TYPES.WAREHOUSE ? WAREHOUSE : HHAX
     }`;
@@ -137,29 +225,37 @@ class PopupConnection extends Component {
         </center>
         <Form>
           {this.renderFormInputs()}
-          <div>
-            {CONNECTED}
-            <span class="icon-ok" />
+          <div className="container-test-connection">
+            <Button variant="success" onClick={this.handleClickTestConnection}>
+              {TEST_CONNECTION}
+            </Button>
+            <div>
+              {this.state.connectionStatus}
+              {/* <span class="icon-ok" /> */}
+            </div>
           </div>
-          <Button className="margin-top" variant="success" onClick={this.handleClickTestConnection}>
-            {TEST_CONNECTION}
-          </Button>
           <div className="container-form-databases width-buttons-footer">
-            <Button className="margin-top" variant="success" onClick={this.handleClickOk}>
+            <Button variant="success" onClick={this.handleClickOk}>
               {OK}
             </Button>
-            <Button className="margin-top" variant="success" onClick={this.props.handleCancel}>
+            <Button variant="success" onClick={this.props.handleCancel}>
               {CANCEL}
             </Button>
           </div>
         </Form>
         {!isEmpty(this.state.errorMessage) && (
-          <Alert variant="danger" className="text-center">
+          <Alert variant="danger" className="text-center width-buttons-footer">
             {this.state.errorMessage}
           </Alert>
         )}
       </div>
     );
+  }
+
+  componentDidMount() {
+    if (this.props.popupType === POPUP_TYPES.EDIT) {
+      this.getSelectedConnection();
+    }
   }
 }
 
