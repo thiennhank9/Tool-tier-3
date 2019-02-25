@@ -1,0 +1,58 @@
+@import '../variables/Variables.scss';
+
+.container-login {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: $default-form-width;
+  background-color: blue;
+  border-radius: $default-border-width-form;
+}
+
+.container-form {
+  padding-left: $default-padding-right-left-form;
+  padding-right: $default-padding-right-left-form;
+  padding-top: $default-padding-top-bottom-form;
+  padding-bottom: $default-padding-top-bottom-form;
+}
+
+.header-form {
+  background-color: green;
+  padding: $default-padding-header-form;
+  border-top-left-radius: $default-border-width-form;
+  border-top-right-radius: $default-border-width-form;
+}
+
+.large-control {
+  height: $large-height-control;
+}
+
+.large-label {
+  font-size: $default-font-size-label-form;
+}
+
+.label-checkbox {
+  font-size: $default-font-size-label-form;
+  margin-left: $default-margin-left-label-checkbox
+}
+
+.container-screen-login {
+  width: 100vw;
+  height: 100vh;
+  padding: $default-padding-screen;
+}
+
+.container-card-login {
+  max-width: $max-width-login-form;
+  margin: auto;
+  margin-top: 100px;
+}
+
+.center-checkbox {
+  margin-top: 10px;
+  width: 15px;
+  height: 15px
+}
+
+.container-error-message{
+  padding: 10px 30px;
+}

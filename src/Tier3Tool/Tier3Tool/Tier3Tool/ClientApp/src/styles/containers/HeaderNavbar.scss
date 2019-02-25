@@ -1,0 +1,37 @@
+@import '../variables/Variables.scss';
+
+.container-nav-bar {
+    width: 100vw;
+    padding: 10px;
+    background-color: beige;
+    display: flex;
+    justify-content: space-between
+}
+
+.container-nav-right {
+    display:flex;
+    width: 200px;
+    justify-content: space-around;
+    align-items: center
+}
+
+.nav-label {
+    font-size: $default-font-size-label-navbar
+}
+
+.nav-drop-down-container{
+    padding: 5px;
+}
+
+.nav-dropdown-item {
+    font-size: $default-font-size-label-navbar;
+    margin-top: 10px
+}
+
+.container-nav-left {
+    display: flex;
+}
+
+.fix-padding-container {
+    padding: 0px 10px
+}
