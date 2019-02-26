@@ -20,10 +20,15 @@ namespace Tier3Tool.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            var connection = @"Data Source=.;Initial Catalog=ToolTier3Db;User Id=sa;Password=Nolove10;";
+
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=ToolTier3Db;Integrated Security=True");
+                optionsBuilder.UseSqlServer(connection);
+                //optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=ToolTier3Db;Integrated Security=True");
             }
+
+            //optionsBuilder.UseSqlite("Data Source=ToolTier3Db.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

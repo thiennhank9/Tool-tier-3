@@ -11,7 +11,7 @@ export default class ManagesUsersStore {
   }
 
   @action
-  requestGetUsers() {
+  requestGetUsers(props) {
     this.users = [];
     return userRequest
       .getUsers()
@@ -19,31 +19,45 @@ export default class ManagesUsersStore {
         this.users = response.data;
       })
       .catch(error => {
-        console.log(error);
+        if (error.response.status === 401) {
+          props.globalStore.setLogout();
+        }
       });
   }
 
   @action
-  requestAddUser(user) {
+  requestAddUser(user, props) {
     return userRequest
       .addUser(user)
       .then(reponse => console.log(reponse))
-      .catch(error => console.log(error));
+      .catch(error => {
+        if (error.response.status === 401) {
+          props.globalStore.setLogout();
+        }
+      });
   }
 
   @action
-  requestEditUser(user) {
+  requestEditUser(user, props) {
     return userRequest
       .editUser(user)
       .then(reponse => console.log(reponse))
-      .catch(error => console.log(error));
+      .catch(error => {
+        if (error.response.status === 401) {
+          props.globalStore.setLogout();
+        }
+      });
   }
 
   @action
-  requestDeleteUser() {
+  requestDeleteUser(props) {
     return userRequest
       .deleteUser(this.selectedUser)
-      // .then(reponse => console.log(reponse))
-      // .catch(error => console.log(error));
+      .then(response => console.log(response))
+      .catch(error => {
+        if (error.response.status === 401) {
+          props.globalStore.setLogout();
+        }
+      });
   }
 }

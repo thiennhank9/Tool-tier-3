@@ -4,19 +4,32 @@ export default {
   authenticate(username, password) {
     return appRequest.post('/Users/authenticate', { Username: username, Password: password });
   },
-  getUsers() {
-    return appRequest.get('/Users/get-users');
+  getUsers(token = localStorage.getItem('token')) {
+    const config = {
+      headers: { Authorization: 'bearer ' + token }
+    };
+
+    return appRequest.get('/Users/get-users', config);
   },
-  addUser(user) {
-    // const config = {
-    //   headers: { Authorization: 'bearer ' + token }
-    // };
-    return appRequest.post('/Users/add', user);
+  addUser(user, token = localStorage.getItem('token')) {
+    const config = {
+      headers: { Authorization: 'bearer ' + token }
+    };
+
+    return appRequest.post('/Users/add', user, config);
   },
-  editUser(user) {
-    return appRequest.put('/Users/edit', user);
+  editUser(user, token = localStorage.getItem('token')) {
+    const config = {
+      headers: { Authorization: 'bearer ' + token }
+    };
+
+    return appRequest.put('/Users/edit', user, config);
   },
-  deleteUser(user) {
-    return appRequest.post('/Users/delete', user);
+  deleteUser(user, token = localStorage.getItem('token')) {
+    const config = {
+      headers: { Authorization: 'bearer ' + token }
+    };
+    
+    return appRequest.post('/Users/delete', user, config);
   }
 };

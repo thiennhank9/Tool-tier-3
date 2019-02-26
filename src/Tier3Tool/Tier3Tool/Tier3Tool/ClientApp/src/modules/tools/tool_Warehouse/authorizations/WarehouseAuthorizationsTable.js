@@ -22,7 +22,7 @@ class WarehouseAuthorizationsTable extends Component {
     const { connection } = this.props;
 
     this.props.warehouseAuthorizationsStore.setPageSize(paging.pageSize);
-    this.props.warehouseAuthorizationsStore.requestGetAuthorizationResults(connection, paging);
+    this.props.warehouseAuthorizationsStore.requestGetAuthorizationResults(connection, paging, this.props);
   }
 
   render() {

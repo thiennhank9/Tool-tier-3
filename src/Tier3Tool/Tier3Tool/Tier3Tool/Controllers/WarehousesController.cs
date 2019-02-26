@@ -22,7 +22,6 @@ namespace Tier3Tool.Controllers
 
         }
 
-        [AllowAnonymous]
         [HttpPost("get-jurisdictions")]
         public IActionResult GetJurisdiction([FromBody] Connections connections)
         {
@@ -43,8 +42,8 @@ namespace Tier3Tool.Controllers
             }
         }
 
-        //[Authorize(Policy = "PolicyCanAccessDW")]
-        [AllowAnonymous]
+        [Authorize(Policy = "PolicyCanAccessDW")]
+        //[AllowAnonymous]
         [HttpPost("search-clients")]
         public IActionResult GetSearchClients([FromBody] JObject data)
         {
@@ -68,7 +67,8 @@ namespace Tier3Tool.Controllers
             return BadRequest(new { message = "Error get results!"});
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
+        [Authorize(Policy = "PolicyCanAccessHHAX")]
         [HttpPost("search-authorizations")]
         public IActionResult GetSearchAuthorizations([FromBody] JObject data)
         {

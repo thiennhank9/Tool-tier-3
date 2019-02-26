@@ -116,7 +116,7 @@ export default class WarehouseClientStore {
   }
 
   @action
-  requestGetClientResults(objConnection, paging) {
+  requestGetClientResults(objConnection, paging, props) {
     this.setIsLoading();
     this.isClickedSearch = true;
     this.clientResults = [];
@@ -133,14 +133,17 @@ export default class WarehouseClientStore {
         this.setIsLoading(false);
       })
       .catch(err => {
-        console.log(err);
+        if (err.response.status === 401) {
+          props.globalStore.setLogout();
+        }
+
         this.pageTotal = 1;
         this.setIsLoading(false);
       });
   }
 
   @action
-  requestGetJurisdicions(objConnection) {
+  requestGetJurisdicions(objConnection, props) {
     this.jurisdictions = [];
 
     warehouseRequest
@@ -152,7 +155,11 @@ export default class WarehouseClientStore {
 
         this.jurisdictions = response.data;
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        if (error.response.status === 401) {
+          props.globalStore.setLogout();
+        }
+      });
   }
 
   @action

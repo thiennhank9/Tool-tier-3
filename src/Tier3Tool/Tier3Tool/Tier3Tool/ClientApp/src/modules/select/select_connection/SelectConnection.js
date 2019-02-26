@@ -113,16 +113,22 @@ class SelectConnection extends Component {
         ? connectionRequest.getConnectionsWarehouse()
         : connectionRequest.getConnectionsHHAX();
 
-    request.then(response => {
-      let results = [];
-      forEach(response.data, connection => {
-        results.push(new Connection(connection));
+    request
+      .then(response => {
+        let results = [];
+        forEach(response.data, connection => {
+          results.push(new Connection(connection));
+        });
+        this.setState({
+          data: results,
+          selectedRowInfo: isEmpty(results) ? {} : results[0]
+        });
+      })
+      .catch(error => {
+        if (error.response.status === 401) {
+          this.props.globalStore.setLogout();
+        }
       });
-      this.setState({
-        data: results,
-        selectedRowInfo: isEmpty(results) ? {} : results[0]
-      });
-    });
   }
 }
 

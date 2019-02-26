@@ -2,10 +2,18 @@ import appRequest from './AppRequest';
 import { isNil } from 'lodash';
 
 export default {
-  getJurisdiction(connection) {
-    return appRequest.post('/Warehouses/get-jurisdictions', { ...connection });
+  getJurisdiction(connection, token = localStorage.getItem('token')) {
+    const config = {
+      headers: { Authorization: 'bearer ' + token }
+    };
+
+    return appRequest.post('/Warehouses/get-jurisdictions', { ...connection }, config);
   },
-  searchWarehouseClients(connection, dataSearch, paging) {
+  searchWarehouseClients(connection, dataSearch, paging, token = localStorage.getItem('token')) {
+    const config = {
+      headers: { Authorization: 'bearer ' + token }
+    };
+
     let {
       jurisdiction,
       firstName,
@@ -34,9 +42,13 @@ export default {
       updatedTo: !isNil(updatedTo) ? updatedTo.toJSON() : null,
       ftpFileName
     };
-    return appRequest.post('/Warehouses/search-clients', { connection, clientSearch, paging });
+    return appRequest.post('/Warehouses/search-clients', { connection, clientSearch, paging }, config);
   },
-  searchWarehouseAuthorizations(connection, dataSearch, paging) {
+  searchWarehouseAuthorizations(connection, dataSearch, paging, token = localStorage.getItem('token')) {
+    const config = {
+      headers: { Authorization: 'bearer ' + token }
+    };
+
     let {
       jurisdiction,
       firstName,
@@ -63,6 +75,7 @@ export default {
     if (typeof authBegin === 'string') {
       authBegin = new Date(authBegin);
     }
+  
     if (typeof authEnd === 'string') {
       authEnd = new Date(authEnd);
     }
@@ -87,6 +100,6 @@ export default {
       connection: connection,
       authorizationSearch: authorizationSearch,
       paging: paging
-    });
+    }, config);
   }
 };

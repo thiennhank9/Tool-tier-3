@@ -79,7 +79,9 @@ class ManageConnections extends Component {
         this.requestGetConnections();
       })
       .catch(error => {
-        console.log(error);
+        if (error.response.status === 401) {
+          this.props.globalStore.setLogout();
+        }
       });
   }
 
@@ -101,7 +103,9 @@ class ManageConnections extends Component {
         this.requestGetConnections();
       })
       .catch(error => {
-        console.log(error.data);
+        if (error.response.status === 401) {
+          this.props.globalStore.setLogout();
+        }
       });
   }
 
@@ -353,28 +357,35 @@ class ManageConnections extends Component {
   }
 
   requestGetConnections() {
-    connectionRequest.getConnections().then(response => {
-      let warehouses = [];
-      let hhaxs = [];
+    return connectionRequest
+      .getConnections()
+      .then(response => {
+        let warehouses = [];
+        let hhaxs = [];
 
-      forEach(response.data, connection => {
-        if (connection.connectionType === TOOL_TYPES.WAREHOUSE) {
-          warehouses.push(new Connection(connection));
-        }
-        if (connection.connectionType === TOOL_TYPES.HHAX) {
-          hhaxs.push(new Connection(connection));
+        forEach(response.data, connection => {
+          if (connection.connectionType === TOOL_TYPES.WAREHOUSE) {
+            warehouses.push(new Connection(connection));
+          }
+          if (connection.connectionType === TOOL_TYPES.HHAX) {
+            hhaxs.push(new Connection(connection));
+          }
+        });
+
+        this.setState({
+          dataWarehouse: warehouses,
+          dataHHAX: hhaxs,
+          selectedRowInfoHHAX: !isEmpty(hhaxs) ? hhaxs[0] : {},
+          selectedRowInfoWarehouse: !isEmpty(warehouses) ? warehouses[0] : {},
+          selectedIndexWarehouse: 0,
+          selectedIndexHHAX: 0
+        });
+      })
+      .catch(error => {
+        if (error.response.status === 401) {
+          this.props.globalStore.setLogout();
         }
       });
-
-      this.setState({
-        dataWarehouse: warehouses,
-        dataHHAX: hhaxs,
-        selectedRowInfoHHAX: !isEmpty(hhaxs) ? hhaxs[0] : {},
-        selectedRowInfoWarehouse: !isEmpty(warehouses) ? warehouses[0] : {},
-        selectedIndexWarehouse: 0,
-        selectedIndexHHAX: 0
-      });
-    });
   }
 }
 

@@ -22,7 +22,7 @@ class WarehouseClientsTable extends Component {
     const { connection } = this.props;
 
     this.props.warehouseClientStore.setPageSize(paging.pageSize);
-    this.props.warehouseClientStore.requestGetClientResults(connection, paging);
+    this.props.warehouseClientStore.requestGetClientResults(connection, paging, this.props);
   }
 
   componentWillUnmount() {

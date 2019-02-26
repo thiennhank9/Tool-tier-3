@@ -36,43 +36,16 @@ namespace Tier3Tool.Controllers
             return Ok(user);
         }
 
-        [Authorize(Roles = AppConstants.ROLE_ADMIN)]
-        [HttpGet]
-        public IEnumerable<Users> GetAll()
-        {
-            //var users = _userService.GetUsers(_context);
-            return _userService.GetUsers(_context);
-        }
-
         //GET: api/Users
-        [AllowAnonymous]
+        [Authorize(Roles = AppConstants.ROLE_ADMIN)]
         [HttpGet("get-users")]
         public IEnumerable<Users> GetUsers()
         {
             return _context.Users;
         }
 
-        // GET: api/Users/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUsers([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var users = await _context.Users.FindAsync(id);
-
-            if (users == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(users);
-        }
-
         // PUT: api/Users/5
-        [AllowAnonymous]
+        [Authorize(Roles = AppConstants.ROLE_ADMIN)]
         [HttpPut("edit")]
         public async Task<IActionResult> PutUsers([FromBody] Users users)
         {
@@ -113,7 +86,7 @@ namespace Tier3Tool.Controllers
         }
 
         // POST: api/Users
-        //[AllowAnonymous]
+        [Authorize(Roles = AppConstants.ROLE_ADMIN)]
         [HttpPost("add")]
         public async Task<IActionResult> PostUsers([FromBody] Users users)
         {
@@ -134,7 +107,7 @@ namespace Tier3Tool.Controllers
         }
 
         // DELETE: api/Users/5
-        [AllowAnonymous]
+        [Authorize(Roles = AppConstants.ROLE_ADMIN)]
         [HttpPost("delete")]
         public async Task<IActionResult> DeleteUsers([FromBody] Users users)
         {

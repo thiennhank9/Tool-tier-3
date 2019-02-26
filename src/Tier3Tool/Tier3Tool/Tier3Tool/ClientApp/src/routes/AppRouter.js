@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
+import { observer } from 'mobx-react';
 import routesData, { paths } from '../data/RoutesData';
 import HeaderNavbar from 'src/containers/HeaderNavbar';
 import { Provider } from 'mobx-react';
 import { isNil } from 'lodash';
 
-export class AppRouter extends Component {
+@observer
+class AppRouter extends Component {
   render() {
     const {
       globalStore: { isLogin }
@@ -35,7 +37,7 @@ export class AppRouter extends Component {
               key={route.path}
               path={route.path}
               render={props =>
-                !isNil(localStorage.getItem('token')) || route.isPublic ? (
+                !isNil(localStorage.getItem('token')) || route.isPublic || isLogin ? (
                   <Provider globalStore={this.props.globalStore}>
                     <div>
                       {route.withNav ? <HeaderNavbar {...props} {...this.props} /> : null}

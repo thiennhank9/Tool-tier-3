@@ -2,16 +2,32 @@ import appRequest from './AppRequest';
 import TOOL_TYPES from 'src/constants/ToolTypes';
 
 export default {
-  getConnections() {
-    return appRequest.get('/Connections');
+  getConnections(token = localStorage.getItem('token')) {
+    const config = {
+      headers: { Authorization: 'bearer ' + token }
+    };
+
+    return appRequest.get('/Connections', config);
   },
-  getConnectionsWarehouse() {
-    return appRequest.get('/Connections/warehouses');
+  getConnectionsWarehouse(token = localStorage.getItem('token')) {
+    const config = {
+      headers: { Authorization: 'bearer ' + token }
+    };
+
+    return appRequest.get('/Connections/warehouses', config);
   },
-  getConnectionsHHAX() {
-    return appRequest.get('/Connections/hhax');
+  getConnectionsHHAX(token = localStorage.getItem('token')) {
+    const config = {
+      headers: { Authorization: 'bearer ' + token }
+    };
+
+    return appRequest.get('/Connections/hhax', config);
   },
-  addConnection(connection, type) {
+  addConnection(connection, type, token = localStorage.getItem('token')) {
+    const config = {
+      headers: { Authorization: 'bearer ' + token }
+    };
+
     const { connectionName, serverName, databaseName, login, password } = connection;
     const connectionAdd = {
       connectionName,
@@ -23,9 +39,13 @@ export default {
     };
     const urlAdd = type === TOOL_TYPES.WAREHOUSE ? 'add-warehouse' : 'add-hhax';
 
-    return appRequest.post(`/Connections/${urlAdd}`, { ...connectionAdd });
+    return appRequest.post(`/Connections/${urlAdd}`, { ...connectionAdd }, config);
   },
-  editConnection(connection, type) {
+  editConnection(connection, type, token = localStorage.getItem('token')) {
+    const config = {
+      headers: { Authorization: 'bearer ' + token }
+    };
+
     const { connectionName, serverName, databaseName, login, password, id } = connection;
     const connectionEdit = {
       id,
@@ -37,13 +57,21 @@ export default {
       databasePassword: password
     };
 
-    return appRequest.put('/Connections/edit-connection', connectionEdit);
+    return appRequest.put('/Connections/edit-connection', connectionEdit, config);
   },
-  removeConnection(connection, type){
-    return appRequest.post('/Connections/delete-connection', connection);
+  removeConnection(connection, type, token = localStorage.getItem('token')) {
+    const config = {
+      headers: { Authorization: 'bearer ' + token }
+    };
+
+    return appRequest.post('/Connections/delete-connection', connection, config);
   },
 
-  testConnection(connection, type) {
+  testConnection(connection, type, token = localStorage.getItem('token')) {
+    const config = {
+      headers: { Authorization: 'bearer ' + token }
+    };
+
     const { connectionName, serverName, databaseName, login, password } = connection;
     const connectionTest = {
       connectionName,
@@ -54,6 +82,6 @@ export default {
       databasePassword: password
     };
 
-    return appRequest.post('/Connections/test-connection', { ...connectionTest });
+    return appRequest.post('/Connections/test-connection', { ...connectionTest }, config);
   }
 };

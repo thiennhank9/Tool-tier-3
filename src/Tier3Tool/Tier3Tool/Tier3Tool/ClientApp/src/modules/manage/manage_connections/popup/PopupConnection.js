@@ -115,13 +115,17 @@ class PopupConnection extends Component {
           .addConnection(this.state, connectionType)
           .then(response => this.props.handleCloseWithRefresh())
           .catch(error => {
-            const {
-              response: {
-                data: { message }
-              }
-            } = error;
+            if (error.response.status === 401) {
+              this.props.globalStore.setLogout();
+            } else {
+              const {
+                response: {
+                  data: { message }
+                }
+              } = error;
 
-            this.setState({ errorMessage: message });
+              this.setState({ errorMessage: message });
+            }
           });
       } else {
         this.setState({
@@ -129,20 +133,24 @@ class PopupConnection extends Component {
         });
       }
     }
-    
+
     if (this.props.popupType === POPUP_TYPES.EDIT) {
       if (this.state.connectionStatus === 'OK - Connected') {
         return connectionsRequest
           .editConnection(this.state, connectionType)
           .then(response => this.props.handleCloseWithRefresh())
           .catch(error => {
-            const {
-              response: {
-                data: { message }
-              }
-            } = error;
+            if (error.response.status === 401) {
+              this.props.globalStore.setLogout();
+            } else {
+              const {
+                response: {
+                  data: { message }
+                }
+              } = error;
 
-            this.setState({ errorMessage: message });
+              this.setState({ errorMessage: message });
+            }
           });
       } else {
         this.setState({
@@ -153,6 +161,10 @@ class PopupConnection extends Component {
   }
 
   handleClickTestConnection() {
+    this.setState({
+      errorMessage: ''
+    });
+    
     if (!this.validateConnectionFields()) {
       this.setState({
         errorMessage: 'Please enter full fields!'
@@ -174,9 +186,13 @@ class PopupConnection extends Component {
         })
       )
       .catch(error => {
-        this.setState({
-          connectionStatus: 'ERROR - Not Connected'
-        });
+        if (error.response.status === 401) {
+          this.props.globalStore.setLogout();
+        } else {
+          this.setState({
+            connectionStatus: 'ERROR - Not Connected'
+          });
+        }
       });
   }
 

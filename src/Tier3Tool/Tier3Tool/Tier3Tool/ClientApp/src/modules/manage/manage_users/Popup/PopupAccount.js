@@ -213,9 +213,9 @@ class PopupAccount extends Component {
         .then(response => this.props.handleCloseWithRefresh())
         .catch(error => {
           if (error.response.status === 401) {
-            this.setState({
-              errorMessage: 'ERR 404 - Unauthorized'
-            });
+            if (error.response.status === 401) {
+              this.props.globalStore.setLogout();
+            }
           } else {
             this.setState({
               errorMessage: error.response.data.message
@@ -229,9 +229,13 @@ class PopupAccount extends Component {
         .editUser(this.state)
         .then(response => this.props.handleCloseWithRefresh())
         .catch(error => {
-          this.setState({
-            errorMessage: error.response.data.message
-          });
+          if (error.response.status === 401) {
+            this.props.globalStore.setLogout();
+          } else {
+            this.setState({
+              errorMessage: error.response.data.message
+            });
+          }
         });
     }
   }

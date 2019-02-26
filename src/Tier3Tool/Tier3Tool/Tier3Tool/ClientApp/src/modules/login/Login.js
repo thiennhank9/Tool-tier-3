@@ -89,6 +89,13 @@ class Login extends Component {
               </Alert>
             </div>
           )}
+          {this.props.globalStore.isTimeOut && (
+            <div className="container-error-message">
+              <Alert variant="danger">
+                <center>Time out! Please login again!</center>
+              </Alert>
+            </div>
+          )}
         </Card>
       </div>
     );

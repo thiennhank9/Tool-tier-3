@@ -31,11 +31,11 @@ export default class WarehouseClientStore {
   @observable page = 0;
 
   @action
-  resetAll(){
+  resetAll() {
     this.isClickedSearch = false;
     // Authorization Search
     this.jurisdictions = [];
-    
+
     this.jurisdiction = '';
     this.agencyID = '';
     this.firstName = '';
@@ -49,11 +49,11 @@ export default class WarehouseClientStore {
     this.updatedFrom = new Date();
     this.authEnd = new Date();
     this.updatedTo = new Date();
-    
+
     // Authorization Results in table
     this.isLoading = false;
     this.authorizationResults = [];
-    
+
     // Paging
     this.pageTotal = 1;
     this.pageSize = PAGE_DEFAULTS.PAGE_SIZE;
@@ -148,7 +148,7 @@ export default class WarehouseClientStore {
   }
 
   @action
-  requestGetJurisdicions(objConnection) {
+  requestGetJurisdicions(objConnection, props) {
     this.jurisdictions = [];
 
     warehouseRequest
@@ -160,7 +160,11 @@ export default class WarehouseClientStore {
 
         this.jurisdictions = response.data;
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        if (error.response.status === 401) {
+          props.globalStore.setLogout();
+        }
+      });
   }
 
   @action
@@ -174,7 +178,7 @@ export default class WarehouseClientStore {
   }
 
   @action
-  requestGetAuthorizationResults(objConnection, paging) {
+  requestGetAuthorizationResults(objConnection, paging, props) {
     this.isClickedSearch = true;
     this.setIsLoading();
 
@@ -192,7 +196,9 @@ export default class WarehouseClientStore {
         this.setIsLoading(false);
       })
       .catch(err => {
-        console.log(err);
+        if (err.response.status === 401) {
+          props.globalStore.setLogout();
+        }
         this.pageTotal = 1;
         this.setIsLoading(false);
       });

@@ -17,6 +17,7 @@ export default compose(
       props.userStore.toggleIsRemembered();
     },
     handleLogin: props => event => {
+      props.globalStore.setIsTimeOut(false);
       props.userStore
         .callAuthenticate()
         .then(() => {

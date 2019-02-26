@@ -30,11 +30,15 @@ namespace Tier3Tool
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // configure for connection string
-            var connection = @"Data Source=.;Initial Catalog=ToolTier3Db;Integrated Security=True";
+            // var connection = @"Data Source=.;Initial Catalog=ToolTier3Db;Integrated Security=True";
+            var connection = @"Data Source=.;Initial Catalog=ToolTier3Db;User Id=sa;Password=Nolove10;";
+            Console.WriteLine(connection);
+            //var connection = "Data Source=ToolTier3Db.db";
             services.AddDbContext<ToolTier3DbContext>(options => options.UseSqlServer(connection));
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
+
             services.Configure<AppSettings>(appSettingsSection);
 
             // configure jwt authentication

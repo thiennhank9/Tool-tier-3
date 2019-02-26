@@ -8,5 +8,6 @@ namespace Tier3Tool.Helpers
     public class AppSettings
     {
         public string Secret { get; set; }
+        public string Connection { get; set; }
     }
 }

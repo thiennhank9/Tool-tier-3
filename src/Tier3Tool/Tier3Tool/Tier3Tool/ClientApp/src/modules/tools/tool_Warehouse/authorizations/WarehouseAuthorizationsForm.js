@@ -45,7 +45,7 @@ class WarehouseAuthorizationsForm extends Component {
   componentDidMount() {
     const { connection } = this.props;
 
-    this.props.warehouseAuthorizationsStore.requestGetJurisdicions(connection);
+    this.props.warehouseAuthorizationsStore.requestGetJurisdicions(connection, this.props);
   }
 }
 

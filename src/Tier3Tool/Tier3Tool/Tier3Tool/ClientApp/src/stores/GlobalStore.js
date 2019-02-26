@@ -11,6 +11,7 @@ export default class GlobalStore {
   @observable isRemembered = false;
   @observable canAccessDW = false;
   @observable canAccessHHAX = false;
+  @observable isTimeOut = false;
 
   @action
   getResultsFromUserStore(userStore) {
@@ -37,7 +38,7 @@ export default class GlobalStore {
     if (!isNil(localStorage.getItem('selectedLocale')) && !isEmpty(localStorage.getItem('selectedLocale'))) {
       this.selectedLocale = localStorage.getItem('selectedLocale');
     }
-    
+
     if (!isNil(localStorage.getItem('role')) && !isEmpty(localStorage.getItem('role'))) {
       this.role = localStorage.getItem('role');
     }
@@ -58,13 +59,28 @@ export default class GlobalStore {
     }
   }
 
+  deleteLocalStorage() {
+    localStorage.removeItem('token', '');
+    localStorage.removeItem('role', '');
+    localStorage.removeItem('canAccessDW', '');
+    localStorage.removeItem('canAccessHHAX', '');
+  }
+
+  @action
+  setIsTimeOut(isTimeOut) {
+    this.isTimeOut = isTimeOut;
+  }
+
   @action
   setLogin() {
+    this.isTimeOut = false;
     this.isLogin = true;
   }
 
   @action
-  setLogout() {
+  setLogout(isTimeout=true) {
+    this.deleteLocalStorage();
+    this.isTimeOut = isTimeout;
     this.isLogin = false;
   }
 

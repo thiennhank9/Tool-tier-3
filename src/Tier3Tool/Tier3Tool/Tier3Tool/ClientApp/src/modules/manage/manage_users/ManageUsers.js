@@ -43,7 +43,7 @@ class ManageUsers extends Component {
       show: false
     });
 
-    this.props.manageUsersStore.requestGetUsers();
+    this.props.manageUsersStore.requestGetUsers(this.props);
   }
 
   onClickAdd() {
@@ -73,10 +73,10 @@ class ManageUsers extends Component {
 
   onClickOkRemove() {
     return this.props.manageUsersStore
-      .requestDeleteUser()
+      .requestDeleteUser(this.props)
       .then(response => {
         this.handleClosePopupConfirm();
-        this.props.manageUsersStore.requestGetUsers();
+        this.props.manageUsersStore.requestGetUsers(this.props);
       })
       .catch(error => console.log(error));
   }
@@ -211,7 +211,8 @@ class ManageUsers extends Component {
   }
 
   componentDidMount() {
-    this.props.manageUsersStore.requestGetUsers();
+    this.props.manageUsersStore
+      .requestGetUsers(this.props);
   }
 }
 

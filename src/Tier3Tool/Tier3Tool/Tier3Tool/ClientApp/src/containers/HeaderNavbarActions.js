@@ -30,7 +30,7 @@ export default compose(
       localStorage.removeItem('role', '');
       localStorage.removeItem('canAccessDW', '');
       localStorage.removeItem('canAccessHHAX', '');
-      props.globalStore.setLogout();
+      props.globalStore.setLogout(false);
       props.history.push('/login');
     }
   })

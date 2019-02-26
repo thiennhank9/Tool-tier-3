@@ -3,7 +3,7 @@ import { compose, withHandlers } from 'recompose';
 export default compose(
   withHandlers({
     getJurisdictions: props => connection => {
-      props.warehouseAuthorizationsStore.requestGetJurisdicions(connection);
+      props.warehouseAuthorizationsStore.requestGetJurisdicions(connection,props);
     },
     onChangeJurisdiction: props => e => {
       props.warehouseAuthorizationsStore.setJurisdiction(e.target.value);
@@ -53,7 +53,7 @@ export default compose(
         page: 0
       }
       props.warehouseAuthorizationsStore.setPage(0);
-      props.warehouseAuthorizationsStore.requestGetAuthorizationResults(connection, paging);
+      props.warehouseAuthorizationsStore.requestGetAuthorizationResults(connection, paging, props);
     }
   })
 );

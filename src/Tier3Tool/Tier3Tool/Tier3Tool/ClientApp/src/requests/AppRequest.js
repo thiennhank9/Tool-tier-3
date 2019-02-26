@@ -1,18 +1,18 @@
 import axios from 'axios';
-import { isNil, isEmpty } from 'lodash';
 
-const tokenStorage = localStorage.getItem('token');
-const isUsingToken = !isNil(tokenStorage) && !isEmpty(tokenStorage);
+axios.interceptors.response.use(response => {
+  return response;
+}, error => {
+ if (error.response.status === 401) {
+  console.log(error)
+ }
+ return error;
+});
 
 export default axios.create({
   baseURL: '/api',
   timeout: 30000,
-  headers: !isUsingToken
-    ? {
-        'Content-Type': 'application/json'
-      }
-    : {
-        'Content-Type': 'application/json',
-        'Authorization': 'bearer ' + tokenStorage
-      }
+  headers: {
+    'Content-Type': 'application/json'
+  }
 });

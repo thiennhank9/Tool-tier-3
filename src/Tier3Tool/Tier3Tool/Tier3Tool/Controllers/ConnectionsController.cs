@@ -25,49 +25,26 @@ namespace Tier3Tool.Controllers
         }
 
         // GET: api/Connections
-        [AllowAnonymous]
         [HttpGet]
         public IEnumerable<Connections> GetConnections()
         {
             return _context.Connections;
         }
 
-        [AllowAnonymous]
         [HttpGet("warehouses")]
         public IEnumerable<Connections> GetConnectionsWarehouse()
         {
             return _context.Connections.Where(connection => connection.ConnectionType == AppConstants.WAREHOUSE);
         }
 
-        [AllowAnonymous]
         [HttpGet("hhax")]
         public IEnumerable<Connections> GetConnectionsHHAX()
         {
             return _context.Connections.Where(connection => connection.ConnectionType == AppConstants.HHAX);
         }
 
-        // GET: api/Connections/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetConnections([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var connections = await _context.Connections.FindAsync(id);
-
-            if (connections == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(connections);
-        }
-
         // PUT: api/Connections/5
-        //[Authorize(Roles = AppConstants.ROLE_ADMIN)]
-        [AllowAnonymous]
+        [Authorize(Roles = AppConstants.ROLE_ADMIN)]
         [HttpPut("edit-connection")]
         public async Task<IActionResult> PutConnections([FromBody] Connections connections)
         {
@@ -109,25 +86,8 @@ namespace Tier3Tool.Controllers
             return NoContent();
         }
 
-        // POST: api/Connections
-        [Authorize(Roles = AppConstants.ROLE_ADMIN)]
-        [HttpPost]
-        public async Task<IActionResult> PostConnections([FromBody] Connections connections)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            _context.Connections.Add(connections);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetConnections", new { id = connections.Id }, connections);
-        }
-
         // DELETE: api/Connections/5
-        //[Authorize(Roles = AppConstants.ROLE_ADMIN)]
-        [AllowAnonymous]
+        [Authorize(Roles = AppConstants.ROLE_ADMIN)]
         [HttpPost("delete-connection")]
         public async Task<IActionResult> DeleteConnections([FromBody] Connections connections)
         {
@@ -149,8 +109,7 @@ namespace Tier3Tool.Controllers
         }
 
         // PUT: api/Connections/5
-        //[Authorize(Roles = AppConstants.ROLE_ADMIN)]
-        [AllowAnonymous]
+        [Authorize(Roles = AppConstants.ROLE_ADMIN)]
         [HttpPost("add-warehouse")]
         public async Task<IActionResult> AddConnectionsWarehouse([FromBody] Connections connections)
         {
@@ -168,7 +127,7 @@ namespace Tier3Tool.Controllers
             return Ok(new { message = "Added connection successfully!" });
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = AppConstants.ROLE_ADMIN)]
         [HttpPost("add-hhax")]
         public async Task<IActionResult> AddConnectionsHHAX([FromBody] Connections connections)
         {
@@ -186,7 +145,7 @@ namespace Tier3Tool.Controllers
             return Ok(new { message = "Added connection successfully!" });
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = AppConstants.ROLE_ADMIN)]
         [HttpPost("test-connection")]
         public IActionResult TestConnection([FromBody] Connections connections)
         {
