@@ -1,5 +1,6 @@
 import { observable, action } from 'mobx';
 import userRequest from 'src/requests/UserRequest';
+import {isEmpty} from 'lodash';
 
 export default class ManagesUsersStore {
   @observable users = [];
@@ -17,6 +18,7 @@ export default class ManagesUsersStore {
       .getUsers()
       .then(response => {
         this.users = response.data;
+        this.selectedUser = isEmpty(response.data) ? {} : response.data[0];
       })
       .catch(error => {
         if (error.response.status === 401) {
