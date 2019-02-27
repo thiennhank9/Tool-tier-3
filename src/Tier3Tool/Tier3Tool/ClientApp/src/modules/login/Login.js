@@ -19,7 +19,7 @@ class Login extends Component {
     this.props.userStore.recoverRememberedLogin();
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.props.userStore.clearAll();
   }
 
@@ -39,6 +39,9 @@ class Login extends Component {
 
     return (
       <div className="container-screen-login">
+        <center>
+          <img src={require('src/imgs/sandata_icon.jpg')} style={{ width: 80, height: 80 }} alt="sandata-logo" />
+        </center>
         <h1 className="text-center">{TOOL_TIER3}</h1>
         <Card className="container-card-login">
           <Card.Header className="card text-center">
