@@ -7,7 +7,7 @@ const CONTROL_TYPES = {
 
 const { SELECT, INPUT, DATE_PICKER, LABEL } = CONTROL_TYPES;
 
-export default function getHHAXPatientsFormData(context) {
+export default function getHHAXAuthorizationsFormData(context) {
   const {
     AGENCY_ID,
     FIRSTNAME,

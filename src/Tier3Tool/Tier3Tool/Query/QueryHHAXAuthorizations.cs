@@ -80,7 +80,7 @@ namespace Tier3Tool.Query
                 isNoFilter = false;
                 filterString += "CONVERT(VARCHAR(50), AUTHORIZATION_ID) like @authID ";
             }
-            if (authorizationsSearch.Begin != null)
+            if (authorizationsSearch.AuthDateBegin != null)
             {
                 if (!isNoFilter)
                 {
@@ -90,7 +90,7 @@ namespace Tier3Tool.Query
                 isNoFilter = false;
                 filterString += "CONVERT(DATE, FROM_DATE) >= @begin ";
             }
-            if (authorizationsSearch.End != null)
+            if (authorizationsSearch.AuthDateEnd != null)
             {
                 if (!isNoFilter)
                 {
@@ -100,7 +100,7 @@ namespace Tier3Tool.Query
                 isNoFilter = false;
                 filterString += "CONVERT(DATE, TO_DATE) <= @end ";
             }
-            if (authorizationsSearch.From != null)
+            if (authorizationsSearch.ModifiedDateFrom != null)
             {
                 if (!isNoFilter)
                 {
@@ -110,7 +110,7 @@ namespace Tier3Tool.Query
                 isNoFilter = false;
                 filterString += "CONVERT(DATE, MODIFIED_DATE) >= @from ";
             }
-            if (authorizationsSearch.To != null)
+            if (authorizationsSearch.ModifiedDateTo != null)
             {
                 if (!isNoFilter)
                 {
@@ -195,21 +195,21 @@ namespace Tier3Tool.Query
             {
                 command.Parameters.AddWithValue("@authID", authorizationsSearch.AuthID + "%");
             }
-            if (authorizationsSearch.Begin != null)
+            if (authorizationsSearch.AuthDateBegin != null)
             {
-                command.Parameters.Add("@begin", SqlDbType.Date).Value = ((DateTime)(authorizationsSearch.Begin)).Date;
+                command.Parameters.Add("@begin", SqlDbType.Date).Value = ((DateTime)(authorizationsSearch.AuthDateBegin)).Date;
             }
-            if (authorizationsSearch.End != null)
+            if (authorizationsSearch.AuthDateEnd != null)
             {
-                command.Parameters.Add("@end", SqlDbType.Date).Value = ((DateTime)(authorizationsSearch.End)).Date;
+                command.Parameters.Add("@end", SqlDbType.Date).Value = ((DateTime)(authorizationsSearch.AuthDateEnd)).Date;
             }
-            if (authorizationsSearch.From != null)
+            if (authorizationsSearch.ModifiedDateFrom != null)
             {
-                command.Parameters.Add("@from", SqlDbType.Date).Value = ((DateTime)(authorizationsSearch.From)).Date;
+                command.Parameters.Add("@from", SqlDbType.Date).Value = ((DateTime)(authorizationsSearch.ModifiedDateFrom)).Date;
             }
-            if (authorizationsSearch.To != null)
+            if (authorizationsSearch.ModifiedDateTo != null)
             {
-                command.Parameters.Add("@to", SqlDbType.Date).Value = ((DateTime)(authorizationsSearch.To)).Date;
+                command.Parameters.Add("@to", SqlDbType.Date).Value = ((DateTime)(authorizationsSearch.ModifiedDateTo)).Date;
             }
             return command;
         }

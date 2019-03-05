@@ -15,9 +15,9 @@ namespace Tier3Tool.Entities
         public string AuthRefNo { get; set; }
         public string MrNumber { get; set; }
         public string AuthID { get; set; }
-        public DateTime? Begin { get; set; }
-        public DateTime? End { get; set; }
-        public DateTime? From { get; set; }
-        public DateTime? To { get; set; }
+        public DateTime? AuthDateBegin { get; set; }
+        public DateTime? AuthDateEnd { get; set; }
+        public DateTime? ModifiedDateFrom { get; set; }
+        public DateTime? ModifiedDateTo { get; set; }
     }
 }

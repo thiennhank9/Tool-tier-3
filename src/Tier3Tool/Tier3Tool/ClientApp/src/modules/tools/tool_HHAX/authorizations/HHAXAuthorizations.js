@@ -1,34 +1,32 @@
-import React, { Component } from 'react';
-import DynamicSearchForm from 'src/containers/DynamicSearchForm';
-import getHHAXPatientsFormData from 'src/data/HHAXAuthorizationsFormData';
+import React, { Component } from "react";
+import { compose } from "recompose";
+import { observer } from "mobx-react";
+import actions from "./HHAXAuthorizationsActions";
+import HHAXAuthorizationsForm from "./HHAXAuthorizationsForm";
+import HHAXAuthorizationsTable from "./HHAXAuthorizationsTable";
 
-const SIZE = 'md';
-
+@observer
 class HHAXAuthorizations extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      agencies: ['']
-    };
-  }
-
   render() {
     return (
       <div>
-        <DynamicSearchForm
-          globalStore={this.props.globalStore}
-          mapForm={getHHAXPatientsFormData(this)}
-          size={SIZE}
-          onClickSearch={data => {
-            console.log(data);
-          }}
+        <HHAXAuthorizationsForm
+          {...this.props}
+          connection={this.props.connection}
+          hhaxAuthorizationsStore={this.props.hhaxAuthorizationsStore}
+        />
+        <HHAXAuthorizationsTable
+          {...this.props}
+          connection={this.props.connection}
+          hhaxAuthorizationsStore={this.props.hhaxAuthorizationsStore}
         />
       </div>
     );
   }
 
-  componentDidMount() {}
+  componentWillUnmount() {
+    this.props.hhaxAuthorizationsStore.resetAll();
+  }
 }
 
-export default HHAXAuthorizations;
+export default compose(actions)(HHAXAuthorizations);

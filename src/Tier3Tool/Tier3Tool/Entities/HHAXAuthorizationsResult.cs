@@ -24,14 +24,14 @@ namespace Tier3Tool.Entities
             BillingServiceCode = reader["BILLING_SERVICE_CODE"].ToString();
             if (reader["FROM_DATE"].ToString() != "" && reader["FROM_DATE"].ToString() != null)
             {
-                Begin = Convert.ToDateTime(reader["FROM_DATE"].ToString());
+                AuthDateBegin = Convert.ToDateTime(reader["FROM_DATE"].ToString());
             }
-            else { Begin = null; }
+            else { AuthDateBegin = null; }
             if (reader["TO_DATE"].ToString() != "" && reader["TO_DATE"].ToString() != null)
             {
-                End = Convert.ToDateTime(reader["TO_DATE"].ToString());
+                AuthDateEnd = Convert.ToDateTime(reader["TO_DATE"].ToString());
             }
-            else { End = null; }
+            else { AuthDateEnd = null; }
             if (reader["MODIFIED_DATE"].ToString() != "" && reader["MODIFIED_DATE"].ToString() != null)
             {
                 ModifiedDate = Convert.ToDateTime(reader["MODIFIED_DATE"].ToString());
