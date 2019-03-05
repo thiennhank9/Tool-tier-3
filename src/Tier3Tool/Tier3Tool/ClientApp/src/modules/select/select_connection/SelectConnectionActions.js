@@ -9,12 +9,6 @@ export default compose(
   withHandlers({
     getConnections: props => event => {
       props.connectionStore.getConnections();
-    },
-    handleClickConnect: props => event => {
-      props.history.push({
-        pathname: paths.TOOL_1,
-        state: { selectedConnection: props.connectionStore.selectedConnection }
-      });
     }
   })
 );

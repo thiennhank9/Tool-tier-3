@@ -59,7 +59,7 @@ export default {
   USERS: 'Users',
   CLIENTS: 'Clients',
   AUTHORIZATIONS: 'Authorizations',
-  PATIENS: 'Patients',
+  PATIENTS: 'Patients',
   CHANGE_CONNECTION: 'Change Connection',
   CLICK_CHANGE_CONNECTION: 'Click to change connection',
   JURISDICTION: 'Jurisdiction',
@@ -98,15 +98,21 @@ export default {
   AUTH_END: 'Auth End',
   AUTH_SHARED: 'Auth Shared',
   AUTH_VOIDED: 'Auth Voided',
+  // Form Search HHAX Patients
+  INSERTED_DATE_RANGE: 'Inserted date range',
+  MODIFIED_DATE_RANGE: 'Modified date range',
+  FROM: 'From',
+  TO: 'To',
   // Table HHAX Patients
   PATIENT_ID: 'Patient ID',
   MR_NUMBER: 'MR Number',
   STATUS: 'Status',
   DISCHARGE_DATE: 'Discharge Date',
-  CREATED_DAY: 'Created Day',
+  CREATED_DATE: 'Created Date',
   MODIFIED_DATE: 'Modified Date',
   INVALID_DATA: 'Invalid Data',
   //Table HHAX Authorizations
+  AUTHORIZATION_DATE_RANGE: 'Authorization Date Range',
   AUTH_ID: 'Auth ID',
   SERVICE: 'Service',
   BILLING_SERVICE_CODE: 'Billing Service Code'

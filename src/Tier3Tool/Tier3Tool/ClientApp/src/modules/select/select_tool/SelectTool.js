@@ -25,11 +25,10 @@ class SelectTool extends Component {
           onClick={this.props.onClickTool1}
         />
         <SelectConnectionButton
-          label1={`(Not Available) ${TOOL_2}`}
+          label1={`${TOOL_2}`}
           label2={TOOL_HHAX}
-          canAccess={false}
-          // canAccess={canAccessHHAX}
-          // onClick={this.props.onClickTool2}
+          canAccess={canAccessHHAX}
+          onClick={this.props.onClickTool2}
         />
       </Row>
     );

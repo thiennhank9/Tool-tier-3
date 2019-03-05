@@ -29,18 +29,13 @@ namespace Tier3Tool
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            // configure for connection string
-            //  var connection = Path.Combine(
-            //                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            //                    @"Tier3Tool\Databases\ToolTier3Db.db");
+            //string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
 
-            string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
+            //string connection = string.Format(
+            //  "data source=\"{0}\"",
+            //  Path.Combine(baseFolder, "Databases\\ToolTier3Db.db"));
 
-            string connection = string.Format(
-              "data source=\"{0}\"",
-              Path.Combine(baseFolder, "Databases\\ToolTier3Db.db"));
-
-            //var connection = "Data Source=./Databases/ToolTier3Db.db";
+            var connection = "Data Source=./Databases/ToolTier3Db.db";
             //System.Diagnostics.Debugger.Launch();
             services.AddDbContext<ToolTier3DbContext>(options => options.UseSqlite(connection));
 

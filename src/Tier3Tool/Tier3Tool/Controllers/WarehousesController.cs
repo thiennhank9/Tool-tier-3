@@ -22,6 +22,7 @@ namespace Tier3Tool.Controllers
 
         }
 
+        [Authorize(Policy = "PolicyCanAccessDW")]
         [HttpPost("get-jurisdictions")]
         public IActionResult GetJurisdiction([FromBody] Connections connections)
         {

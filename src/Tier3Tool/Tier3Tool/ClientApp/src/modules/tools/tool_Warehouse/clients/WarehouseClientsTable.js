@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { compose } from 'recompose';
-import actions from './WarehouseClientsTableActions';
 import getColumns from 'src/data/WarehouseClientsTableConfig';
 import ReactTable, { ReactTableDefaults } from 'react-table';
 import { observer } from 'mobx-react';
@@ -74,4 +72,4 @@ class WarehouseClientsTable extends Component {
   }
 }
 
-export default compose(actions)(WarehouseClientsTable);
+export default WarehouseClientsTable;

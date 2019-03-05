@@ -17,7 +17,7 @@ import ROLES from 'src/constants/Roles.js';
 class SelectConnection extends Component {
   constructor(props, context) {
     super(props, context);
-    this.typeConnection = TOOL_TYPES.WAREHOUSE;
+    // this.typeConnection = TOOL_TYPES.WAREHOUSE;
     this.state = {
       selectedIndex: 0,
       data: [],
@@ -25,16 +25,24 @@ class SelectConnection extends Component {
     };
 
     this.onRowClick = this.onRowClick.bind(this);
-    this.handleClickConnect = this.handleClickConnect.bind(this);
+    this.handleClickConnectTool1 = this.handleClickConnectTool1.bind(this);
+    this.handleClickConnectTool2 = this.handleClickConnectTool2.bind(this);
   }
 
   componentWillUnmount() {
     this.props.connectionStore.clearAll();
   }
 
-  handleClickConnect() {
+  handleClickConnectTool1() {
     this.props.history.push({
       pathname: paths.TOOL_1,
+      state: { selectedConnection: this.state.selectedRowInfo }
+    });
+  }
+
+  handleClickConnectTool2() {
+    this.props.history.push({
+      pathname: paths.TOOL_2,
       state: { selectedConnection: this.state.selectedRowInfo }
     });
   }
@@ -52,10 +60,22 @@ class SelectConnection extends Component {
         },
         onDoubleClick: e => {
           if (rowInfo.index < this.state.data.length && !isEmpty(rowInfo.original)) {
-            this.props.history.push({
-              pathname: paths.TOOL_1,
-              state: { selectedConnection: this.state.selectedRowInfo }
-            });
+            const typeName = !isNil(this.props.location.state.typeName)
+              ? this.props.location.state.typeName
+              : this.props.typeName;
+            if (typeName === TOOL_TYPES.WAREHOUSE) {
+              this.props.history.push({
+                pathname: paths.TOOL_1,
+                state: { selectedConnection: this.state.selectedRowInfo }
+              });
+            }
+
+            if (typeName === TOOL_TYPES.HHAX) {
+              this.props.history.push({
+                pathname: paths.TOOL_2,
+                state: { selectedConnection: this.state.selectedRowInfo }
+              });
+            }
           }
         },
         style: {
@@ -75,7 +95,6 @@ class SelectConnection extends Component {
       locales: { CHOOSE_WAREHOUSE, CHOOSE_HHAX, CONNECT },
       role
     } = this.props.globalStore;
-
     return (
       <div className="container-select-connection">
         <center className="margin-top">
@@ -96,7 +115,7 @@ class SelectConnection extends Component {
           className="button-connect"
           variant="success"
           type="submit"
-          onClick={this.handleClickConnect}
+          onClick={typeName === TOOL_TYPES.WAREHOUSE ? this.handleClickConnectTool1 : this.handleClickConnectTool2}
           disabled={isEmpty(this.state.data)}
         >
           {CONNECT}

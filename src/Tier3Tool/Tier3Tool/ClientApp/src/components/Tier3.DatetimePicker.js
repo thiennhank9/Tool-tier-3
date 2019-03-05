@@ -27,9 +27,12 @@ class DatetimePicker extends Component {
           className="form-control"
         />
         <span>
-          <img src={require('src/imgs/reset.png')} style={{width: 30, height: 30, marginLeft: 10, marginBottom: 5}} alt='icon-reset' 
-          onClick={() => onChange(null)}
-          ></img>
+          <img
+            src={require('src/imgs/reset.png')}
+            style={{ width: 30, height: 30, marginLeft: 10, marginBottom: 5 }}
+            alt="icon-reset"
+            onClick={() => onChange(null)}
+          />
         </span>
       </span>
     );

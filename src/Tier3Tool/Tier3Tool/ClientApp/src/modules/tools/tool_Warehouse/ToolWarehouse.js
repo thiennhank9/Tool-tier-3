@@ -21,7 +21,6 @@ class ToolWarehouse extends Component {
       AUTHORIZATIONS,
       CLIENTS,
       CONNECTED,
-      CLICK_CHANGE_CONNECTION,
       SELECT_CONNECTIONS
     } = this.props.globalStore.locales;
 
@@ -42,7 +41,7 @@ class ToolWarehouse extends Component {
           </Form>
         </div>
         <div style={{ padding: 10 }}>
-          <Tabs id="controlled-tab-example" activeKey={this.state.key} onSelect={key => this.setState({ key })}>
+          <Tabs id="controlled-tab-example-warehouse" activeKey={this.state.key} onSelect={key => this.setState({ key })}>
             <Tab eventKey={TabKeys.KEY_CLIENTS} title={CLIENTS}>
               <WarehouseClients globalStore={this.props.globalStore} connection={selectedConnection} />
             </Tab>

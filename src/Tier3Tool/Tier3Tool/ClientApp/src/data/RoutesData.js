@@ -9,7 +9,8 @@ import ManageUsers from '../modules/manage/manage_users/ManageUsers';
 export const paths = {
   LOGIN: '/login',
   SELECT_TOOL: '/select-tool',
-  SELECT_CONNECTION: '/select-connection',
+  SELECT_CONNECTION_WAREHOUSE: '/select-connection-warehouse',
+  SELECT_CONNECTION_HHAX: '/select-connection-hhax',
   TOOL_1: '/tool-1',
   TOOL_2: '/tool-2',
   MANAGE_CONNECTIONS: '/manage-connections',
@@ -28,7 +29,12 @@ export default [
     withNav: true
   },
   {
-    path: paths.SELECT_CONNECTION,
+    path: paths.SELECT_CONNECTION_WAREHOUSE,
+    component: SelectConnection,
+    withNav: true
+  },
+  {
+    path: paths.SELECT_CONNECTION_HHAX,
     component: SelectConnection,
     withNav: true
   },
