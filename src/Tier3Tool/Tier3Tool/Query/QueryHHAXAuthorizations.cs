@@ -136,7 +136,7 @@ namespace Tier3Tool.Query
         {
             string selectString = "SELECT * FROM ("
                                 + "SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) AS RowNum, AGENCY_ID, P.FIRST_NAME, P.MIDDLE_NAME, P.LAST_NAME, P.PATIENT_ID, A.SERVICE_TYPE, A.BILLING_SERVICE_CODE, A.ADMISSION_ID, A.AUTHORIZATION_NUMBER, P.MR_NUMBER, A.AUTHORIZATION_ID, A.FROM_DATE, A.TO_DATE, A.MODIFIED_DATE, A.INVALID_DATA FROM PATIENT_AUTHORIZATIONS as A "
-                                + "INNER JOIN (SELECT DISTINCT FIRST_NAME, MIDDLE_NAME, LAST_NAME, PATIENT_ID, MR_NUMBER FROM PATIENT_DEMOG) as P "
+                                + "LEFT JOIN (SELECT DISTINCT FIRST_NAME, MIDDLE_NAME, LAST_NAME, PATIENT_ID, MR_NUMBER FROM PATIENT_DEMOG) as P "
                                 + "ON A.PATIENT_ID = P.PATIENT_ID ";
 
             string filterString = CreateFilterString(authorizationsSearch, out bool isNoFilter);
@@ -150,7 +150,7 @@ namespace Tier3Tool.Query
         public string CrateQueryStringCountRowsAuthorizations(HHAXAuthorizationsSearch authorizationsSearch)
         {
             string selectString = "SELECT AGENCY_ID, P.FIRST_NAME, P.MIDDLE_NAME, P.LAST_NAME, P.PATIENT_ID, A.SERVICE_TYPE, A.BILLING_SERVICE_CODE, A.ADMISSION_ID, A.AUTHORIZATION_NUMBER, P.MR_NUMBER, A.AUTHORIZATION_ID, A.FROM_DATE, A.TO_DATE, A.MODIFIED_DATE, A.INVALID_DATA FROM PATIENT_AUTHORIZATIONS as A "
-                                + "INNER JOIN (SELECT DISTINCT FIRST_NAME, MIDDLE_NAME, LAST_NAME, PATIENT_ID, MR_NUMBER FROM PATIENT_DEMOG) as P "
+                                + "LEFT JOIN (SELECT DISTINCT FIRST_NAME, MIDDLE_NAME, LAST_NAME, PATIENT_ID, MR_NUMBER FROM PATIENT_DEMOG) as P "
                                 + "ON A.PATIENT_ID = P.PATIENT_ID ";
 
             string filterString = CreateFilterString(authorizationsSearch, out bool isNoFilter);

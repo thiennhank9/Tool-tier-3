@@ -2,10 +2,11 @@ const CONTROL_TYPES = {
   SELECT: 'select',
   INPUT: 'input',
   DATE_PICKER: 'date-picker',
-  LABEL: 'label'
+  LABEL: 'label',
+  SELECT_AGENCY: 'select-agency'
 };
 
-const { SELECT, INPUT, DATE_PICKER, LABEL } = CONTROL_TYPES;
+const { SELECT_AGENCY, INPUT, DATE_PICKER, LABEL } = CONTROL_TYPES;
 
 export default function getHHAXAuthorizationsFormData(context) {
   const {
@@ -27,7 +28,7 @@ export default function getHHAXAuthorizationsFormData(context) {
   const { agencies } = context.state;
 
   return [
-    [{ type: SELECT, label: AGENCY_ID, valueName: 'agencyID', options: agencies, initalValue: '' }],
+    [{ type: SELECT_AGENCY, label: AGENCY_ID, valueName: 'agencyID', options: agencies, initalValue: '' }],
     [
       { type: INPUT, label: FIRSTNAME, valueName: 'firstName', initalValue: '' },
       { type: INPUT, label: LASTNAME, valueName: 'lastName', initalValue: '' }

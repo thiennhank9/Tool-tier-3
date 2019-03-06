@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { compose } from "recompose";
-import { observer } from "mobx-react";
-import actions from "./HHAXAuthorizationsActions";
-import HHAXAuthorizationsForm from "./HHAXAuthorizationsForm";
-import HHAXAuthorizationsTable from "./HHAXAuthorizationsTable";
+import React, { Component } from 'react';
+import { compose } from 'recompose';
+import { observer } from 'mobx-react';
+import actions from './HHAXAuthorizationsActions';
+import HHAXAuthorizationsForm from './HHAXAuthorizationsForm';
+import HHAXAuthorizationsTable from './HHAXAuthorizationsTable';
 
 @observer
 class HHAXAuthorizations extends Component {

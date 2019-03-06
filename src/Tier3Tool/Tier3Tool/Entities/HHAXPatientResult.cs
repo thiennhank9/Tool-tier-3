@@ -17,7 +17,14 @@ namespace Tier3Tool.Entities
             FirstName = reader["FIRST_NAME"].ToString();
             LastName = reader["LAST_NAME"].ToString();
             var MiddleName = reader["MIDDLE_NAME"].ToString();
-            FullName = $"{LastName} {MiddleName}, {FirstName}";
+            if ((FirstName != null && FirstName != "") || (LastName != null && LastName != ""))
+            {
+                FullName = $"{LastName} {MiddleName}, {FirstName}";
+            }
+            else
+            {
+                FullName = "";
+            }
             AdmissionID = reader["ADMISSION_ID"].ToString();
             MrNumber = reader["MR_NUMBER"].ToString();
             Status = reader["PATIENT_STATUS"].ToString();
