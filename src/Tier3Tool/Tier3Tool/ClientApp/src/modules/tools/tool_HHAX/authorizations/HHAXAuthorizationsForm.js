@@ -25,7 +25,7 @@ export default class HHAXAuthorizationsForm extends Component {
         mapForm={getHHAXAuthorizationsFormData(this)}
         size={SIZE}
         onClickSearch={data => {
-          this.requestGetAuthorizations(data);
+          return this.requestGetAuthorizations(data);
         }}
       />
     );

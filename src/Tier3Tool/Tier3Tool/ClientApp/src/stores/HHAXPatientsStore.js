@@ -68,7 +68,7 @@ export default class HHAXPatientsStore {
     };
 
     hhaxRequest
-      .getPatients(connection, this.patientSearch, objPaging, props)
+      .getPatients(connection, this.patientSearch, objPaging)
       .then(response => {
         this.setPatients(response.data.patientResults);
         this.pageTotal = Math.ceil(response.data.totalRows / this.pageSize);

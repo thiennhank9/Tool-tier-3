@@ -25,7 +25,7 @@ export default function getHHAXAuthorizationsFormData(context) {
     FROM,
     TO
   } = context.props.globalStore.locales;
-  const { agencies } = context.state;
+  const { agencies } = context.props;
 
   return [
     [{ type: SELECT_AGENCY, label: AGENCY_ID, valueName: 'agencyID', options: agencies, initalValue: '' }],

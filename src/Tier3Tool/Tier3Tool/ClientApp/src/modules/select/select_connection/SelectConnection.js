@@ -10,8 +10,6 @@ import getColumns from 'src/data/ColumnTableConnections';
 import connectionRequest from 'src/requests/ConnectionsRequest';
 import Connection from 'src/models/Connection';
 import { paths } from 'src/data/RoutesData';
-import FooterManages from 'src/containers/FooterManages';
-import ROLES from 'src/constants/Roles.js';
 
 @observer
 class SelectConnection extends Component {
@@ -92,8 +90,7 @@ class SelectConnection extends Component {
       : this.props.typeName;
     this.typeConnection = typeName;
     const {
-      locales: { CHOOSE_WAREHOUSE, CHOOSE_HHAX, CONNECT },
-      role
+      locales: { CHOOSE_WAREHOUSE, CHOOSE_HHAX, CONNECT }
     } = this.props.globalStore;
     return (
       <div className="container-select-connection">

@@ -36,6 +36,8 @@ class HeaderNavbar extends Component {
             )}
           </Nav>
           <Form inline>
+            <img src={require('src/imgs/sandata_icon.jpg')} style={{ width: 40, height: 40, marginRight: 15 }} alt="sandata-logo" />
+            <span style={{ marginRight: 15, fontWeight: 'bold' }}>{this.props.globalStore.username}</span>
             <Button size="sm" variant="outline-success" onClick={this.props.onClickLogout}>
               {LOGOUT}
             </Button>

@@ -68,7 +68,7 @@ export default class HHAXPatientsStore {
     };
 
     hhaxRequest
-      .getAuthorizations(connection, this.authorizationSearch, objPaging, props)
+      .getAuthorizations(connection, this.authorizationSearch, objPaging)
       .then(response => {
         this.setAuthorizations(response.data.authorizationResults);
         this.pageTotal = Math.ceil(response.data.totalRows / this.pageSize);

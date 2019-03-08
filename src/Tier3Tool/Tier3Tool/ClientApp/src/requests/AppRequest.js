@@ -11,7 +11,7 @@ axios.interceptors.response.use(response => {
 
 export default axios.create({
   baseURL: '/api',
-  timeout: 30000,
+  timeout: 100000,
   headers: {
     'Content-Type': 'application/json'
   }

@@ -25,7 +25,7 @@ export default class HHAXPatientsForm extends Component {
         mapForm={getHHAXPatientsFormData(this)}
         size={SIZE}
         onClickSearch={data => {
-          this.requestGetPatients(data);
+          return this.requestGetPatients(data);
         }}
       />
     );

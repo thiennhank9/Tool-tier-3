@@ -21,8 +21,7 @@ namespace Tier3Tool.Controllers
 
         public HHAXController() { }
 
-        //[Authorize(Policy = "PolicyCanAccessHHAX")]
-        [AllowAnonymous]
+        [Authorize(Policy = "PolicyCanAccessHHAX")]
         [HttpPost("get-agencies")]
         public IActionResult GetAgencies([FromBody] Connections connections)
         {
@@ -43,8 +42,7 @@ namespace Tier3Tool.Controllers
             }
         }
 
-        //[Authorize(Policy = "PolicyCanAccessHHAX")]
-        [AllowAnonymous]
+        [Authorize(Policy = "PolicyCanAccessHHAX")]
         [HttpPost("get-patients")]
         public IActionResult GetPatients([FromBody] JObject data)
         {
@@ -68,7 +66,7 @@ namespace Tier3Tool.Controllers
             return BadRequest(new { message = "Error get results!" });
         }
 
-        [AllowAnonymous]
+        [Authorize(Policy = "PolicyCanAccessHHAX")]
         [HttpPost("get-authorizations")]
         public IActionResult GetAuthorizations([FromBody] JObject data)
         {

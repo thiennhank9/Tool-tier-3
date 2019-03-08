@@ -164,7 +164,7 @@ class PopupConnection extends Component {
     this.setState({
       errorMessage: ''
     });
-    
+
     if (!this.validateConnectionFields()) {
       this.setState({
         errorMessage: 'Please enter full fields!'
@@ -205,7 +205,12 @@ class PopupConnection extends Component {
           type={isPassword ? 'password' : 'text'}
           value={value}
           autoComplete="on"
-          onChange={onChange}
+          onChange={event => {
+            this.setState({
+              connectionStatus: 'Not Connected'
+            });
+            return onChange(event);
+          }}
         />
       </Form.Group>
     );
@@ -245,13 +250,14 @@ class PopupConnection extends Component {
             <Button variant="success" onClick={this.handleClickTestConnection}>
               {TEST_CONNECTION}
             </Button>
-            <div>
-              {this.state.connectionStatus}
-              {/* <span class="icon-ok" /> */}
-            </div>
+            <div>{this.state.connectionStatus}</div>
           </div>
           <div className="container-form-databases width-buttons-footer">
-            <Button variant="success" onClick={this.handleClickOk}>
+            <Button
+              variant="success"
+              disabled={this.state.connectionStatus !== 'OK - Connected'}
+              onClick={this.handleClickOk}
+            >
               {OK}
             </Button>
             <Button variant="success" onClick={this.props.handleCancel}>

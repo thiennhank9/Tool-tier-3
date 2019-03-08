@@ -32,7 +32,7 @@ export default function getHHAXPatientsFormData(context) {
     ],
     [
       { type: INPUT, label: PATIENT_ID, valueName: 'patientID', initalValue: '' },
-      { type: INPUT, label: ADMISSION, valueName: 'admission', initalValue: '' }
+      { type: INPUT, label: ADMISSION, valueName: 'admissionID', initalValue: '' }
     ],
     [
       { type: INPUT, label: STATUS, valueName: 'status', initalValue: '' },

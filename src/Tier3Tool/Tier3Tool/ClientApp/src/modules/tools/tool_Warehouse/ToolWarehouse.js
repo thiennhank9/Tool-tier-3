@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tabs, Tab, Button, Form, Alert } from 'react-bootstrap';
+import { Tabs, Tab, Button, Form } from 'react-bootstrap';
 
 import TabKeys from 'src/data/TabsWarehouseKeys';
 import { compose } from 'recompose';
@@ -17,12 +17,7 @@ class ToolWarehouse extends Component {
   }
 
   render() {
-    const {
-      AUTHORIZATIONS,
-      CLIENTS,
-      CONNECTED,
-      SELECT_CONNECTIONS
-    } = this.props.globalStore.locales;
+    const { AUTHORIZATIONS, CLIENTS, CONNECTED, SELECT_CONNECTIONS } = this.props.globalStore.locales;
 
     const connectionName = get(this.props, 'location.state.selectedConnection.connectionName', 'BLANK');
     const selectedConnection = get(this.props, 'location.state.selectedConnection', {});
@@ -41,7 +36,11 @@ class ToolWarehouse extends Component {
           </Form>
         </div>
         <div style={{ padding: 10 }}>
-          <Tabs id="controlled-tab-example-warehouse" activeKey={this.state.key} onSelect={key => this.setState({ key })}>
+          <Tabs
+            id="controlled-tab-example-warehouse"
+            activeKey={this.state.key}
+            onSelect={key => this.setState({ key })}
+          >
             <Tab eventKey={TabKeys.KEY_CLIENTS} title={CLIENTS}>
               <WarehouseClients globalStore={this.props.globalStore} connection={selectedConnection} />
             </Tab>

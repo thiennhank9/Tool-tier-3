@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
 using Tier3Tool.Entities;
 using Tier3Tool.Models;
 using Tier3Tool.Query;
@@ -127,10 +125,11 @@ namespace Tier3Tool.Services
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
-
+                SqlCommand command = new SqlCommand(queryString, connection)
+                {
+                    CommandTimeout = 100
+                };
                 command = _query.EmbedParameters(command, authorizationsSearch);
-
                 try
                 {
                     List<HHAXAuthorizationsResult> results = new List<HHAXAuthorizationsResult>();
@@ -168,9 +167,12 @@ namespace Tier3Tool.Services
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
-                command = _query.EmbedParameters(command, authorizationsSearch);
+                SqlCommand command = new SqlCommand(queryString, connection)
+                {
+                    CommandTimeout = 100
+                };
 
+                command = _query.EmbedParameters(command, authorizationsSearch);
                 try
                 {
                     connection.Open();

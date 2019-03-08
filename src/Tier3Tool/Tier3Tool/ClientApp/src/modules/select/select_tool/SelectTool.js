@@ -3,8 +3,6 @@ import { Row } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import { compose } from 'recompose';
 import actions from './SelectToolActions';
-import ROLES from 'src/constants/Roles.js';
-import FooterManages from 'src/containers/FooterManages';
 import SelectConnectionButton from 'src/components/SelectConnectionButton';
 
 @observer
@@ -36,7 +34,6 @@ class SelectTool extends Component {
 
   render() {
     const {
-      role,
       locales: { CHOOSE_TOOL }
     } = this.props.globalStore;
 

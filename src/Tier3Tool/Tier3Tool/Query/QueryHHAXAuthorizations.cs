@@ -7,6 +7,29 @@ namespace Tier3Tool.Query
 {
     public class QueryHHAXAuthorizations
     {
+        public string AddFilterPatients(string queryString, HHAXAuthorizationsSearch authorizationsSearch)
+        {
+            if (authorizationsSearch.FirstName != "" && authorizationsSearch.FirstName != null)
+            {
+                string firstName = "'" + authorizationsSearch.FirstName + "%'";
+                queryString = queryString.Replace("@firstName", firstName);
+            }
+
+            if (authorizationsSearch.LastName != "" && authorizationsSearch.LastName != null)
+            {
+                string lastName = "'" + authorizationsSearch.LastName + "%'";
+                queryString = queryString.Replace("@lastName", lastName);
+            }
+
+            if (authorizationsSearch.MrNumber != "" && authorizationsSearch.MrNumber != null)
+            {
+                string mrNumber = "'" + authorizationsSearch.MrNumber + "%'";
+                queryString = queryString.Replace("@mrNumber", mrNumber);
+            }
+
+            return queryString;
+        }
+
         public string CreateFilterString(HHAXAuthorizationsSearch authorizationsSearch, out bool isNoFilter)
         {
             isNoFilter = true;
@@ -143,6 +166,7 @@ namespace Tier3Tool.Query
             string pagingString = CreatePagingString(paging);
 
             string queryString = isNoFilter ? selectString + ") AS PAGING " + pagingString : selectString + filterString + ") AS PAGING " + pagingString;
+            queryString = AddFilterPatients(queryString, authorizationsSearch);
 
             return queryString;
         }
@@ -156,7 +180,7 @@ namespace Tier3Tool.Query
             string filterString = CreateFilterString(authorizationsSearch, out bool isNoFilter);
 
             string queryString = isNoFilter ? selectString : selectString + filterString;
-
+            queryString = AddFilterPatients(queryString, authorizationsSearch);
             string countString = "SELECT COUNT(*) FROM (" + queryString + ") as COUNT";
             return countString;
         }
@@ -167,14 +191,14 @@ namespace Tier3Tool.Query
             {
                 command.Parameters.AddWithValue("@agencyID", authorizationsSearch.AgencyID);
             }
-            if (authorizationsSearch.FirstName != "" && authorizationsSearch.FirstName != null)
-            {
-                command.Parameters.AddWithValue("@firstName", authorizationsSearch.FirstName + "%");
-            }
-            if (authorizationsSearch.LastName != "" && authorizationsSearch.LastName != null)
-            {
-                command.Parameters.AddWithValue("@lastName", authorizationsSearch.LastName + "%");
-            }
+            //if (authorizationsSearch.FirstName != "" && authorizationsSearch.FirstName != null)
+            //{
+            //    command.Parameters.AddWithValue("@firstName", authorizationsSearch.FirstName + "%");
+            //}
+            //if (authorizationsSearch.LastName != "" && authorizationsSearch.LastName != null)
+            //{
+            //    command.Parameters.AddWithValue("@lastName", authorizationsSearch.LastName + "%");
+            //}
             if (authorizationsSearch.Service != "" && authorizationsSearch.Service != null)
             {
                 command.Parameters.AddWithValue("@service", authorizationsSearch.Service + "%");
@@ -187,10 +211,10 @@ namespace Tier3Tool.Query
             {
                 command.Parameters.AddWithValue("@authRefNo", authorizationsSearch.AuthRefNo + "%");
             }
-            if (authorizationsSearch.MrNumber != "" && authorizationsSearch.MrNumber != null)
-            {
-                command.Parameters.AddWithValue("@mrNumber", authorizationsSearch.MrNumber + "%");
-            }
+            //if (authorizationsSearch.MrNumber != "" && authorizationsSearch.MrNumber != null)
+            //{
+            //    command.Parameters.AddWithValue("@mrNumber", authorizationsSearch.MrNumber + "%");
+            //}
             if (authorizationsSearch.AuthID != "" && authorizationsSearch.AuthID != null)
             {
                 command.Parameters.AddWithValue("@authID", authorizationsSearch.AuthID + "%");
@@ -211,6 +235,7 @@ namespace Tier3Tool.Query
             {
                 command.Parameters.Add("@to", SqlDbType.Date).Value = ((DateTime)(authorizationsSearch.ModifiedDateTo)).Date;
             }
+
             return command;
         }
     }

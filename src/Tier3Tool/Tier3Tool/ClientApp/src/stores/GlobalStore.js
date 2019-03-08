@@ -3,6 +3,7 @@ import { isNil, isEmpty } from 'lodash';
 import localesData from 'src/data/LocalesData';
 
 export default class GlobalStore {
+  @observable username = '';
   @observable isLogin = false;
   @observable selectedLocale = 'ENG';
   @observable role = '';
@@ -14,6 +15,7 @@ export default class GlobalStore {
 
   @action
   clearAfterLogout() {
+    this.username = '';
     this.isLogin = false;
     this.selectedLocale = 'ENG';
     this.role = '';
@@ -23,7 +25,8 @@ export default class GlobalStore {
 
   @action
   getResultsFromUserStore(userStore) {
-    const { token, role, canAccessDW, canAccessHHAX } = userStore;
+    const { token, role, canAccessDW, canAccessHHAX, username } = userStore;
+    this.username = username;
     this.token = token;
     this.role = role;
     this.canAccessDW = canAccessDW;
@@ -33,6 +36,7 @@ export default class GlobalStore {
   }
 
   setToLocalStorage() {
+    localStorage.setItem('username', this.username);
     localStorage.setItem('selectedLocale', this.selectedLocale);
     localStorage.setItem('role', this.role);
     localStorage.setItem('token', this.token);
@@ -43,6 +47,10 @@ export default class GlobalStore {
 
   @action
   getFromLocalStorage() {
+    if (!isNil(localStorage.getItem('username')) && !isEmpty(localStorage.getItem('username'))) {
+      this.username = localStorage.getItem('username');
+    }
+
     if (!isNil(localStorage.getItem('selectedLocale')) && !isEmpty(localStorage.getItem('selectedLocale'))) {
       this.selectedLocale = localStorage.getItem('selectedLocale');
     }

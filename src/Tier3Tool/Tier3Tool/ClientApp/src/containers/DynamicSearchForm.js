@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Button, Form } from 'react-bootstrap';
-import { forEach, merge, has, isEmpty } from 'lodash';
+import { forEach, merge, has } from 'lodash';
 import DynamicSearchInput from './DynamicSearchControls/DynamicSearchInput';
 import DynamicSearchSelect from './DynamicSearchControls/DynamicSearchSelect';
 import DynamicSearchDate from './DynamicSearchControls/DynamicSearchDate';

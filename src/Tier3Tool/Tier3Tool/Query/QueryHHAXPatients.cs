@@ -95,7 +95,7 @@ namespace Tier3Tool.Query
                 }
 
                 isNoFilter = false;
-                filterString += "CONVERT(DATE, DATETIME_INSERTE) <= @insertedDateTo ";
+                filterString += "CONVERT(DATE, DATETIME_INSERTED) <= @insertedDateTo ";
             }
             if (patientSearch.ModifiedDateFrom != null)
             {
@@ -182,7 +182,7 @@ namespace Tier3Tool.Query
 
             if (patientSearch.Status != "" && patientSearch.Status != null)
             {
-                command.Parameters.AddWithValue("@status", patientSearch.Status + "%");
+                command.Parameters.AddWithValue("@patientStatus", patientSearch.Status + "%");
             }
 
             if (patientSearch.MrNumber != "" && patientSearch.MrNumber != null)

@@ -44,7 +44,6 @@ namespace Tier3Tool.Controllers
         }
 
         [Authorize(Policy = "PolicyCanAccessDW")]
-        //[AllowAnonymous]
         [HttpPost("search-clients")]
         public IActionResult GetSearchClients([FromBody] JObject data)
         {
@@ -68,7 +67,6 @@ namespace Tier3Tool.Controllers
             return BadRequest(new { message = "Error get results!"});
         }
 
-        //[AllowAnonymous]
         [Authorize(Policy = "PolicyCanAccessHHAX")]
         [HttpPost("search-authorizations")]
         public IActionResult GetSearchAuthorizations([FromBody] JObject data)
