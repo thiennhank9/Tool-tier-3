@@ -6,7 +6,7 @@ import { compose } from 'recompose';
 import actions from './ToolWarehouseActions';
 import WarehouseClients from './clients/WarehouseClients';
 import WarehouseAuthorizations from './authorizations/WarehouseAuthorizations';
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 
 class ToolWarehouse extends Component {
   constructor(props, context) {
@@ -17,21 +17,25 @@ class ToolWarehouse extends Component {
   }
 
   render() {
-    const { AUTHORIZATIONS, CLIENTS, CONNECTED, SELECT_CONNECTIONS } = this.props.globalStore.locales;
+    const { AUTHORIZATIONS, CLIENTS, CONNECTED, CHANGE_CONNECTION } = this.props.globalStore.locales;
 
     const connectionName = get(this.props, 'location.state.selectedConnection.connectionName', 'BLANK');
     const selectedConnection = get(this.props, 'location.state.selectedConnection', {});
+
+    const titleConnection = !isEmpty(selectedConnection)
+      ? `${selectedConnection.serverName} - ${selectedConnection.databaseName}`
+      : '';
 
     return (
       <div style={{ padding: 10 }}>
         <div>
           <Form inline>
             <span>{CONNECTED}:</span>
-            <b style={{ margin: 10 }} variant="danger">
+            <b style={{ margin: 10 }} variant="danger" title={titleConnection}>
               {connectionName}
             </b>
             <Button variant="primary" style={{ marginLeft: 10 }} onClick={this.props.onClickChangeConnection}>
-              {SELECT_CONNECTIONS}
+              {CHANGE_CONNECTION}
             </Button>
           </Form>
         </div>
