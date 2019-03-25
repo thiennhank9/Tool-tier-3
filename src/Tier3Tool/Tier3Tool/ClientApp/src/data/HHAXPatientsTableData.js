@@ -6,14 +6,14 @@ export default function getColumns(locales) {
     MR_NUMBER,
     STATUS,
     DISCHARGE_DATE,
-    CREATED_DATE,
+    INSERTED_DATE,
     MODIFIED_DATE,
     INVALID_DATA
   } = locales;
 
   return [
-    { Header: PATIENT_ID, accessor: 'patientID' },
-    { Header: FULL_NAME, accessor: 'fullName' },
+    { Header: PATIENT_ID, accessor: 'patientID', width: 150 },
+    { Header: FULL_NAME, accessor: 'fullName', width: 300 },
     {
       Header: ADMISSION,
       accessor: 'admissionID'
@@ -28,7 +28,7 @@ export default function getColumns(locales) {
     },
     { Header: DISCHARGE_DATE, accessor: 'dischargeDate' },
     {
-      Header: CREATED_DATE,
+      Header: INSERTED_DATE,
       accessor: 'createdDate'
     },
     {

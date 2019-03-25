@@ -17,23 +17,19 @@ export default compose(
       props.userStore.toggleIsRemembered();
     },
     handleLogin: props => event => {
+      event.preventDefault();
       props.globalStore.setIsTimeOut(false);
       props.userStore
         .callAuthenticate()
         .then(() => {
           if (props.userStore.status === 200) {
+            localStorage.setItem('username', props.userStore.username);
+            localStorage.setItem('password', props.userStore.password);
+
             props.globalStore.getResultsFromUserStore(props.userStore);
 
             props.globalStore.setLogin();
             localStorage.setItem('isRemembered', JSON.stringify(props.userStore.isRemembered));
-
-            if (props.userStore.isRemembered) {
-              localStorage.setItem('username', props.userStore.username);
-              localStorage.setItem('password', props.userStore.password);
-            } else {
-              localStorage.setItem('username', '');
-              localStorage.setItem('password', '');
-            }
 
             props.globalStore.setToLocalStorage();
             props.history.push(paths.SELECT_TOOL);

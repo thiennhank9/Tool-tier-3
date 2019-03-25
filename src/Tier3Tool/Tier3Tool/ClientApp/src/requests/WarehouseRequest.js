@@ -1,6 +1,10 @@
 import appRequest from './AppRequest';
 import { isNil } from 'lodash';
 
+function getDateJSONLocal(date) {
+  return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toJSON();
+}
+
 export default {
   getJurisdiction(connection, token = localStorage.getItem('token')) {
     const config = {
@@ -38,8 +42,8 @@ export default {
       lastName,
       memberID,
       admissionType,
-      updatedFrom: !isNil(updatedFrom) ? updatedFrom.toJSON() : null,
-      updatedTo: !isNil(updatedTo) ? updatedTo.toJSON() : null,
+      updatedFrom: !isNil(updatedFrom) ? getDateJSONLocal(updatedFrom) : null,
+      updatedTo: !isNil(updatedTo) ? getDateJSONLocal(updatedTo) : null,
       ftpFileName
     };
     return appRequest.post('/Warehouses/search-clients', { connection, clientSearch, paging }, config);
@@ -75,7 +79,7 @@ export default {
     if (typeof authBegin === 'string') {
       authBegin = new Date(authBegin);
     }
-  
+
     if (typeof authEnd === 'string') {
       authEnd = new Date(authEnd);
     }
@@ -90,16 +94,20 @@ export default {
       service,
       authRefNo,
       ftpFileName,
-      updatedFrom: !isNil(updatedFrom) ? updatedFrom.toJSON() : null,
-      updatedTo: !isNil(updatedTo) ? updatedTo.toJSON() : null,
-      authBegin: !isNil(authBegin) ? authBegin.toJSON() : null,
-      authEnd: !isNil(authEnd) ? authEnd.toJSON() : null
+      updatedFrom: !isNil(updatedFrom) ? getDateJSONLocal(updatedFrom) : null,
+      updatedTo: !isNil(updatedTo) ? getDateJSONLocal(updatedTo) : null,
+      authBegin: !isNil(authBegin) ? getDateJSONLocal(authBegin) : null,
+      authEnd: !isNil(authEnd) ? getDateJSONLocal(authEnd) : null
     };
 
-    return appRequest.post('/Warehouses/search-authorizations', {
-      connection: connection,
-      authorizationSearch: authorizationSearch,
-      paging: paging
-    }, config);
+    return appRequest.post(
+      '/Warehouses/search-authorizations',
+      {
+        connection: connection,
+        authorizationSearch: authorizationSearch,
+        paging: paging
+      },
+      config
+    );
   }
 };

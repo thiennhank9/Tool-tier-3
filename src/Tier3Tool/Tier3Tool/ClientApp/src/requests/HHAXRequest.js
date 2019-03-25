@@ -1,6 +1,10 @@
 import appRequest from './AppRequest';
 import { isNil, merge } from 'lodash';
 
+function getDateJSONLocal(date) {
+  return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toJSON();
+}
+
 export default {
   getAgencies(connection, token = localStorage.getItem('token')) {
     const config = {
@@ -34,10 +38,10 @@ export default {
 
     const objFormat = {
       agencyID,
-      insertedDateFrom: !isNil(insertedDateFrom) ? insertedDateFrom.toJSON() : null,
-      modifiedDateFrom: !isNil(modifiedDateFrom) ? modifiedDateFrom.toJSON() : null,
-      insertedDateTo: !isNil(insertedDateTo) ? insertedDateTo.toJSON() : null,
-      modifiedDateTo: !isNil(modifiedDateTo) ? modifiedDateTo.toJSON() : null
+      insertedDateFrom: !isNil(insertedDateFrom) ? getDateJSONLocal(insertedDateFrom) : null,
+      modifiedDateFrom: !isNil(modifiedDateFrom) ? getDateJSONLocal(modifiedDateFrom) : null,
+      insertedDateTo: !isNil(insertedDateTo) ? getDateJSONLocal(insertedDateTo) : null,
+      modifiedDateTo: !isNil(modifiedDateTo) ? getDateJSONLocal(modifiedDateTo) : null
     };
 
     const objPatientSearch = merge(patientSearch, objFormat);
@@ -69,10 +73,10 @@ export default {
 
     const objFormat = {
       agencyID,
-      authDateBegin: !isNil(authDateBegin) ? authDateBegin.toJSON() : null,
-      authDateEnd: !isNil(authDateEnd) ? authDateEnd.toJSON() : null,
-      modifiedDateFrom: !isNil(modifiedDateFrom) ? modifiedDateFrom.toJSON() : null,
-      modifiedDateTo: !isNil(modifiedDateTo) ? modifiedDateTo.toJSON() : null
+      authDateBegin: !isNil(authDateBegin) ? getDateJSONLocal(authDateBegin) : null,
+      authDateEnd: !isNil(authDateEnd) ? getDateJSONLocal(authDateEnd) : null,
+      modifiedDateFrom: !isNil(modifiedDateFrom) ? getDateJSONLocal(modifiedDateFrom) : null,
+      modifiedDateTo: !isNil(modifiedDateTo) ? getDateJSONLocal(modifiedDateTo) : null
     };
 
     const objAuthorizationSearch = merge(authorizationSearch, objFormat);

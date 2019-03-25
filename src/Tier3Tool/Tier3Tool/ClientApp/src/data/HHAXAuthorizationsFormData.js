@@ -44,12 +44,12 @@ export default function getHHAXAuthorizationsFormData(context) {
     [{ type: INPUT, label: AUTH_ID, valueName: 'authID', initalValue: '' }],
     [{ type: LABEL, label: AUTHORIZATION_DATE_RANGE }, { type: LABEL, label: MODIFIED_DATE_RANGE }],
     [
-      { type: DATE_PICKER, label: BEGIN, valueName: 'authDateBegin', initalValue: new Date() },
-      { type: DATE_PICKER, label: FROM, valueName: 'modifiedDateFrom', initalValue: new Date() }
+      { type: DATE_PICKER, label: BEGIN, valueName: 'authDateBegin', initalValue: null },
+      { type: DATE_PICKER, label: FROM, valueName: 'modifiedDateFrom', initalValue: null }
     ],
     [
-      { type: DATE_PICKER, label: END, valueName: 'authDateEnd', initalValue: new Date() },
-      { type: DATE_PICKER, label: TO, valueName: 'modifiedDateTo', initalValue: new Date() }
+      { type: DATE_PICKER, label: END, valueName: 'authDateEnd', initalValue: null },
+      { type: DATE_PICKER, label: TO, valueName: 'modifiedDateTo', initalValue: null }
     ]
   ];
 }

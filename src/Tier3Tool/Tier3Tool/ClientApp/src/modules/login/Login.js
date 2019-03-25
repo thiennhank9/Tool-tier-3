@@ -84,7 +84,7 @@ class Login extends Component {
                   />
                 </div>
               </Form.Group>
-              <Button variant="primary" className="btn-block large-control" onClick={this.props.handleLogin}>
+              <Button variant="primary" className="btn-block large-control" onClick={this.props.handleLogin} type="submit">
                 {LOGIN}
               </Button>
             </Form>

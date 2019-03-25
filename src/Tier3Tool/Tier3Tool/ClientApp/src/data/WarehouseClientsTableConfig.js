@@ -11,7 +11,7 @@ export default function getColumns(locales) {
   } = locales;
 
   return [
-    { Header: FULL_NAME, accessor: 'fullName' },
+    { Header: FULL_NAME, accessor: 'fullName', width: 300 },
     {
       Header: ADMISSION_TYPE,
       accessor: 'admissionType'

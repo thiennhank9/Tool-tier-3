@@ -85,7 +85,7 @@ namespace Tier3Tool.Query
                 }
 
                 isNoFilter = false;
-                filterString += "CONVERT(DATE, DATETIME_INSERTED) >= @insertedDateFrom ";
+                filterString += "CONVERT(DATE, DATETIME_INSERTED) >= CONVERT(DATE, @insertedDateFrom) ";
             }
             if (patientSearch.InsertedDateTo != null)
             {
@@ -95,7 +95,7 @@ namespace Tier3Tool.Query
                 }
 
                 isNoFilter = false;
-                filterString += "CONVERT(DATE, DATETIME_INSERTED) <= @insertedDateTo ";
+                filterString += "CONVERT(DATE, DATETIME_INSERTED) <= CONVERT(DATE, @insertedDateTo) ";
             }
             if (patientSearch.ModifiedDateFrom != null)
             {
@@ -105,7 +105,7 @@ namespace Tier3Tool.Query
                 }
 
                 isNoFilter = false;
-                filterString += "CONVERT(DATE, MODIFIED_DATE) >= @modifiedDateFrom ";
+                filterString += "CONVERT(DATE, MODIFIED_DATE) >= CONVERT(DATE, @modifiedDateFrom) ";
             }
             if (patientSearch.ModifiedDateTo != null)
             {
@@ -115,7 +115,7 @@ namespace Tier3Tool.Query
                 }
 
                 isNoFilter = false;
-                filterString += "CONVERT(DATE, MODIFIED_DATE) <= @modifiedDateTo ";
+                filterString += "CONVERT(DATE, MODIFIED_DATE) <= CONVERT(DATE, @modifiedDateTo) ";
             }
 
             return filterString;

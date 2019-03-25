@@ -64,7 +64,8 @@ class WarehouseAuthorizationsTable extends Component {
           headerStyle: {
             backgroundColor: '#007bff',
             color: 'white',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            textAlign: 'left'
           }
         }}
         loading={this.props.warehouseAuthorizationsStore.isLoading}

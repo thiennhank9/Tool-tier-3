@@ -13,8 +13,8 @@ export default class WarehouseClientStore {
   @observable lastName = '';
   @observable memberID = '';
   @observable admissionType = '';
-  @observable updatedFrom = new Date();
-  @observable updatedTo = new Date();
+  @observable updatedFrom = null;
+  @observable updatedTo = null;
   @observable ftpFileName = '';
 
   // Client Results in table
@@ -35,8 +35,8 @@ export default class WarehouseClientStore {
     this.lastName = '';
     this.memberID = '';
     this.admissionType = '';
-    this.updatedFrom = new Date();
-    this.updatedTo = new Date();
+    this.updatedFrom = null;
+    this.updatedTo = null;
     this.ftpFileName = '';
 
     // Client Results in table

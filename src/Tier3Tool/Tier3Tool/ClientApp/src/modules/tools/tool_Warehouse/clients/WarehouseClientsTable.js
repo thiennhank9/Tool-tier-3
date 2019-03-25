@@ -57,7 +57,8 @@ class WarehouseClientsTable extends Component {
           headerStyle: {
             backgroundColor: '#007bff',
             color: 'white',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            textAlign: 'left'
           }
         }}
         loading={this.props.warehouseClientStore.isLoading}

@@ -40,7 +40,7 @@ class AppRouter extends Component {
                 !isNil(localStorage.getItem('token')) || route.isPublic || isLogin ? (
                   <Provider globalStore={this.props.globalStore}>
                     <div>
-                      {route.withNav ? <HeaderNavbar {...props} {...this.props} /> : null}
+                      {route.withNav ? <HeaderNavbar {...props} {...this.props} globalStore={this.props.globalStore} /> : null}
                       <route.component {...props} {...this.props} />
                     </div>
                   </Provider>

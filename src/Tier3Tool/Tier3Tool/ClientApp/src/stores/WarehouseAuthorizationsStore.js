@@ -16,10 +16,10 @@ export default class WarehouseClientStore {
   @observable service = '';
   @observable authRefNo = '';
   @observable ftpFileName = '';
-  @observable authBegin = new Date();
-  @observable updatedFrom = new Date();
-  @observable authEnd = new Date();
-  @observable updatedTo = new Date();
+  @observable authBegin = null;
+  @observable updatedFrom = null;
+  @observable authEnd = null;
+  @observable updatedTo = null;
 
   // Authorization Results in table
   @observable isLoading = false;
@@ -45,10 +45,10 @@ export default class WarehouseClientStore {
     this.service = '';
     this.authRefNo = '';
     this.ftpFileName = '';
-    this.authBegin = new Date();
-    this.updatedFrom = new Date();
-    this.authEnd = new Date();
-    this.updatedTo = new Date();
+    this.authBegin = null;
+    this.updatedFrom = null;
+    this.authEnd = null;
+    this.updatedTo = null;
 
     // Authorization Results in table
     this.isLoading = false;

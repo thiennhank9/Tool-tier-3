@@ -109,6 +109,7 @@ export default {
   STATUS: 'Status',
   DISCHARGE_DATE: 'Discharge Date',
   CREATED_DATE: 'Created Date',
+  INSERTED_DATE: 'Inserted Date',
   MODIFIED_DATE: 'Modified Date',
   INVALID_DATA: 'Invalid Data',
   //Table HHAX Authorizations

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Button, Navbar, NavDropdown, Nav, Form } from 'react-bootstrap';
 import { compose } from 'recompose';
+import { observer } from 'mobx-react';
 import actions from './HeaderNavbarActions';
 import ROLES from 'src/constants/Roles.js';
 
+@observer
 class HeaderNavbar extends Component {
   render() {
     const {
@@ -36,7 +38,11 @@ class HeaderNavbar extends Component {
             )}
           </Nav>
           <Form inline>
-            <img src={require('src/imgs/sandata_icon.jpg')} style={{ width: 40, height: 40, marginRight: 15 }} alt="sandata-logo" />
+            <img
+              src={require('src/imgs/sandata_icon.jpg')}
+              style={{ width: 40, height: 40, marginRight: 15 }}
+              alt="sandata-logo"
+            />
             <span style={{ marginRight: 15, fontWeight: 'bold' }}>{this.props.globalStore.username}</span>
             <Button size="sm" variant="outline-success" onClick={this.props.onClickLogout}>
               {LOGOUT}

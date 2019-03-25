@@ -40,12 +40,12 @@ export default function getHHAXPatientsFormData(context) {
     ],
     [{ type: LABEL, label: INSERTED_DATE_RANGE }, { type: LABEL, label: MODIFIED_DATE_RANGE }],
     [
-      { type: DATE_PICKER, label: FROM, valueName: 'insertedDateFrom', initalValue: new Date() },
-      { type: DATE_PICKER, label: FROM, valueName: 'modifiedDateFrom', initalValue: new Date() }
+      { type: DATE_PICKER, label: FROM, valueName: 'insertedDateFrom', initalValue: null },
+      { type: DATE_PICKER, label: FROM, valueName: 'modifiedDateFrom', initalValue: null }
     ],
     [
-      { type: DATE_PICKER, label: TO, valueName: 'insertedDateTo', initalValue: new Date() },
-      { type: DATE_PICKER, label: TO, valueName: 'modifiedDateTo', initalValue: new Date() }
+      { type: DATE_PICKER, label: TO, valueName: 'insertedDateTo', initalValue: null },
+      { type: DATE_PICKER, label: TO, valueName: 'modifiedDateTo', initalValue: null }
     ]
   ];
 }

@@ -14,43 +14,43 @@ export default function getColumns(locales) {
   } = locales;
 
   return [
-    { Header: FULL_NAME, accessor: "fullName" },
+    { Header: FULL_NAME, accessor: 'fullName', width: 300 },
     {
       Header: ADMISSION,
-      accessor: "admissionID"
+      accessor: 'admissionID'
     },
     {
       Header: MR_NUMBER,
-      accessor: "mrNumber"
+      accessor: 'mrNumber'
     },
     {
       Header: AUTH_ID,
-      accessor: "authID"
+      accessor: 'authID'
     },
-    { Header: AUTH_REF_NO, accessor: "authRefNo" },
+    { Header: AUTH_REF_NO, accessor: 'authRefNo' },
     {
       Header: SERVICE,
-      accessor: "service"
+      accessor: 'service'
     },
     {
       Header: BILLING_SERVICE_CODE,
-      accessor: "billingServiceCode"
+      accessor: 'billingServiceCode'
     },
     {
       Header: BEGIN,
-      accessor: "authDateBegin"
+      accessor: 'authDateBegin'
     },
     {
       Header: END,
-      accessor: "authDateEnd"
+      accessor: 'authDateEnd'
     },
     {
       Header: MODIFIED_DATE,
-      accessor: "modifiedDate"
+      accessor: 'modifiedDate'
     },
     {
       Header: INVALID_DATA,
-      accessor: "invalidData"
+      accessor: 'invalidData'
     }
   ];
 }
