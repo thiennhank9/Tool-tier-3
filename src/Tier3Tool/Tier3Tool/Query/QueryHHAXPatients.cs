@@ -18,6 +18,26 @@ namespace Tier3Tool.Query
                 filterString += "AGENCY_ID = @agencyID ";
             }
 
+            if (patientSearch.TransID != "" && patientSearch.TransID != null)
+            {
+                if (!isNoFilter)
+                {
+                    filterString += "AND ";
+                }
+                isNoFilter = false;
+                filterString += "P.TRANS_ID like CONVERT(varchar(10), @transID)";
+            }
+
+            if (patientSearch.TransStatus != "" && patientSearch.TransStatus != null)
+            {
+                if (!isNoFilter)
+                {
+                    filterString += "AND ";
+                }
+                isNoFilter = false;
+                filterString += "TRANSACTION_STATUS_ID = CONVERT(varchar(10), @transStatus)";
+            }
+
             if (patientSearch.FirstName != "" && patientSearch.FirstName != null)
             {
                 if (!isNoFilter)
@@ -85,7 +105,7 @@ namespace Tier3Tool.Query
                 }
 
                 isNoFilter = false;
-                filterString += "CONVERT(DATE, DATETIME_INSERTED) >= CONVERT(DATE, @insertedDateFrom) ";
+                filterString += "CONVERT(DATE, P.DATETIME_INSERTED) >= CONVERT(DATE, @insertedDateFrom) ";
             }
             if (patientSearch.InsertedDateTo != null)
             {
@@ -95,7 +115,7 @@ namespace Tier3Tool.Query
                 }
 
                 isNoFilter = false;
-                filterString += "CONVERT(DATE, DATETIME_INSERTED) <= CONVERT(DATE, @insertedDateTo) ";
+                filterString += "CONVERT(DATE, P.DATETIME_INSERTED) <= CONVERT(DATE, @insertedDateTo) ";
             }
             if (patientSearch.ModifiedDateFrom != null)
             {
@@ -132,7 +152,9 @@ namespace Tier3Tool.Query
 
         public string CreateQueryStringPatients(HHAXPatientSearch patientSearch, Paging paging)
         {
-            string selectString = "SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY (SELECT NULL) ) AS RowNum, AGENCY_ID, PATIENT_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, ADMISSION_ID, MR_NUMBER, PATIENT_STATUS, DISCHARGE_DATE, DATETIME_INSERTED, MODIFIED_DATE, INVALID_DATA FROM dbo.PATIENT_DEMOG ";
+            string selectString = "SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY (SELECT NULL) ) AS RowNum,  P.TRANS_ID, T.TRANSACTION_STATUS_ID, S.STATUS_DESC, AGENCY_ID, PATIENT_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, ADMISSION_ID, MR_NUMBER, PATIENT_STATUS, DISCHARGE_DATE, P.DATETIME_INSERTED, MODIFIED_DATE, INVALID_DATA FROM dbo.PATIENT_DEMOG P "
+                                + "LEFT JOIN TRANSACTION_FILE_RECS T ON P.TRANS_ID = T.TRANS_ID "
+                                + "LEFT JOIN TRANS_STATUSES S ON T.TRANSACTION_STATUS_ID = S.STATUS_ID ";
 
             string filterString = CreateFilterString(patientSearch, out bool isNoFilter);
             string pagingString = CreatePagingString(paging);
@@ -144,7 +166,9 @@ namespace Tier3Tool.Query
 
         public string CrateQueryStringCountRowsPatients(HHAXPatientSearch patientSearch)
         {
-            string selectString = "SELECT AGENCY_ID, PATIENT_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, ADMISSION_ID, MR_NUMBER, PATIENT_STATUS, DISCHARGE_DATE, DATETIME_INSERTED, MODIFIED_DATE, INVALID_DATA FROM dbo.PATIENT_DEMOG ";
+            string selectString = "SELECT P.TRANS_ID, T.TRANSACTION_STATUS_ID, S.STATUS_DESC, AGENCY_ID, PATIENT_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, ADMISSION_ID, MR_NUMBER, PATIENT_STATUS, DISCHARGE_DATE, P.DATETIME_INSERTED, MODIFIED_DATE, INVALID_DATA FROM dbo.PATIENT_DEMOG P "
+                                  + "LEFT JOIN TRANSACTION_FILE_RECS T ON P.TRANS_ID = T.TRANS_ID "
+                                  + "LEFT JOIN TRANS_STATUSES S ON T.TRANSACTION_STATUS_ID = S.STATUS_ID ";
             string filterString = CreateFilterString(patientSearch, out bool isNoFilter);
 
             string queryString = isNoFilter ? selectString : selectString + filterString;
@@ -158,6 +182,16 @@ namespace Tier3Tool.Query
             if (patientSearch.AgencyID != null)
             {
                 command.Parameters.AddWithValue("@agencyID", patientSearch.AgencyID);
+            }
+
+            if (patientSearch.TransID != "" && patientSearch.TransID != null)
+            {
+                command.Parameters.AddWithValue("@transID", patientSearch.TransID + "%");
+            }
+
+            if (patientSearch.TransStatus != "" && patientSearch.TransStatus != null)
+            {
+                command.Parameters.AddWithValue("@transStatus", patientSearch.TransStatus);
             }
 
             if (patientSearch.FirstName != "" && patientSearch.FirstName != null)

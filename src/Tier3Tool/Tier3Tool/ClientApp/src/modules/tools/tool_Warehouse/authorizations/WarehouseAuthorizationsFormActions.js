@@ -1,4 +1,5 @@
 import { compose, withHandlers } from 'recompose';
+import { resetScrollInsideTable } from 'src/utils/utils';
 
 export default compose(
   withHandlers({
@@ -54,6 +55,7 @@ export default compose(
       }
       props.warehouseAuthorizationsStore.setPage(0);
       props.warehouseAuthorizationsStore.requestGetAuthorizationResults(connection, paging, props);
+      resetScrollInsideTable(1);
     }
   })
 );

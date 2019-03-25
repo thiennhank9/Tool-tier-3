@@ -38,8 +38,28 @@ namespace Tier3Tool.Query
             if (authorizationsSearch.AgencyID != null)
             {
                 isNoFilter = false;
-                filterString += "AGENCY_ID = @agencyID ";
+                filterString += "A.AGENCY_ID = @agencyID ";
             }
+            if (authorizationsSearch.TransID != "" && authorizationsSearch.TransID != null)
+            {
+                if (!isNoFilter)
+                {
+                    filterString += "AND ";
+                }
+                isNoFilter = false;
+                filterString += "A.TRANS_ID like CONVERT(varchar(10), @transID)";
+            }
+
+            if (authorizationsSearch.TransStatus != "" && authorizationsSearch.TransStatus != null)
+            {
+                if (!isNoFilter)
+                {
+                    filterString += "AND ";
+                }
+                isNoFilter = false;
+                filterString += "TRANSACTION_STATUS_ID = CONVERT(varchar(10), @transStatus)";
+            }
+
             if (authorizationsSearch.FirstName != "" && authorizationsSearch.FirstName != null)
             {
                 if (!isNoFilter)
@@ -158,9 +178,11 @@ namespace Tier3Tool.Query
         public string CreateQueryStringAuthorizations(HHAXAuthorizationsSearch authorizationsSearch, Paging paging)
         {
             string selectString = "SELECT * FROM ("
-                                + "SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) AS RowNum, AGENCY_ID, P.FIRST_NAME, P.MIDDLE_NAME, P.LAST_NAME, P.PATIENT_ID, A.SERVICE_TYPE, A.BILLING_SERVICE_CODE, A.ADMISSION_ID, A.AUTHORIZATION_NUMBER, P.MR_NUMBER, A.AUTHORIZATION_ID, A.FROM_DATE, A.TO_DATE, A.MODIFIED_DATE, A.INVALID_DATA FROM PATIENT_AUTHORIZATIONS as A "
-                                + "LEFT JOIN (SELECT DISTINCT FIRST_NAME, MIDDLE_NAME, LAST_NAME, PATIENT_ID, MR_NUMBER FROM PATIENT_DEMOG) as P "
-                                + "ON A.PATIENT_ID = P.PATIENT_ID ";
+                                + "SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) AS RowNum, A.TRANS_ID, T.TRANSACTION_STATUS_ID, S.STATUS_DESC, A.AGENCY_ID, P.FIRST_NAME, P.MIDDLE_NAME, P.LAST_NAME, P.PATIENT_ID, A.SERVICE_TYPE, A.BILLING_SERVICE_CODE, A.ADMISSION_ID, A.AUTHORIZATION_NUMBER, P.MR_NUMBER, A.AUTHORIZATION_ID, A.FROM_DATE, A.TO_DATE, A.MODIFIED_DATE, A.INVALID_DATA FROM PATIENT_AUTHORIZATIONS as A "
+                                + "LEFT JOIN (SELECT DISTINCT FIRST_NAME, MIDDLE_NAME, LAST_NAME, AGENCY_ID, PATIENT_ID, MR_NUMBER FROM PATIENT_DEMOG) as P "
+                                + "ON A.PATIENT_ID = P.PATIENT_ID AND A.AGENCY_ID = P.AGENCY_ID "
+                                + "LEFT JOIN TRANSACTION_FILE_RECS T ON A.TRANS_ID = T.TRANS_ID "
+                                + "LEFT JOIN TRANS_STATUSES S ON T.TRANSACTION_STATUS_ID = S.STATUS_ID ";
 
             string filterString = CreateFilterString(authorizationsSearch, out bool isNoFilter);
             string pagingString = CreatePagingString(paging);
@@ -173,9 +195,11 @@ namespace Tier3Tool.Query
 
         public string CrateQueryStringCountRowsAuthorizations(HHAXAuthorizationsSearch authorizationsSearch)
         {
-            string selectString = "SELECT AGENCY_ID, P.FIRST_NAME, P.MIDDLE_NAME, P.LAST_NAME, P.PATIENT_ID, A.SERVICE_TYPE, A.BILLING_SERVICE_CODE, A.ADMISSION_ID, A.AUTHORIZATION_NUMBER, P.MR_NUMBER, A.AUTHORIZATION_ID, A.FROM_DATE, A.TO_DATE, A.MODIFIED_DATE, A.INVALID_DATA FROM PATIENT_AUTHORIZATIONS as A "
-                                + "LEFT JOIN (SELECT DISTINCT FIRST_NAME, MIDDLE_NAME, LAST_NAME, PATIENT_ID, MR_NUMBER FROM PATIENT_DEMOG) as P "
-                                + "ON A.PATIENT_ID = P.PATIENT_ID ";
+            string selectString = "SELECT A.TRANS_ID, T.TRANSACTION_STATUS_ID, S.STATUS_DESC, A.AGENCY_ID, P.FIRST_NAME, P.MIDDLE_NAME, P.LAST_NAME, P.PATIENT_ID, A.SERVICE_TYPE, A.BILLING_SERVICE_CODE, A.ADMISSION_ID, A.AUTHORIZATION_NUMBER, P.MR_NUMBER, A.AUTHORIZATION_ID, A.FROM_DATE, A.TO_DATE, A.MODIFIED_DATE, A.INVALID_DATA FROM PATIENT_AUTHORIZATIONS as A "
+                                + "LEFT JOIN (SELECT DISTINCT FIRST_NAME, MIDDLE_NAME, LAST_NAME, AGENCY_ID, PATIENT_ID, MR_NUMBER FROM PATIENT_DEMOG) as P "
+                                + "ON A.PATIENT_ID = P.PATIENT_ID AND A.AGENCY_ID = P.AGENCY_ID "
+                                + "LEFT JOIN TRANSACTION_FILE_RECS T ON A.TRANS_ID = T.TRANS_ID "
+                                + "LEFT JOIN TRANS_STATUSES S ON T.TRANSACTION_STATUS_ID = S.STATUS_ID ";
 
             string filterString = CreateFilterString(authorizationsSearch, out bool isNoFilter);
 
@@ -191,14 +215,15 @@ namespace Tier3Tool.Query
             {
                 command.Parameters.AddWithValue("@agencyID", authorizationsSearch.AgencyID);
             }
-            //if (authorizationsSearch.FirstName != "" && authorizationsSearch.FirstName != null)
-            //{
-            //    command.Parameters.AddWithValue("@firstName", authorizationsSearch.FirstName + "%");
-            //}
-            //if (authorizationsSearch.LastName != "" && authorizationsSearch.LastName != null)
-            //{
-            //    command.Parameters.AddWithValue("@lastName", authorizationsSearch.LastName + "%");
-            //}
+            if (authorizationsSearch.TransID != "" && authorizationsSearch.TransID != null)
+            {
+                command.Parameters.AddWithValue("@transID", authorizationsSearch.TransID + "%");
+            }
+
+            if (authorizationsSearch.TransStatus != "" && authorizationsSearch.TransStatus != null)
+            {
+                command.Parameters.AddWithValue("@transStatus", authorizationsSearch.TransStatus);
+            }
             if (authorizationsSearch.Service != "" && authorizationsSearch.Service != null)
             {
                 command.Parameters.AddWithValue("@service", authorizationsSearch.Service + "%");
@@ -211,10 +236,7 @@ namespace Tier3Tool.Query
             {
                 command.Parameters.AddWithValue("@authRefNo", authorizationsSearch.AuthRefNo + "%");
             }
-            //if (authorizationsSearch.MrNumber != "" && authorizationsSearch.MrNumber != null)
-            //{
-            //    command.Parameters.AddWithValue("@mrNumber", authorizationsSearch.MrNumber + "%");
-            //}
+
             if (authorizationsSearch.AuthID != "" && authorizationsSearch.AuthID != null)
             {
                 command.Parameters.AddWithValue("@authID", authorizationsSearch.AuthID + "%");

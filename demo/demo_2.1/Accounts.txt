@@ -1,0 +1,7 @@
+ADMIN USER:
+Username: kmsadmin
+Password: kmsadmin
+
+NORMAL USER:
+Username: kmsuser1
+Passwordd: kmsuser1

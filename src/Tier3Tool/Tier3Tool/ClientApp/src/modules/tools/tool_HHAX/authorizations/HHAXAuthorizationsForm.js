@@ -3,6 +3,7 @@ import DynamicSearchForm from 'src/containers/DynamicSearchForm';
 import getHHAXAuthorizationsFormData from 'src/data/HHAXAuthorizationsFormData';
 import hhaxRequest from 'src/requests/HHAXRequest';
 import { get } from 'lodash';
+import { resetScrollInsideTable } from 'src/utils/utils';
 
 const SIZE = 'md';
 
@@ -39,6 +40,7 @@ export default class HHAXAuthorizationsForm extends Component {
     this.props.hhaxAuthorizationsStore.setAuthorizationSearch(authorizationSearch);
     this.props.hhaxAuthorizationsStore.setPage(0);
     this.props.hhaxAuthorizationsStore.getSearchAuthorizations(this.props.connection, this.props);
+    resetScrollInsideTable(1);
   }
 
   requestGetAgencies() {

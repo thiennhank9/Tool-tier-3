@@ -5,6 +5,7 @@ namespace Tier3Tool.Entities
 {
     public class HHAXAuthorizationsResult : HHAXAuthorizationsSearch
     {
+        public string TransStatusMessage { get; set; }
         public string FullName { get; set; }
         public string BillingServiceCode { get; set; }
         public DateTime? ModifiedDate { get; set; }
@@ -12,6 +13,10 @@ namespace Tier3Tool.Entities
 
         public void SetValuesFromReader(SqlDataReader reader)
         {
+            TransID = reader["TRANS_ID"].ToString();
+            TransStatus = reader["TRANSACTION_STATUS_ID"].ToString();
+            TransStatusMessage = reader["STATUS_DESC"].ToString();
+            AgencyID = !(reader["AGENCY_ID"] is DBNull) ? (int?)Convert.ToInt32(reader["AGENCY_ID"]) : null;
             FirstName = reader["FIRST_NAME"].ToString();
             LastName = reader["LAST_NAME"].ToString();
             var MiddleName = reader["MIDDLE_NAME"].ToString();

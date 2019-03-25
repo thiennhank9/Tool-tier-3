@@ -24,6 +24,7 @@ export default class WarehouseClientStore {
   // Authorization Results in table
   @observable isLoading = false;
   @observable authorizationResults = [];
+  @observable totalRecords = 0;
 
   // Paging
   @observable pageTotal = 1;
@@ -53,6 +54,7 @@ export default class WarehouseClientStore {
     // Authorization Results in table
     this.isLoading = false;
     this.authorizationResults = [];
+    this.totalRecords = 0;
 
     // Paging
     this.pageTotal = 1;
@@ -191,6 +193,7 @@ export default class WarehouseClientStore {
     warehouseRequest
       .searchWarehouseAuthorizations(objConnection, this, objPaging)
       .then(response => {
+        this.totalRecords = response.data.totalRows;
         this.setAuthorizationResults(response.data.authorizationResults);
         this.pageTotal = Math.ceil(response.data.totalRows / paging.pageSize);
         this.setIsLoading(false);
@@ -199,6 +202,7 @@ export default class WarehouseClientStore {
         if (err.response.status === 401) {
           props.globalStore.setLogout();
         }
+        this.totalRecords = 0;
         this.pageTotal = 1;
         this.setIsLoading(false);
       });

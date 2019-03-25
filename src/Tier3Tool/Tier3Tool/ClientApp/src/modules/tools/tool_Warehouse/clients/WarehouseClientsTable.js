@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import { merge } from 'lodash';
 import moment from 'moment';
 import PAGE_DEFAULTS from 'src/constants/PageDefaults';
+import { resetScrollInsideTable } from 'src/utils/utils';
 
 @observer
 class WarehouseClientsTable extends Component {
@@ -21,54 +22,60 @@ class WarehouseClientsTable extends Component {
 
     this.props.warehouseClientStore.setPageSize(paging.pageSize);
     this.props.warehouseClientStore.requestGetClientResults(connection, paging, this.props);
+
+    resetScrollInsideTable(0);
   }
 
   render() {
     return (
-      <ReactTable
-        sortable={false}
-        manual // informs React Table that you'll be handling sorting and pagination server-side
-        data={this.props.warehouseClientStore.clientResults}
-        pages={this.props.warehouseClientStore.pageTotal}
-        onPageSizeChange={pageSize => {
-          this.props.warehouseClientStore.setPageSize(pageSize);
-        }}
-        page={this.props.warehouseClientStore.page}
-        onPageChange={page => {
-          this.props.warehouseClientStore.setPage(page);
-        }}
-        resolveData={data =>
-          data.map(row => {
-            return merge(row, {
-              rowCreated: moment(row.rowCreated)
-                .format('MM/DD/YYYY')
-                .toString(),
-              rowModified: moment(row.rowModified)
-                .format('MM/DD/YYYY')
-                .toString(),
-              isProcessed: row.isProcessed.toString()
-            });
-          })
-        }
-        columns={getColumns(this.props.globalStore.locales)}
-        defaultPageSize={PAGE_DEFAULTS.PAGE_SIZE}
-        column={{
-          ...ReactTableDefaults.column,
-          headerStyle: {
-            backgroundColor: '#007bff',
-            color: 'white',
-            fontWeight: 'bold',
-            textAlign: 'left'
+      <div>
+        <div>Total records: {this.props.warehouseClientStore.totalRecords}</div>
+        <ReactTable
+          // ref={node => (table.scroll = node)}
+          sortable={false}
+          manual // informs React Table that you'll be handling sorting and pagination server-side
+          data={this.props.warehouseClientStore.clientResults}
+          pages={this.props.warehouseClientStore.pageTotal}
+          onPageSizeChange={pageSize => {
+            this.props.warehouseClientStore.setPageSize(pageSize);
+          }}
+          page={this.props.warehouseClientStore.page}
+          onPageChange={page => {
+            this.props.warehouseClientStore.setPage(page);
+          }}
+          resolveData={data =>
+            data.map(row => {
+              return merge(row, {
+                rowCreated: moment(row.rowCreated)
+                  .format('MM/DD/YYYY')
+                  .toString(),
+                rowModified: moment(row.rowModified)
+                  .format('MM/DD/YYYY')
+                  .toString(),
+                isProcessed: row.isProcessed.toString()
+              });
+            })
           }
-        }}
-        loading={this.props.warehouseClientStore.isLoading}
-        onFetchData={this.fetchData}
-        // filterable
-        style={{
-          height: '400px' // This will force the table body to overflow and scroll, since there is not enough room
-        }}
-        className="-striped -highlight table"
-      />
+          columns={getColumns(this.props.globalStore.locales)}
+          defaultPageSize={PAGE_DEFAULTS.PAGE_SIZE}
+          column={{
+            ...ReactTableDefaults.column,
+            headerStyle: {
+              backgroundColor: '#007bff',
+              color: 'white',
+              fontWeight: 'bold',
+              textAlign: 'left'
+            }
+          }}
+          loading={this.props.warehouseClientStore.isLoading}
+          onFetchData={this.fetchData}
+          // filterable
+          style={{
+            height: '400px' // This will force the table body to overflow and scroll, since there is not enough room
+          }}
+          className="-striped -highlight table"
+        />
+      </div>
     );
   }
 }

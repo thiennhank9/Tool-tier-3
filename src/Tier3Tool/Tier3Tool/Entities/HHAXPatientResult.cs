@@ -5,6 +5,7 @@ namespace Tier3Tool.Entities
 {
     public class HHAXPatientResult : HHAXPatientSearch
     {
+        public string TransStatusMessage { get; set; }
         public string FullName { get; set; }
         public DateTime? DischargeDate { get; set; }
         public DateTime? CreatedDate { get; set; }
@@ -13,6 +14,10 @@ namespace Tier3Tool.Entities
 
         public void SetValuesFromReader(SqlDataReader reader)
         {
+            TransID = reader["TRANS_ID"].ToString();
+            TransStatus = reader["TRANSACTION_STATUS_ID"].ToString();
+            TransStatusMessage = reader["STATUS_DESC"].ToString();
+            AgencyID = !(reader["AGENCY_ID"] is DBNull) ? (int?)Convert.ToInt32(reader["AGENCY_ID"]) : null;
             PatientID = reader["PATIENT_ID"].ToString();
             FirstName = reader["FIRST_NAME"].ToString();
             LastName = reader["LAST_NAME"].ToString();

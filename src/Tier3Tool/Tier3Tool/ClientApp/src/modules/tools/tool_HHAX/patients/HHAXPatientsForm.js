@@ -3,6 +3,7 @@ import DynamicSearchForm from 'src/containers/DynamicSearchForm';
 import getHHAXPatientsFormData from 'src/data/HHAXPatientsFormData';
 import hhaxRequest from 'src/requests/HHAXRequest';
 import { get } from 'lodash';
+import { resetScrollInsideTable } from 'src/utils/utils';
 
 const SIZE = 'md';
 
@@ -39,6 +40,7 @@ export default class HHAXPatientsForm extends Component {
     this.props.hhaxPatientsStore.setPatientSearch(patientSearch);
     this.props.hhaxPatientsStore.setPage(0);
     this.props.hhaxPatientsStore.getSearchPatients(this.props.connection, this.props);
+    resetScrollInsideTable(0)
   }
 
   requestGetAgencies() {

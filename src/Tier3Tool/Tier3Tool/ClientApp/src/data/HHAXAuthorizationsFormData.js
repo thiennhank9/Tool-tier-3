@@ -10,6 +10,8 @@ const { SELECT_AGENCY, INPUT, DATE_PICKER, LABEL } = CONTROL_TYPES;
 
 export default function getHHAXAuthorizationsFormData(context) {
   const {
+    TRANS_ID, 
+    TRANS_STATUS,
     AGENCY_ID,
     FIRSTNAME,
     LASTNAME,
@@ -42,6 +44,10 @@ export default function getHHAXAuthorizationsFormData(context) {
       { type: INPUT, label: MR_NUMBER, valueName: 'mrNumber', initalValue: '' }
     ],
     [{ type: INPUT, label: AUTH_ID, valueName: 'authID', initalValue: '' }],
+    [
+      { type: INPUT, label: TRANS_ID, valueName: 'transID', initalValue: '' },
+      { type: INPUT, label: TRANS_STATUS, valueName: 'transStatus', initalValue: '' }
+    ],
     [{ type: LABEL, label: AUTHORIZATION_DATE_RANGE }, { type: LABEL, label: MODIFIED_DATE_RANGE }],
     [
       { type: DATE_PICKER, label: BEGIN, valueName: 'authDateBegin', initalValue: null },

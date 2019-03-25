@@ -11,6 +11,7 @@ export default class HHAXPatientsStore {
   // Patients Results in table
   @observable isLoading = false;
   @observable authorizations = [];
+  @observable totalRecords = 0;
 
   // Paging
   @observable pageTotal = 1;
@@ -34,6 +35,7 @@ export default class HHAXPatientsStore {
     // Patients Results in table
     this.isLoading = false;
     this.patients = [];
+    this.totalRecords = 0;
 
     // Paging
     this.pageTotal = 1;
@@ -70,12 +72,14 @@ export default class HHAXPatientsStore {
     hhaxRequest
       .getAuthorizations(connection, this.authorizationSearch, objPaging)
       .then(response => {
+        this.totalRecords = response.data.totalRows;
         this.setAuthorizations(response.data.authorizationResults);
         this.pageTotal = Math.ceil(response.data.totalRows / this.pageSize);
         this.setIsLoading(false);
       })
       .catch(error => {
         this.setIsLoading(false);
+        this.totalRecords = 0;
         if (get(error, 'response.status', null) === 401) {
           props.globalStore.setLogout();
         }

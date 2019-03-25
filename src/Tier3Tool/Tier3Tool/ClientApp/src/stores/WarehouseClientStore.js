@@ -20,6 +20,7 @@ export default class WarehouseClientStore {
   // Client Results in table
   @observable isLoading = false;
   @observable clientResults = [];
+  @observable totalRecords = 0;
 
   // Paging
   @observable pageTotal = 1;
@@ -42,6 +43,7 @@ export default class WarehouseClientStore {
     // Client Results in table
     this.isLoading = false;
     this.clientResults = [];
+    this.totalRecords = 0;
 
     // Paging
     this.pageTotal = 1;
@@ -128,6 +130,7 @@ export default class WarehouseClientStore {
     warehouseRequest
       .searchWarehouseClients(objConnection, this, objPaging)
       .then(response => {
+        this.totalRecords = response.data.totalRows;
         this.setClientResults(response.data.clientResults);
         this.pageTotal = Math.ceil(response.data.totalRows / paging.pageSize);
         this.setIsLoading(false);
@@ -136,7 +139,8 @@ export default class WarehouseClientStore {
         if (err.response.status === 401) {
           props.globalStore.setLogout();
         }
-
+        
+        this.totalRecords = 0;
         this.pageTotal = 1;
         this.setIsLoading(false);
       });

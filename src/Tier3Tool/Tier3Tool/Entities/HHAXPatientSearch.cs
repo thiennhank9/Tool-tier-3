@@ -7,6 +7,8 @@ namespace Tier3Tool.Entities
 {
     public class HHAXPatientSearch
     {
+        public string TransID { get; set; }
+        public string TransStatus { get; set; }
         public int? AgencyID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

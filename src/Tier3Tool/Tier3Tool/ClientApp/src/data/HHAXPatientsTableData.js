@@ -1,5 +1,9 @@
 export default function getColumns(locales) {
   const {
+    TRANS_ID,
+    TRANS_STATUS,
+    TRANS_STATUS_MESSAGE,
+    AGENCY_ID,
     PATIENT_ID,
     FULL_NAME,
     ADMISSION,
@@ -12,8 +16,12 @@ export default function getColumns(locales) {
   } = locales;
 
   return [
-    { Header: PATIENT_ID, accessor: 'patientID', width: 150 },
-    { Header: FULL_NAME, accessor: 'fullName', width: 300 },
+    { Header: TRANS_ID, accessor: 'transID', width: 100 },
+    { Header: TRANS_STATUS, accessor: 'transStatus', width: 120 },
+    { Header: TRANS_STATUS_MESSAGE, accessor: 'transStatusMessage', width: 250 },
+    { Header: AGENCY_ID, accessor: 'agencyID', width: 100 },
+    { Header: PATIENT_ID, accessor: 'patientID', width: 100 },
+    { Header: FULL_NAME, accessor: 'fullName', width: 250 },
     {
       Header: ADMISSION,
       accessor: 'admissionID'

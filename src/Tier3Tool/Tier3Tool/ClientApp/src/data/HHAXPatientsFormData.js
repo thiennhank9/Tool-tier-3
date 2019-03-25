@@ -10,6 +10,8 @@ const { INPUT, DATE_PICKER, LABEL, SELECT_AGENCY } = CONTROL_TYPES;
 
 export default function getHHAXPatientsFormData(context) {
   const {
+    TRANS_ID, 
+    TRANS_STATUS,
     AGENCY_ID,
     FIRSTNAME,
     LASTNAME,
@@ -37,6 +39,10 @@ export default function getHHAXPatientsFormData(context) {
     [
       { type: INPUT, label: STATUS, valueName: 'status', initalValue: '' },
       { type: INPUT, label: MR_NUMBER, valueName: 'mrNumber', initalValue: '' }
+    ],
+    [
+      { type: INPUT, label: TRANS_ID, valueName: 'transID', initalValue: '' },
+      { type: INPUT, label: TRANS_STATUS, valueName: 'transStatus', initalValue: '' }
     ],
     [{ type: LABEL, label: INSERTED_DATE_RANGE }, { type: LABEL, label: MODIFIED_DATE_RANGE }],
     [
