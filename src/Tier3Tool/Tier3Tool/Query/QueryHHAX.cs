@@ -11,5 +11,10 @@ namespace Tier3Tool.Query
         {
             return "SELECT HHAX_AGENCY_ID, AGENCY_NAME FROM dbo.AGENCY_CONFIG";
         }
+
+        static public string GetQueryStringHHAXTransStatuses()
+        {
+            return "SELECT * FROM dbo.TRANS_STATUSES";
+        }
     }
 }

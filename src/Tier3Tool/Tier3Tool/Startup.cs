@@ -29,14 +29,7 @@ namespace Tier3Tool
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            //string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
-
-            //string connection = string.Format(
-            //  "data source=\"{0}\"",
-            //  Path.Combine(baseFolder, "Databases\\ToolTier3Db.db"));
-
             var connection = "Data Source=./Databases/ToolTier3Db.db";
-            //System.Diagnostics.Debugger.Launch();
             services.AddDbContext<ToolTier3DbContext>(options => options.UseSqlite(connection));
 
             // configure strongly typed settings objects
@@ -63,8 +56,9 @@ namespace Tier3Tool
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false,
+                    // ValidateLifetime = false,
                     ClockSkew = TimeSpan.FromMinutes(15),
-                    //ClockSkew = TimeSpan.FromSeconds(5),
+                    // ClockSkew = TimeSpan.FromSeconds(5),
                 };
             });
 

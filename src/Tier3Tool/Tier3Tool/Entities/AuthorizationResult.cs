@@ -26,7 +26,7 @@ namespace Tier3Tool.Entities
 
         public void SetValues(string firstName, string middleName, string lastName, string admission, string clientOtherID, string authServiceID, string eventCode, string authRefNo, string authFormat, string authMax, DateTime authBegin, DateTime authEnd, string diag10Code, bool authShared, bool authVoided, DateTime rowupdated, bool isProcessed)
         {
-            FullName = $"{lastName} {middleName},{firstName}";
+            FullName = $"{lastName} {middleName}, {firstName}";
             AdmissionType = admission;
             ClientOtherID = clientOtherID;
             AuthServiceID = authServiceID;

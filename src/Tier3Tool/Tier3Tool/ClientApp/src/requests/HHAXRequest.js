@@ -6,6 +6,13 @@ function getDateJSONLocal(date) {
 }
 
 export default {
+  getTransStatuses(connection, token = localStorage.getItem('token')) {
+    const config = {
+      headers: { Authorization: 'bearer ' + token }
+    };
+
+    return appRequest.post('/HHAX/get-trans-statuses', connection, config);
+  },
   getAgencies(connection, token = localStorage.getItem('token')) {
     const config = {
       headers: { Authorization: 'bearer ' + token }

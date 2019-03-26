@@ -30,12 +30,14 @@ class HHAXPatientsTable extends Component {
       <div>
         <div>Total records: {this.props.hhaxPatientsStore.totalRecords}</div>
         <ReactTable
+          minRows = {0}
           sortable={false}
           manual // informs React Table that you'll be handling sorting and pagination server-side
           data={this.props.hhaxPatientsStore.patients}
           pages={this.props.hhaxPatientsStore.pageTotal}
           onPageSizeChange={pageSize => {
             this.props.hhaxPatientsStore.setPageSize(pageSize);
+            this.props.hhaxPatientsStore.setPage(0);
           }}
           page={this.props.hhaxPatientsStore.page}
           onPageChange={page => {

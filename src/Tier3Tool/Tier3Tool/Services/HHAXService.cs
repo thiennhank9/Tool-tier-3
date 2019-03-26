@@ -10,6 +10,39 @@ namespace Tier3Tool.Services
 
     public class HHAXService
     {
+        public List<HHAXTransStatus> GetTransStatuses(Connections connections)
+        {
+            List<HHAXTransStatus> transStatuses = new List<HHAXTransStatus>();
+
+            string connectionString = $"Server={connections.ServerName};Database={connections.DatabaseName};User Id={connections.DatabaseUsername};Password={connections.DatabasePassword};";
+            string queryString = QueryHHAX.GetQueryStringHHAXTransStatuses();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var transStatus = new HHAXTransStatus(reader["STATUS_ID"].ToString(), reader["STATUS_DESC"].ToString());
+                        transStatuses.Add(transStatus);
+                    }
+                    reader.Close();
+                    connection.Close();
+
+                    return transStatuses;
+                }
+                catch (Exception ex)
+                {
+                    connection.Close();
+                    Console.WriteLine(ex.ToString());
+                    return null;
+                }
+            }
+        }
+
         public List<HHAXAgency> GetAgencies(Connections connections)
         {
             List<HHAXAgency> agencies = new List<HHAXAgency>();

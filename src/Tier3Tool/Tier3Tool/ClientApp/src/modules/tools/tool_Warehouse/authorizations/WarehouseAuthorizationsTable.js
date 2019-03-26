@@ -33,12 +33,14 @@ class WarehouseAuthorizationsTable extends Component {
         <div>Total records: {this.props.warehouseAuthorizationsStore.totalRecords}</div>
 
         <ReactTable
+          minRows={0}
           sortable={false}
           manual // informs React Table that you'll be handling sorting and pagination server-side
           data={this.props.warehouseAuthorizationsStore.authorizationResults}
           pages={this.props.warehouseAuthorizationsStore.pageTotal}
           onPageSizeChange={pageSize => {
             this.props.warehouseAuthorizationsStore.setPageSize(pageSize);
+            this.props.warehouseAuthorizationsStore.setPage(0);
           }}
           page={this.props.warehouseAuthorizationsStore.page}
           onPageChange={page => {

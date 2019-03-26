@@ -19,7 +19,7 @@ namespace Tier3Tool.Entities
 
         public void SetValues(string firstName, string middleName, string lastName, string admission, string clientOtherID, string clientCustomID, string diag10Code, DateTime rowCreated, DateTime rowModified, bool isProcessed)
         {
-            FullName = $"{lastName} {middleName},{firstName}";
+            FullName = $"{lastName} {middleName}, {firstName}";
             AdmissionType = admission;
             ClientOtherID = clientOtherID;
             ClientCustomID = clientCustomID;

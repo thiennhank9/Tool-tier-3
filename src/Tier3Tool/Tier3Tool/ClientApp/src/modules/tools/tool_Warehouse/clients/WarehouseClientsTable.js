@@ -31,13 +31,14 @@ class WarehouseClientsTable extends Component {
       <div>
         <div>Total records: {this.props.warehouseClientStore.totalRecords}</div>
         <ReactTable
-          // ref={node => (table.scroll = node)}
+          minRows={0}
           sortable={false}
           manual // informs React Table that you'll be handling sorting and pagination server-side
           data={this.props.warehouseClientStore.clientResults}
           pages={this.props.warehouseClientStore.pageTotal}
           onPageSizeChange={pageSize => {
             this.props.warehouseClientStore.setPageSize(pageSize);
+            this.props.warehouseClientStore.setPage(0);
           }}
           page={this.props.warehouseClientStore.page}
           onPageChange={page => {

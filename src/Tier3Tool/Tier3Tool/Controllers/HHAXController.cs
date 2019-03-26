@@ -22,6 +22,27 @@ namespace Tier3Tool.Controllers
         public HHAXController() { }
 
         [Authorize(Policy = "PolicyCanAccessHHAX")]
+        [HttpPost("get-trans-statuses")]
+        public IActionResult GetTransStatuses([FromBody] Connections connections)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var transStatuses = _service.GetTransStatuses(connections);
+
+            if (transStatuses != null)
+            {
+                return Ok(transStatuses);
+            }
+            else
+            {
+                return BadRequest(new { message = "Error get transaction statuses!" });
+            }
+        }
+
+        [Authorize(Policy = "PolicyCanAccessHHAX")]
         [HttpPost("get-agencies")]
         public IActionResult GetAgencies([FromBody] Connections connections)
         {

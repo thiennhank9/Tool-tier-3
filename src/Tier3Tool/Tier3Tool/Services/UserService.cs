@@ -51,7 +51,7 @@ namespace Tier3Tool.Services
                     new Claim("CanAccessHHAX", (user.CanAccessHHAX ?? false) ? "Can" : "Not" )
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(15),
-                //Expires = DateTime.UtcNow.AddSeconds(5),
+                // Expires = DateTime.UtcNow.AddSeconds(5),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

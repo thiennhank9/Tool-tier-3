@@ -14,6 +14,7 @@ class HHAXPatients extends Component {
           {...this.props}
           connection={this.props.connection}
           hhaxPatientsStore={this.props.hhaxPatientsStore}
+          transStatuses={this.props.transStatuses}
         />
         <HHAXPatientsTable
           {...this.props}

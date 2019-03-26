@@ -48,6 +48,7 @@ class HHAXAuthorizations extends Component {
           agencies={this.state.agencies}
           connection={this.props.connection}
           hhaxAuthorizationsStore={this.props.hhaxAuthorizationsStore}
+          transStatuses={this.props.transStatuses}
         />
         <HHAXAuthorizationsTable
           {...this.props}

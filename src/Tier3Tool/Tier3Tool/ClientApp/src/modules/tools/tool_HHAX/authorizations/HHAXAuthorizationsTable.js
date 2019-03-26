@@ -30,12 +30,14 @@ class HHAXAuthorizationsTable extends Component {
       <div>
         <div>Total records: {this.props.hhaxAuthorizationsStore.totalRecords}</div>
         <ReactTable
+          minRows = {0}
           sortable={false}
           manual // informs React Table that you'll be handling sorting and pagination server-side
           data={this.props.hhaxAuthorizationsStore.authorizations}
           pages={this.props.hhaxAuthorizationsStore.pageTotal}
           onPageSizeChange={pageSize => {
             this.props.hhaxAuthorizationsStore.setPageSize(pageSize);
+            this.props.hhaxAuthorizationsStore.setPage(0);
           }}
           page={this.props.hhaxAuthorizationsStore.page}
           onPageChange={page => {

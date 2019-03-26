@@ -6,13 +6,15 @@ import DynamicSearchSelect from './DynamicSearchControls/DynamicSearchSelect';
 import DynamicSearchDate from './DynamicSearchControls/DynamicSearchDate';
 import DynamicSearchLabel from './DynamicSearchControls/DyanmicSearchLabel';
 import DynamicSearchSelectAgency from './DynamicSearchControls/DynamicSearchSelectAgency';
+import DynamicSearchSelectExtend from './DynamicSearchControls/DynamicSearchSelectExtend';
 
 const CONTROL_TYPES = {
   SELECT: 'select',
   INPUT: 'input',
   DATE_PICKER: 'date-picker',
   LABEL: 'label',
-  SELECT_AGENCY: 'select-agency'
+  SELECT_AGENCY: 'select-agency',
+  SELECT_EXTEND: 'select-extend'
 };
 
 class DynamicSearchForm extends Component {
@@ -109,6 +111,19 @@ class DynamicSearchForm extends Component {
                         date = new Date(date);
                       }
                       this.setState({ [control.valueName]: date });
+                    }}
+                    size={size}
+                  />
+                )}
+                {control.type === CONTROL_TYPES.SELECT_EXTEND && (
+                  <DynamicSearchSelectExtend
+                    label={control.label}
+                    value={this.state[control.valueName]}
+                    valueName={control.valueName}
+                    options={control.options}
+                    optionLabel={control.optionLabel}
+                    onChange={e => {
+                      this.setState({ [control.valueName]: e.target.value });
                     }}
                     size={size}
                   />
