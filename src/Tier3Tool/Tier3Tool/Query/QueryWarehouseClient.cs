@@ -200,7 +200,7 @@ namespace Tier3Tool.Query
 
             string queryString = isNoFilter ? selectString : selectString + filterString;
 
-            string countString = "SELECT COUNT(*) FROM (" + queryString + ") as COUNT";
+            string countString = "SELECT COUNT(*) FROM (" + queryString + ") as CO";
       
             return countString;
         }

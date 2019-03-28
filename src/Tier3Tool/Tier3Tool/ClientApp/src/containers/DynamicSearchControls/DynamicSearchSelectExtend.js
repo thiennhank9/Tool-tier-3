@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Form, Col, Row } from 'react-bootstrap';
-import { isNil } from 'lodash';
 
 export default class SearchFromSelectExtend extends Component {
   render() {

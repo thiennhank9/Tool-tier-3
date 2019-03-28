@@ -107,6 +107,7 @@ export default {
   TRANS_ID: 'Trans ID',
   TRANS_STATUS: 'Trans Status',
   TRANS_STATUS_MESSAGE: 'Trans Status Message',
+  HCO_ERROR_MESSAGE: 'HCO Error Message',
   PATIENT_ID: 'Patient ID',
   MR_NUMBER: 'MR Number',
   STATUS: 'Status',

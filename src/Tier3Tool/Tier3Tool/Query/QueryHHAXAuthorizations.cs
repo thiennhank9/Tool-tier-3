@@ -178,11 +178,12 @@ namespace Tier3Tool.Query
         public string CreateQueryStringAuthorizations(HHAXAuthorizationsSearch authorizationsSearch, Paging paging)
         {
             string selectString = "SELECT * FROM ("
-                                + "SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) AS RowNum, A.TRANS_ID, T.TRANSACTION_STATUS_ID, S.STATUS_DESC, A.AGENCY_ID, P.FIRST_NAME, P.MIDDLE_NAME, P.LAST_NAME, P.PATIENT_ID, A.SERVICE_TYPE, A.BILLING_SERVICE_CODE, A.ADMISSION_ID, A.AUTHORIZATION_NUMBER, P.MR_NUMBER, A.AUTHORIZATION_ID, A.FROM_DATE, A.TO_DATE, A.MODIFIED_DATE, A.INVALID_DATA FROM PATIENT_AUTHORIZATIONS as A "
+                                + "SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) AS RowNum, E.HCO_ERR_DESC, A.TRANS_ID, T.TRANSACTION_STATUS_ID, S.STATUS_DESC, A.AGENCY_ID, P.FIRST_NAME, P.MIDDLE_NAME, P.LAST_NAME, P.PATIENT_ID, A.SERVICE_TYPE, A.BILLING_SERVICE_CODE, A.ADMISSION_ID, A.AUTHORIZATION_NUMBER, P.MR_NUMBER, A.AUTHORIZATION_ID, A.FROM_DATE, A.TO_DATE, A.MODIFIED_DATE, A.INVALID_DATA FROM PATIENT_AUTHORIZATIONS as A "
                                 + "LEFT JOIN (SELECT DISTINCT FIRST_NAME, MIDDLE_NAME, LAST_NAME, AGENCY_ID, PATIENT_ID, MR_NUMBER FROM PATIENT_DEMOG) as P "
                                 + "ON A.PATIENT_ID = P.PATIENT_ID AND A.AGENCY_ID = P.AGENCY_ID "
                                 + "LEFT JOIN TRANSACTION_FILE_RECS T ON A.TRANS_ID = T.TRANS_ID "
-                                + "LEFT JOIN TRANS_STATUSES S ON T.TRANSACTION_STATUS_ID = S.STATUS_ID ";
+                                + "LEFT JOIN TRANS_STATUSES S ON T.TRANSACTION_STATUS_ID = S.STATUS_ID "
+                                + "LEFT JOIN TRANSACTION_ERRORS E ON A.TRANS_ID = E.TRANS_ID ";
 
             string filterString = CreateFilterString(authorizationsSearch, out bool isNoFilter);
             string pagingString = CreatePagingString(paging);
@@ -195,17 +196,18 @@ namespace Tier3Tool.Query
 
         public string CrateQueryStringCountRowsAuthorizations(HHAXAuthorizationsSearch authorizationsSearch)
         {
-            string selectString = "SELECT A.TRANS_ID, T.TRANSACTION_STATUS_ID, S.STATUS_DESC, A.AGENCY_ID, P.FIRST_NAME, P.MIDDLE_NAME, P.LAST_NAME, P.PATIENT_ID, A.SERVICE_TYPE, A.BILLING_SERVICE_CODE, A.ADMISSION_ID, A.AUTHORIZATION_NUMBER, P.MR_NUMBER, A.AUTHORIZATION_ID, A.FROM_DATE, A.TO_DATE, A.MODIFIED_DATE, A.INVALID_DATA FROM PATIENT_AUTHORIZATIONS as A "
+            string selectString = "SELECT E.HCO_ERR_DESC, A.TRANS_ID, T.TRANSACTION_STATUS_ID, S.STATUS_DESC, A.AGENCY_ID, P.FIRST_NAME, P.MIDDLE_NAME, P.LAST_NAME, P.PATIENT_ID, A.SERVICE_TYPE, A.BILLING_SERVICE_CODE, A.ADMISSION_ID, A.AUTHORIZATION_NUMBER, P.MR_NUMBER, A.AUTHORIZATION_ID, A.FROM_DATE, A.TO_DATE, A.MODIFIED_DATE, A.INVALID_DATA FROM PATIENT_AUTHORIZATIONS as A "
                                 + "LEFT JOIN (SELECT DISTINCT FIRST_NAME, MIDDLE_NAME, LAST_NAME, AGENCY_ID, PATIENT_ID, MR_NUMBER FROM PATIENT_DEMOG) as P "
                                 + "ON A.PATIENT_ID = P.PATIENT_ID AND A.AGENCY_ID = P.AGENCY_ID "
                                 + "LEFT JOIN TRANSACTION_FILE_RECS T ON A.TRANS_ID = T.TRANS_ID "
-                                + "LEFT JOIN TRANS_STATUSES S ON T.TRANSACTION_STATUS_ID = S.STATUS_ID ";
+                                + "LEFT JOIN TRANS_STATUSES S ON T.TRANSACTION_STATUS_ID = S.STATUS_ID "
+                                + "LEFT JOIN TRANSACTION_ERRORS E ON A.TRANS_ID = E.TRANS_ID ";
 
             string filterString = CreateFilterString(authorizationsSearch, out bool isNoFilter);
 
             string queryString = isNoFilter ? selectString : selectString + filterString;
             queryString = AddFilterPatients(queryString, authorizationsSearch);
-            string countString = "SELECT COUNT(*) FROM (" + queryString + ") as COUNT";
+            string countString = "SELECT COUNT(*) FROM (" + queryString + ") as CO";
             return countString;
         }
 

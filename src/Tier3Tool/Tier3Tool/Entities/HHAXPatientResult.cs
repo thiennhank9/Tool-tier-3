@@ -5,6 +5,7 @@ namespace Tier3Tool.Entities
 {
     public class HHAXPatientResult : HHAXPatientSearch
     {
+        public string HCOErrorDesc { get; set; }
         public string TransStatusMessage { get; set; }
         public string FullName { get; set; }
         public DateTime? DischargeDate { get; set; }
@@ -14,6 +15,7 @@ namespace Tier3Tool.Entities
 
         public void SetValuesFromReader(SqlDataReader reader)
         {
+            HCOErrorDesc = reader["HCO_ERR_DESC"].ToString();
             TransID = reader["TRANS_ID"].ToString();
             TransStatus = reader["TRANSACTION_STATUS_ID"].ToString();
             TransStatusMessage = reader["STATUS_DESC"].ToString();

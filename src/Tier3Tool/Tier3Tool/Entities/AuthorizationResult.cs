@@ -8,6 +8,7 @@ namespace Tier3Tool.Entities
 {
     public class AuthorizationResult
     {
+        public string AgencyID { get; set; }
         public string FullName { get; set; }
         public string AdmissionType { get; set; }
         public string ClientOtherID { get; set; }
@@ -22,10 +23,13 @@ namespace Tier3Tool.Entities
         public bool AuthShared { get; set; }
         public bool AuthVoided { get; set; }
         public DateTime RowModified { get; set; }
+        public DateTime RowCreated { get; set; }
         public bool IsProcessed { get; set; }
+        public string FTPFileName { get; set; }
 
-        public void SetValues(string firstName, string middleName, string lastName, string admission, string clientOtherID, string authServiceID, string eventCode, string authRefNo, string authFormat, string authMax, DateTime authBegin, DateTime authEnd, string diag10Code, bool authShared, bool authVoided, DateTime rowupdated, bool isProcessed)
+        public void SetValues(string agencyID, string firstName, string middleName, string lastName, string admission, string clientOtherID, string authServiceID, string eventCode, string authRefNo, string authFormat, string authMax, DateTime authBegin, DateTime authEnd, string diag10Code, bool authShared, bool authVoided, DateTime rowupdated, DateTime rowcreated, bool isProcessed, string ftpFileName)
         {
+            AgencyID = agencyID;
             FullName = $"{lastName} {middleName}, {firstName}";
             AdmissionType = admission;
             ClientOtherID = clientOtherID;
@@ -41,11 +45,14 @@ namespace Tier3Tool.Entities
             AuthVoided = authVoided;
             Diag10Code = diag10Code;
             RowModified = rowupdated;
+            RowCreated = rowcreated;
             IsProcessed = isProcessed;
+            FTPFileName = ftpFileName;
         }
 
         public void SetValuesFromReader(SqlDataReader reader)
         {
+            var agencyID = reader["agencyID"].ToString();
             var firstName = reader["entFirstName"].ToString();
             var middleName = reader["entMiddleInitial"].ToString();
             var lastName = reader["entLastName"].ToString();
@@ -63,8 +70,10 @@ namespace Tier3Tool.Entities
             var rowupdated = Convert.ToDateTime(reader["rowupdated"].ToString());
             var authServiceID = reader["authServiceID"].ToString();
             var isProcessed = Convert.ToBoolean(reader["IsProcessed"]);
+            var rowCreated = Convert.ToDateTime(reader["rowcreated"].ToString());
+            var ftpFileName = reader["ftpFileName"].ToString();
 
-            SetValues(firstName, middleName, lastName, admission, clientOtherID, authServiceID, eventCode, authRefNo, authFormat, authMax, authBegin, authEnd, diag10Code, authShared, authVoided, rowupdated, isProcessed);
+            SetValues(agencyID, firstName, middleName, lastName, admission, clientOtherID, authServiceID, eventCode, authRefNo, authFormat, authMax, authBegin, authEnd, diag10Code, authShared, authVoided, rowupdated, rowCreated, isProcessed, ftpFileName);
         }
     }
 }

@@ -16,8 +16,9 @@ namespace Tier3Tool.Entities
         public DateTime RowCreated { get; set; }
         public DateTime RowModified { get; set; }
         public bool IsProcessed { get; set; }
+        public string FTPFileName { get; set; }
 
-        public void SetValues(string firstName, string middleName, string lastName, string admission, string clientOtherID, string clientCustomID, string diag10Code, DateTime rowCreated, DateTime rowModified, bool isProcessed)
+        public void SetValues(string firstName, string middleName, string lastName, string admission, string clientOtherID, string clientCustomID, string diag10Code, DateTime rowCreated, DateTime rowModified, bool isProcessed, string ftpFileName)
         {
             FullName = $"{lastName} {middleName}, {firstName}";
             AdmissionType = admission;
@@ -27,6 +28,7 @@ namespace Tier3Tool.Entities
             RowCreated = rowCreated;
             RowModified = rowModified;
             IsProcessed = isProcessed;
+            FTPFileName = ftpFileName;
         }
 
         public void SetValuesFromReader(SqlDataReader reader)
@@ -41,8 +43,9 @@ namespace Tier3Tool.Entities
             var rowcreated = Convert.ToDateTime(reader["rowcreated"].ToString());
             var rowupdated = Convert.ToDateTime(reader["rowupdated"].ToString());
             var isUpdated = Convert.ToBoolean(reader["IsProcessed"]);
+            var ftpFileName = reader["ftpFileName"].ToString();
 
-            SetValues(firstName, middleName, lastName, admission, clientOtherID, clientCustomID, diag10Code, rowcreated, rowupdated, isUpdated);
+            SetValues(firstName, middleName, lastName, admission, clientOtherID, clientCustomID, diag10Code, rowcreated, rowupdated, isUpdated, ftpFileName);
         }
     }
 }

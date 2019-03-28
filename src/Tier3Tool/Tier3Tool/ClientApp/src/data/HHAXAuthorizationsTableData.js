@@ -1,5 +1,6 @@
 export default function getColumns(locales) {
   const {
+    HCO_ERROR_MESSAGE,
     TRANS_ID,
     TRANS_STATUS,
     TRANS_STATUS_MESSAGE,
@@ -20,7 +21,8 @@ export default function getColumns(locales) {
   return [
     { Header: TRANS_ID, accessor: 'transID', width: 100 },
     { Header: TRANS_STATUS, accessor: 'transStatus', width: 120 },
-    { Header: TRANS_STATUS_MESSAGE, accessor: 'transStatusMessage', width: 250 },
+    { Header: TRANS_STATUS_MESSAGE, accessor: 'transStatusMessage', width: 340 },
+    { Header: HCO_ERROR_MESSAGE, accessor: 'hcoErrorDesc', width: 300 },
     { Header: AGENCY_ID, accessor: 'agencyID', width: 150 },
     { Header: FULL_NAME, accessor: 'fullName', width: 300 },
     {
@@ -29,7 +31,8 @@ export default function getColumns(locales) {
     },
     {
       Header: MR_NUMBER,
-      accessor: 'mrNumber'
+      accessor: 'mrNumber',
+      width: 150
     },
     {
       Header: AUTH_ID,
@@ -42,7 +45,8 @@ export default function getColumns(locales) {
     },
     {
       Header: BILLING_SERVICE_CODE,
-      accessor: 'billingServiceCode'
+      accessor: 'billingServiceCode',
+      width: 200
     },
     {
       Header: BEGIN,

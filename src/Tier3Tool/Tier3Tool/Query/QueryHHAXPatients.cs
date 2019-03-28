@@ -152,9 +152,10 @@ namespace Tier3Tool.Query
 
         public string CreateQueryStringPatients(HHAXPatientSearch patientSearch, Paging paging)
         {
-            string selectString = "SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY (SELECT NULL) ) AS RowNum,  P.TRANS_ID, T.TRANSACTION_STATUS_ID, S.STATUS_DESC, AGENCY_ID, PATIENT_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, ADMISSION_ID, MR_NUMBER, PATIENT_STATUS, DISCHARGE_DATE, P.DATETIME_INSERTED, MODIFIED_DATE, INVALID_DATA FROM dbo.PATIENT_DEMOG P "
+            string selectString = "SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY (SELECT NULL) ) AS RowNum, E.HCO_ERR_DESC, P.TRANS_ID, T.TRANSACTION_STATUS_ID, S.STATUS_DESC, AGENCY_ID, PATIENT_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, ADMISSION_ID, MR_NUMBER, PATIENT_STATUS, DISCHARGE_DATE, P.DATETIME_INSERTED, MODIFIED_DATE, INVALID_DATA FROM dbo.PATIENT_DEMOG P "
                                 + "LEFT JOIN TRANSACTION_FILE_RECS T ON P.TRANS_ID = T.TRANS_ID "
-                                + "LEFT JOIN TRANS_STATUSES S ON T.TRANSACTION_STATUS_ID = S.STATUS_ID ";
+                                + "LEFT JOIN TRANS_STATUSES S ON T.TRANSACTION_STATUS_ID = S.STATUS_ID "
+                                + "LEFT JOIN TRANSACTION_ERRORS E ON P.TRANS_ID = E.TRANS_ID ";
 
             string filterString = CreateFilterString(patientSearch, out bool isNoFilter);
             string pagingString = CreatePagingString(paging);
@@ -166,14 +167,15 @@ namespace Tier3Tool.Query
 
         public string CrateQueryStringCountRowsPatients(HHAXPatientSearch patientSearch)
         {
-            string selectString = "SELECT P.TRANS_ID, T.TRANSACTION_STATUS_ID, S.STATUS_DESC, AGENCY_ID, PATIENT_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, ADMISSION_ID, MR_NUMBER, PATIENT_STATUS, DISCHARGE_DATE, P.DATETIME_INSERTED, MODIFIED_DATE, INVALID_DATA FROM dbo.PATIENT_DEMOG P "
+            string selectString = "SELECT E.HCO_ERR_DESC, P.TRANS_ID, T.TRANSACTION_STATUS_ID, S.STATUS_DESC, AGENCY_ID, PATIENT_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, ADMISSION_ID, MR_NUMBER, PATIENT_STATUS, DISCHARGE_DATE, P.DATETIME_INSERTED, MODIFIED_DATE, INVALID_DATA FROM dbo.PATIENT_DEMOG P "
                                   + "LEFT JOIN TRANSACTION_FILE_RECS T ON P.TRANS_ID = T.TRANS_ID "
-                                  + "LEFT JOIN TRANS_STATUSES S ON T.TRANSACTION_STATUS_ID = S.STATUS_ID ";
+                                  + "LEFT JOIN TRANS_STATUSES S ON T.TRANSACTION_STATUS_ID = S.STATUS_ID "
+                                  + "LEFT JOIN TRANSACTION_ERRORS E ON P.TRANS_ID = E.TRANS_ID ";
             string filterString = CreateFilterString(patientSearch, out bool isNoFilter);
 
             string queryString = isNoFilter ? selectString : selectString + filterString;
 
-            string countString = "SELECT COUNT(*) FROM (" + queryString + ") as COUNT";
+            string countString = "SELECT COUNT(*) FROM (" + queryString + ") as CO";
             return countString;
         }
 

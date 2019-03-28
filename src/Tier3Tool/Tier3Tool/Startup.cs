@@ -56,9 +56,7 @@ namespace Tier3Tool
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false,
-                    // ValidateLifetime = false,
-                    ClockSkew = TimeSpan.FromMinutes(15),
-                    // ClockSkew = TimeSpan.FromSeconds(5),
+                    ClockSkew = TimeSpan.FromMinutes(90),
                 };
             });
 

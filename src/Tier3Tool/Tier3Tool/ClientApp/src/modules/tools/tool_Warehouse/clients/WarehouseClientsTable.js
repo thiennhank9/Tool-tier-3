@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import getColumns from 'src/data/WarehouseClientsTableConfig';
-import ReactTable, { ReactTableDefaults } from 'react-table';
+import getColumns from 'src/data/WarehouseClientsTableData';
 import { observer } from 'mobx-react';
 import { merge } from 'lodash';
-import moment from 'moment';
-import PAGE_DEFAULTS from 'src/constants/PageDefaults';
-import { resetScrollInsideTable } from 'src/utils/utils';
+import { resetScrollInsideTable, formatDateInTable } from 'src/utils/utils';
+import TableForm from 'src/components/TableForm';
 
 @observer
 class WarehouseClientsTable extends Component {
@@ -27,56 +25,29 @@ class WarehouseClientsTable extends Component {
   }
 
   render() {
+    const { totalRecords, clientResults, pageTotal, page, isLoading } = this.props.warehouseClientStore;
+
     return (
-      <div>
-        <div>Total records: {this.props.warehouseClientStore.totalRecords}</div>
-        <ReactTable
-          minRows={0}
-          sortable={false}
-          manual // informs React Table that you'll be handling sorting and pagination server-side
-          data={this.props.warehouseClientStore.clientResults}
-          pages={this.props.warehouseClientStore.pageTotal}
-          onPageSizeChange={pageSize => {
-            this.props.warehouseClientStore.setPageSize(pageSize);
-            this.props.warehouseClientStore.setPage(0);
-          }}
-          page={this.props.warehouseClientStore.page}
-          onPageChange={page => {
-            this.props.warehouseClientStore.setPage(page);
-          }}
-          resolveData={data =>
-            data.map(row => {
-              return merge(row, {
-                rowCreated: moment(row.rowCreated)
-                  .format('MM/DD/YYYY')
-                  .toString(),
-                rowModified: moment(row.rowModified)
-                  .format('MM/DD/YYYY')
-                  .toString(),
-                isProcessed: row.isProcessed.toString()
-              });
-            })
-          }
-          columns={getColumns(this.props.globalStore.locales)}
-          defaultPageSize={PAGE_DEFAULTS.PAGE_SIZE}
-          column={{
-            ...ReactTableDefaults.column,
-            headerStyle: {
-              backgroundColor: '#007bff',
-              color: 'white',
-              fontWeight: 'bold',
-              textAlign: 'left'
-            }
-          }}
-          loading={this.props.warehouseClientStore.isLoading}
-          onFetchData={this.fetchData}
-          // filterable
-          style={{
-            height: '400px' // This will force the table body to overflow and scroll, since there is not enough room
-          }}
-          className="-striped -highlight table"
-        />
-      </div>
+      <TableForm
+        totalRecords={totalRecords}
+        data={clientResults}
+        pages={pageTotal}
+        page={page}
+        setPageSize={pageSize => this.props.warehouseClientStore.setPageSize(pageSize)}
+        setPage={page => this.props.warehouseClientStore.setPage(page)}
+        resolveData={data =>
+          data.map(row => {
+            return merge(row, {
+              rowCreated: formatDateInTable(row.rowCreated),
+              rowModified: formatDateInTable(row.rowModified),
+              isProcessed: row.isProcessed.toString()
+            });
+          })
+        }
+        columns={getColumns(this.props.globalStore.locales)}
+        loading={isLoading}
+        onFetchData={this.fetchData}
+      />
     );
   }
 }

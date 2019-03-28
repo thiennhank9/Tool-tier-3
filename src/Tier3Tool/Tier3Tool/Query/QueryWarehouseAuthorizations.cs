@@ -9,11 +9,11 @@ namespace Tier3Tool.Query
     {
         public string CrateQueryStringAuthorization(AuthorizationSearch authorizationSearch, Paging paging)
         {
-            string selectJoin = "(SELECT C.entFirstName, C.entMiddleInitial, C.entLastName, A.jurisdictionID, A.agencyID, A.adTypeID, A.clientOtherID, A. authServiceID, A.authEventID, A.authRefNo, A.authFormat, A.authMaximum, A.authDateFrom, A.authDateTo, A.diag10Code, A.authShared, A.authVoided, A.rowupdated, A.IsProcessed, A.ftpFileName "
+            string selectJoin = "(SELECT C.entFirstName, C.entMiddleInitial, C.entLastName, A.jurisdictionID, A.agencyID, A.adTypeID, A.clientOtherID, A. authServiceID, A.authEventID, A.authRefNo, A.authFormat, A.authMaximum, A.authDateFrom, A.authDateTo, A.diag10Code, A.authShared, A.authVoided, A.rowupdated, A.rowcreated, A.IsProcessed, A.ftpFileName "
                                + "FROM dbo.DataImport_Authorization as A LEFT JOIN dbo.DataImport_Client as C on "
                                + "(A.jurisdictionID = C.jurisdictionID and A.clientOtherID = C.clientOtherID and A.adTypeID = C.adTypeID)) as R ";
 
-            string selectString = "SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY (SELECT NULL) ) AS RowNum, jurisdictionID, agencyID, ftpFileName, entFirstName, entMiddleInitial, entLastName, adTypeID, clientOtherID, authServiceID, authEventID, authRefNo, authFormat, authMaximum, authDateFrom, authDateTo, diag10Code, authShared, authVoided, rowupdated, IsProcessed FROM "
+            string selectString = "SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY (SELECT NULL) ) AS RowNum, jurisdictionID, agencyID, ftpFileName, entFirstName, entMiddleInitial, entLastName, adTypeID, clientOtherID, authServiceID, authEventID, authRefNo, authFormat, authMaximum, authDateFrom, authDateTo, diag10Code, authShared, authVoided, rowupdated, rowcreated, IsProcessed FROM "
                 + selectJoin;
 
             string filterString = "WHERE ";
@@ -240,11 +240,11 @@ namespace Tier3Tool.Query
 
         public string CrateQueryStringCountRowsAuthorization(AuthorizationSearch authorizationSearch)
         {
-            string selectJoin = "(SELECT C.entFirstName, C.entMiddleInitial, C.entLastName, A.jurisdictionID, A.agencyID, A.adTypeID, A.clientOtherID, A.authServiceID, A.authEventID, A.authRefNo, A.authFormat, A.authMaximum, A.authDateFrom, A.authDateTo, A.diag10Code, A.authShared, A.authVoided, A.rowupdated, A.IsProcessed, A.ftpFileName "
+            string selectJoin = "(SELECT C.entFirstName, C.entMiddleInitial, C.entLastName, A.jurisdictionID, A.agencyID, A.adTypeID, A.clientOtherID, A.authServiceID, A.authEventID, A.authRefNo, A.authFormat, A.authMaximum, A.authDateFrom, A.authDateTo, A.diag10Code, A.authShared, A.authVoided, A.rowupdated, A.rowcreated, A.IsProcessed, A.ftpFileName "
                                + "FROM dbo.DataImport_Authorization as A LEFT JOIN dbo.DataImport_Client as C on "
                                + "(A.jurisdictionID = C.jurisdictionID and A.clientOtherID = C.clientOtherID and A.adTypeID = C.adTypeID)) as R) as PAGING ";
 
-            string selectString = "SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY (SELECT NULL) ) AS RowNum, jurisdictionID, agencyID, ftpFileName,  entFirstName, entMiddleInitial, entLastName, adTypeID, clientOtherID, authServiceID, authEventID, authRefNo, authFormat, authMaximum, authDateFrom, authDateTo, diag10Code, authShared, authVoided, rowupdated, IsProcessed FROM "
+            string selectString = "SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY (SELECT NULL) ) AS RowNum, jurisdictionID, agencyID, ftpFileName,  entFirstName, entMiddleInitial, entLastName, adTypeID, clientOtherID, authServiceID, authEventID, authRefNo, authFormat, authMaximum, authDateFrom, authDateTo, diag10Code, authShared, authVoided, rowupdated, rowcreated, IsProcessed FROM "
                 + selectJoin;
 
             string filterString = "WHERE ";
@@ -391,7 +391,7 @@ namespace Tier3Tool.Query
            
             string queryString = isNoFilter ? selectString: selectString + filterString;
 
-            string countString = "SELECT COUNT(*) FROM (" + queryString + ") as COUNT";
+            string countString = "SELECT COUNT(*) FROM (" + queryString + ") as CO";
 
             return countString;
         }

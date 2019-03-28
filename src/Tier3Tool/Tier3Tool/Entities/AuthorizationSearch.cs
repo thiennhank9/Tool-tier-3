@@ -7,7 +7,6 @@ namespace Tier3Tool.Entities
 {
     public class AuthorizationSearch : ClientSearch
     {
-
         public string AgencyID { get; set; }
         public string Service { get; set; }
         public string AuthRefNo { get; set; }

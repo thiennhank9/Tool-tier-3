@@ -1,5 +1,6 @@
 export default function getWarehouseAuthorizationsTableData(locales) {
   const {
+    AGENCY_ID,
     FULL_NAME,
     ADMISSION_TYPE,
     CLIENT_OTHER_ID,
@@ -14,14 +15,18 @@ export default function getWarehouseAuthorizationsTableData(locales) {
     AUTH_SHARED,
     AUTH_VOIDED,
     ROW_MODIFIED,
-    IS_PROCESSED
+    ROW_CREATED,
+    IS_PROCESSED,
+    FTP_FILE_NAME
   } = locales;
 
   return [
+    { Header: AGENCY_ID, accessor: 'agencyID' },
     { Header: FULL_NAME, accessor: 'fullName', width: 300 },
     {
       Header: ADMISSION_TYPE,
-      accessor: 'admissionType'
+      accessor: 'admissionType',
+      width: 140
     },
     {
       Header: CLIENT_OTHER_ID,
@@ -47,9 +52,16 @@ export default function getWarehouseAuthorizationsTableData(locales) {
       Header: ROW_MODIFIED,
       accessor: 'rowModified'
     },
+    { Header: ROW_CREATED, accessor: 'rowCreated' },
     {
       Header: IS_PROCESSED,
       accessor: 'isProcessed'
+    },
+    {
+      Header: FTP_FILE_NAME,
+      accessor: 'ftpFileName',
+      width: 550,
+      style: { 'white-space': 'unset' }
     }
   ];
 }

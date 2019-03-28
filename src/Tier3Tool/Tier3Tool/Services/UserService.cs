@@ -50,8 +50,7 @@ namespace Tier3Tool.Services
                     new Claim("CanAccessDW", (user.CanAccessDW ?? false) ? "Can" : "Not" ),
                     new Claim("CanAccessHHAX", (user.CanAccessHHAX ?? false) ? "Can" : "Not" )
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(15),
-                // Expires = DateTime.UtcNow.AddSeconds(5),
+                Expires = DateTime.UtcNow.AddMinutes(90),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
